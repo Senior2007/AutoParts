@@ -1,0 +1,319 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}О компании{% endblock %}
+{% block description %}О компании AutoParts: история по годам, видеопрезентация склада, реквизиты, сертификат соответствия и правила маркировки деталей.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">О компании</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="company" itemscope itemtype="https://schema.org/AutoPartsStore">
+    <h1 itemprop="name">{% if company %}{{ company.name }}{% else %}AutoParts{% endif %}</h1>
+
+    <nav class="page-nav" aria-label="Навигация по странице">
+        <ul>
+            <li><a href="#story">Информация о компании</a></li>
+            <li><a href="#video">Видеопрезентация</a></li>
+            <li><a href="#history">История по годам</a></li>
+            <li><a href="#numbers">Показатели</a></li>
+            <li><a href="#requisites">Реквизиты</a></li>
+            <li><a href="#certificate">Сертификат</a></li>
+            <li><a href="#marking">Маркировка деталей</a></li>
+            <li><a href="#motto">Девиз компании</a></li>
+        </ul>
+    </nav>
+
+    <section id="story">
+        <h2>Информация о компании</h2>
+        <figure class="logo-figure">
+            <img itemprop="logo" src="{% static 'shop/img/logo.svg' %}" width="260" height="64" alt="Логотип AutoParts">
+            <figcaption>Логотип компании {% if company %}<span itemprop="slogan">{{ company.slogan }}</span>{% endif %}</figcaption>
+        </figure>
+        {% if company %}
+            <p itemprop="description">{{ company.description }}</p>
+            <p>
+                Юридическое лицо: <b itemprop="legalName">{{ company.legal_name }}</b>.
+                Дата регистрации — <time itemprop="foundingDate" datetime="{{ company.founded_on|date:'Y-m-d' }}">{{ company.founded_on|date:"d/m/Y" }}</time>.
+            </p>
+        {% endif %}
+        <p>
+            Компания продает <i>оригинальные детали</i> и <em>проверенные аналоги</em>: слово «оригинал» здесь
+            <strong>не означает</strong> другой завод, <b>отличается только упаковка и канал поставки</b>.
+        </p>
+        <aside class="note">
+            <h3>Коротко о складе</h3>
+            <p>Позиции хранятся по типам товаров, а остаток обновляется после каждой продажи и поставки.</p>
+        </aside>
+    </section>
+
+    <section id="video">
+        <h2>Видеопрезентация склада</h2>
+        <p>Как устроены приемка поставки, хранение и комплектация заказа.</p>
+
+        <figure>
+            <video controls autoplay preload="metadata" width="640" height="360" muted playsinline
+                   poster="{% static 'shop/img/banners/banner-delivery-960.jpg' %}">
+                <source src="{% if company %}{{ company.video_webm_url }}{% endif %}" type="video/webm">
+                <source src="{% if company %}{{ company.video_mp4_url }}{% endif %}" type="video/mp4">
+                <track kind="captions" src="{% static 'shop/media/autoparts-captions.vtt' %}" srclang="ru" label="Русские субтитры" default>
+                Ваш браузер не воспроизводит встроенное видео — <a href="{% if company %}{{ company.video_mp4_url }}{% endif %}">скачайте файл</a>.
+            </video>
+            <figcaption>Приемка и маркировка партии на складе в Минске. Доступны русские субтитры.</figcaption>
+        </figure>
+
+        <figure>
+            <iframe src="{% if company %}{{ company.video_embed_url }}{% endif %}" width="640" height="360"
+                    title="Видеопрезентация склада AutoParts"
+                    referrerpolicy="no-referrer" allowfullscreen></iframe>
+            <figcaption>Та же запись на внешней площадке — если ролик выше не открылся.</figcaption>
+        </figure>
+
+        <figure>
+            <object data="{% if company %}{{ company.video_mp4_url }}{% endif %}" type="video/mp4" width="640" height="360">
+                <p>Видео недоступно. <a href="{% if company %}{{ company.video_mp4_url }}{% endif %}">Скачать файл</a>.</p>
+            </object>
+            <figcaption>Резервный проигрыватель для старых браузеров.</figcaption>
+        </figure>
+
+        <figure>
+            <embed src="{% if company %}{{ company.video_mp4_url }}{% endif %}" type="video/mp4" width="640" height="360"
+                   title="Видеопрезентация склада AutoParts">
+            <figcaption>Версия ролика для встраивания на сайты партнеров.</figcaption>
+        </figure>
+
+        <figure>
+            <figcaption>Аудиореклама магазина</figcaption>
+            <audio controls preload="none" loop>
+                <source src="{% static 'shop/media/autoparts-audio-ad.wav' %}" type="audio/wav">
+                <a href="{% static 'shop/media/autoparts-audio-ad.wav' %}" download>Скачать аудиоролик</a>
+            </audio>
+        </figure>
+    </section>
+
+    <section id="history">
+        <h2>История компании по годам</h2>
+        <ol class="history">
+            {% for item in items %}
+                <li>
+                    <article>
+                        <h3>{{ item.title }}</h3>
+                        <p><time datetime="{{ item.year }}">{{ item.year }}</time> год</p>
+                        {% if item.logo_url %}
+                            <figure>
+                                <img src="{{ item.logo_url }}" width="300" height="200" loading="lazy" alt="Иллюстрация к этапу «{{ item.title }}»">
+                                <figcaption>{{ item.title }}, {{ item.year }}</figcaption>
+                            </figure>
+                        {% endif %}
+                        <p>{{ item.content }}</p>
+                    </article>
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section id="numbers">
+        <h2>Показатели работы</h2>
+        <table class="data-table">
+            <caption>Выручка, количество заказов и штат по этапам развития магазина</caption>
+            <colgroup>
+                <col span="2" class="col-period">
+                <col span="2" class="col-sales">
+                <col class="col-staff">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th id="h-stage" rowspan="2" scope="col">Этап</th>
+                <th id="h-year" rowspan="2" scope="col">Год</th>
+                <th id="h-sales" colspan="2" scope="colgroup">Продажи</th>
+                <th id="h-staff" rowspan="2" scope="col">Штат, чел.</th>
+                <th id="h-comment" rowspan="2" scope="col">Комментарий</th>
+            </tr>
+            <tr>
+                <th id="h-revenue" scope="col">Выручка, тыс. BYN</th>
+                <th id="h-orders" scope="col">Заказов, шт.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th id="g-retail" scope="rowgroup" rowspan="2">Розница</th>
+                <th id="y-2016" scope="row">2016</th>
+                <td headers="g-retail y-2016 h-sales h-revenue">142</td>
+                <td headers="g-retail y-2016 h-sales h-orders">1 240</td>
+                <td headers="g-retail y-2016 h-staff">4</td>
+                <td headers="g-retail y-2016 h-comment">Открытие магазина и первые расходники</td>
+            </tr>
+            <tr>
+                <th id="y-2018" scope="row">2018</th>
+                <td headers="g-retail y-2018 h-sales h-revenue">318</td>
+                <td headers="g-retail y-2018 h-sales h-orders">2 905</td>
+                <td headers="g-retail y-2018 h-staff">7</td>
+                <td headers="g-retail y-2018 h-comment">Прямые поставки из Европейского союза</td>
+            </tr>
+            <tr>
+                <th id="g-online" scope="rowgroup" rowspan="2">Онлайн</th>
+                <th id="y-2020" scope="row">2020</th>
+                <td headers="g-online y-2020 h-sales h-revenue">596</td>
+                <td headers="g-online y-2020 h-sales h-orders">5 430</td>
+                <td headers="g-online y-2020 h-staff">12</td>
+                <td headers="g-online y-2020 h-comment">Подбор по VIN и онлайн-каталог</td>
+            </tr>
+            <tr>
+                <th id="y-2022" scope="row">2022</th>
+                <td headers="g-online y-2022 h-sales h-revenue">874</td>
+                <td headers="g-online y-2022 h-sales h-orders">7 118</td>
+                <td headers="g-online y-2022 h-staff">16</td>
+                <td headers="g-online y-2022 h-comment">Запуск направления для автосервисов</td>
+            </tr>
+            <tr>
+                <th id="g-b2b" scope="rowgroup" rowspan="2">B2B и доставка</th>
+                <th id="y-2024" scope="row">2024</th>
+                <td headers="g-b2b y-2024 h-sales h-revenue">1 203</td>
+                <td headers="g-b2b y-2024 h-sales h-orders">9 640</td>
+                <td headers="g-b2b y-2024 h-staff">21</td>
+                <td headers="g-b2b y-2024 h-comment">Складская аналитика по типам товаров</td>
+            </tr>
+            <tr>
+                <th id="y-2025" scope="row">2025</th>
+                <td headers="g-b2b y-2025 h-sales h-revenue">1 486</td>
+                <td headers="g-b2b y-2025 h-sales h-orders">11 275</td>
+                <td headers="g-b2b y-2025 h-staff">24</td>
+                <td headers="g-b2b y-2025 h-comment">Доставка заказов по регионам Беларуси</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th id="f-total" colspan="2" scope="row">Итого за период</th>
+                <td headers="f-total h-sales h-revenue">4 619</td>
+                <td headers="f-total h-sales h-orders">37 608</td>
+                <td headers="f-total h-staff">24</td>
+                <td headers="f-total h-comment">Данные складского учета магазина</td>
+            </tr>
+            </tfoot>
+        </table>
+    </section>
+
+    <section id="requisites">
+        <h2>Реквизиты</h2>
+        {% if company %}
+            <dl class="requisites">
+                <dt>Полное наименование</dt>
+                <dd>{{ company.legal_name }}</dd>
+                <dt><dfn title="Учетный номер плательщика">УНП</dfn></dt>
+                <dd>{{ company.unp }}</dd>
+                <dt>Расчетный счет (<abbr title="International Bank Account Number">IBAN</abbr>)</dt>
+                <dd><span translate="no">{{ company.bank_account }}</span></dd>
+                <dt>Банк</dt>
+                <dd>{{ company.bank_name }}</dd>
+                <dt><abbr title="Bank Identifier Code">BIC</abbr></dt>
+                <dd><span translate="no">{{ company.bank_bic }}</span></dd>
+                <dt>Юридический адрес</dt>
+                <dd><address>{{ company.legal_address }}</address></dd>
+                <dt>Телефон</dt>
+                <dd><a href="tel:+375291001010">{{ company.phone }}</a></dd>
+                <dt>Электронная почта</dt>
+                <dd><a href="mailto:{{ company.email }}">{{ company.email }}</a></dd>
+            </dl>
+        {% else %}
+            <p>Реквизиты пока не заполнены.</p>
+        {% endif %}
+    </section>
+
+    <section id="certificate">
+        <h2>Сертификат соответствия</h2>
+        {% if company %}
+            <div class="certificate">
+                <p class="certificate-country">Национальная система подтверждения соответствия Республики Беларусь</p>
+                <p class="certificate-title">Сертификат</p>
+                <p class="certificate-subtitle">соответствия</p>
+                <dl>
+                    <dt>Номер</dt>
+                    <dd translate="no">{{ company.certificate_number }}</dd>
+                    <dt>Орган по сертификации</dt>
+                    <dd>{{ company.certificate_authority }}</dd>
+                    <dt>Дата выдачи</dt>
+                    <dd><time datetime="{{ company.certificate_issued_on|date:'Y-m-d' }}">{{ company.certificate_issued_on|date:"d/m/Y" }}</time></dd>
+                    <dt>Действителен до</dt>
+                    <dd><time datetime="{{ company.certificate_valid_until|date:'Y-m-d' }}">{{ company.certificate_valid_until|date:"d/m/Y" }}</time></dd>
+                </dl>
+                <div class="certificate-text">{{ company.certificate_text|linebreaks }}</div>
+                <p class="certificate-stamp">БелГИСС<br>орган по<br>сертификации</p>
+            </div>
+            <p><small>Скан-копия сертификата выдается по запросу в отделе продаж.</small></p>
+        {% else %}
+            <p>Сертификат пока не загружен.</p>
+        {% endif %}
+    </section>
+
+    <section id="marking">
+        <h2>Как читать маркировку детали</h2>
+        <p>
+            Артикул магазина строится по схеме <var>AP</var>-<var>ТИП</var>-<var>НОМЕР</var>, например <samp>AP-FIL-184</samp>.
+            Вязкость масла записывается как <b>5W-30</b>, объем двигателя — в дм<sup>3</sup>,
+            концентрация присадок — в мг/дм<sup>3</sup>, а обозначение хладагента содержит нижний индекс: CO<sub>2</sub>.
+        </p>
+        <p>
+            С <time datetime="2026-01-01">1 января 2026 года</time> в накладных
+            <del datetime="2025-12-31" cite="{% url 'terms' %}">указывается только артикул поставщика</del>
+            <ins datetime="2026-01-01" cite="{% url 'terms' %}">указываются артикул поставщика и кросс-номер магазина</ins>.
+        </p>
+        <p>
+            Чтобы быстро найти позицию, нажмите <kbd>Ctrl</kbd> + <kbd>F</kbd> и введите артикул;
+            система ответит строкой <samp>Найдено: 1 позиция</samp>.
+        </p>
+        <p>
+            Старая цена <s>128.00 BYN</s>, цена по акции <b>118.50 BYN</b>.
+        </p>
+        <p>
+            Главное правило приемки: <mark>маркировка на детали и в накладной должна совпадать посимвольно</mark>.
+            Кладовщик проверяет это до подписи документов.
+        </p>
+        <p>
+            В инструкции изготовителя сказано коротко:
+            <q cite="https://www.mann-filter.com/">фильтр подлежит замене вместе с моторным маслом</q>.
+        </p>
+        <blockquote cite="https://www.brembo.com/">
+            <p>Тормозные колодки меняются комплектом на оси, даже если изношена только одна сторона.</p>
+            <footer>— <cite>Руководство по эксплуатации тормозных систем Brembo</cite></footer>
+        </blockquote>
+    </section>
+
+    <section id="motto">
+        <h2>Девиз компании</h2>
+        <p class="verse" style="text-align: center">
+            Мы знаем каждый узел наизусть,<br>
+            Подскажем, что менять и что беречь,<br>
+            И если вдруг в дороге стало грустно —<br>
+            Запчасть найдется, это наша речь.
+        </p>
+        <p>
+            Строки написаны сотрудниками к десятилетию магазина и напечатаны на упаковке заказов
+            серии <span translate="no">AP<wbr>-BLT<wbr>-612<wbr>-PowerGrip<wbr>-Kit<wbr>-2026</span>.
+        </p>
+    </section>
+
+    <section id="partners-about">
+        <h2>Изготовители-партнеры</h2>
+        <ul class="partner-list">
+            {% for partner in partners %}
+                <li>
+                    <a href="{{ partner.site_url }}" target="_blank" rel="noopener noreferrer external">{{ partner.name }}</a>
+                    — {{ partner.description }}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</article>
+{% endblock %}

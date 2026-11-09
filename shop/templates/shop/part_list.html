@@ -1,0 +1,151 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Каталог запчастей{% endblock %}
+{% block description %}Каталог автозапчастей AutoParts: фильтры, тормозные системы, подвеска, электрика, масла и оптика с ценами и остатками на складе.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Каталог</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="page-title">
+    <h1>Каталог запасных частей</h1>
+    {% if user.is_staff or user.is_superuser %}
+        <p><a href="{% url 'part_create' %}">Добавить товар</a></p>
+    {% endif %}
+</div>
+
+{% if search_query %}
+    <p>Результаты поиска по запросу <mark>{{ search_query }}</mark>{% if selected_type %} в разделе «{{ selected_type.name }}»{% endif %}.</p>
+{% endif %}
+
+<form class="toolbar" method="get" action="{% url 'part_list' %}" role="search">
+    <fieldset>
+        <legend>Поиск и сортировка</legend>
+        <p>
+            <label for="catalog-q">Строка поиска</label>
+            <input type="search" id="catalog-q" name="q" value="{{ search_query }}" maxlength="80"
+                   autocomplete="off"
+                   placeholder="{% if user.is_staff or user.is_superuser %}Название, артикул или тип{% else %}Название или тип детали{% endif %}">
+        </p>
+        <p>
+            <label for="catalog-type">Тип товара</label>
+            <select id="catalog-type" name="type">
+                <option value="">Все типы</option>
+                {% for product_type in types %}
+                    <option value="{{ product_type.pk }}" {% if selected_type and selected_type.pk == product_type.pk %}selected{% endif %}>{{ product_type.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label for="catalog-sort">Сортировка</label>
+            <select id="catalog-sort" name="sort">
+                <optgroup label="По названию">
+                    <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Название: А—Я</option>
+                </optgroup>
+                <optgroup label="По цене">
+                    <option value="price" {% if current_sort == 'price' %}selected{% endif %}>Цена: по возрастанию</option>
+                    <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Цена: по убыванию</option>
+                </optgroup>
+                <optgroup label="По остатку">
+                    <option value="quantity" {% if current_sort == 'quantity' %}selected{% endif %}>Остаток: по возрастанию</option>
+                    <option value="quantity_desc" {% if current_sort == 'quantity_desc' %}selected{% endif %}>Остаток: по убыванию</option>
+                </optgroup>
+            </select>
+        </p>
+        <p class="form-actions">
+            <button type="submit">Применить</button>
+            <input type="reset" value="Сбросить поля">
+            {% if search_query or selected_type or current_sort != 'name' %}
+                <a href="{% url 'part_list' %}">Показать весь каталог</a>
+            {% endif %}
+        </p>
+    </fieldset>
+</form>
+
+<table class="data-table" id="catalog-table">
+    <caption>Позиции каталога: цена в белорусских рублях и остаток на складе</caption>
+    <thead>
+    <tr>
+        <th id="c-photo" scope="col">Фото</th>
+        {% if user.is_staff or user.is_superuser %}<th id="c-sku" scope="col">Артикул</th>{% endif %}
+        <th id="c-name" scope="col">Название</th>
+        <th id="c-type" scope="col">Тип</th>
+        <th id="c-brand" scope="col">Изготовитель</th>
+        <th id="c-price" scope="col">Цена, BYN</th>
+        <th id="c-stock" scope="col">Остаток, шт.</th>
+        <th id="c-actions" scope="col">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for part in parts %}
+        <tr itemscope itemtype="https://schema.org/Product">
+            <td headers="c-photo">
+                {% if part.image_url %}
+                    <img itemprop="image" class="thumb" src="{{ part.image_url }}" width="72" height="54" loading="lazy" alt="Фото товара {{ part.name }}">
+                {% endif %}
+            </td>
+            {% if user.is_staff or user.is_superuser %}
+                <td headers="c-sku"><data itemprop="sku" value="{{ part.sku }}">{{ part.sku }}</data></td>
+            {% endif %}
+            <td headers="c-name"><a itemprop="url" href="{{ part.get_absolute_url }}"><span itemprop="name">{{ part.name }}</span></a></td>
+            <td headers="c-type"><span itemprop="category">{{ part.product_type.name }}</span></td>
+            <td headers="c-brand" translate="no">{{ part.manufacturer.name }}</td>
+            <td headers="c-price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                <data itemprop="price" value="{{ part.price }}">{{ part.price }}</data>
+                <meta itemprop="priceCurrency" content="BYN">
+            </td>
+            <td headers="c-stock">
+                <meter min="0" max="100" low="10" high="50" optimum="80" value="{{ part.quantity }}">{{ part.quantity }}</meter>
+                {{ part.quantity }}
+            </td>
+            <td headers="c-actions">
+                <form action="{% url 'cart_add' part.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" {% if part.quantity == 0 %}disabled{% endif %}>В корзину</button>
+                </form>
+                {% if user.is_staff or user.is_superuser %}
+                    <a href="{% url 'part_update' part.pk %}">Изменить</a>
+                    <a href="{% url 'part_delete' part.pk %}">Удалить</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="{% if user.is_staff or user.is_superuser %}8{% else %}7{% endif %}">Товары по заданным условиям не найдены.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="pager-bar" id="catalog-pager" hidden>
+    <p>
+        <label for="catalog-page-size">Товаров на странице</label>
+        <select id="catalog-page-size">
+            <option value="3" selected>3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select>
+    </p>
+    <nav class="pagination" id="catalog-pagination" aria-label="Страницы каталога"></nav>
+</div>
+
+<p><small>Позиции с остатком до 10 шт. заканчиваются — уточняйте наличие у менеджера.</small></p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'shop/js/pagination.js' %}"></script>
+<script src="{% static 'shop/js/catalog.js' %}"></script>
+{% endblock %}

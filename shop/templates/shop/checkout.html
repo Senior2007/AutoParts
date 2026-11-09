@@ -1,0 +1,213 @@
+{% extends 'shop/base.html' %}
+{% block title %}Оплата заказа{% endblock %}
+{% block description %}Страница оплаты заказа AutoParts: данные получателя, способ доставки, промокод и реквизиты оплаты.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'cart_detail' %}"><span itemprop="name">Корзина</span></a>
+            <meta itemprop="position" content="2">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Оплата</span>
+            <meta itemprop="position" content="3">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Оплата заказа</h1>
+
+{% if form.errors %}
+    <div class="errorlist" role="alert">
+        <p><strong>Заказ не оформлен.</strong> Исправьте данные в форме:</p>
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li><a href="#{{ field.id_for_label }}">{{ field.label }}</a>: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<p>
+    Шаг оформления:
+    <progress max="3" value="2">шаг 2 из 3</progress>
+    <span>корзина → <b>оплата</b> → подтверждение</span>
+</p>
+
+<section class="order-summary">
+    <h2>Состав заказа</h2>
+    <table class="data-table">
+        <caption>Позиции, которые будут оплачены</caption>
+        <thead>
+        <tr>
+            <th id="s-name" scope="col">Товар</th>
+            <th id="s-price" scope="col">Цена, BYN</th>
+            <th id="s-qty" scope="col">Количество, шт.</th>
+            <th id="s-sum" scope="col">Сумма, BYN</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in cart %}
+            <tr>
+                <td headers="s-name"><a href="{{ row.part.get_absolute_url }}">{{ row.part.name }}</a></td>
+                <td headers="s-price">{{ row.unit_price }}</td>
+                <td headers="s-qty">{{ row.quantity }}</td>
+                <td headers="s-sum">{{ row.total_price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th id="s-total" colspan="3" scope="row">Итого без скидки</th>
+            <td headers="s-total s-sum"><b>{{ cart_total }}</b></td>
+        </tr>
+        </tfoot>
+    </table>
+    <p><a href="{% url 'cart_detail' %}">Вернуться в корзину и изменить состав</a></p>
+</section>
+
+<section class="payment">
+    <h2>Данные получателя и оплата</h2>
+
+    <form class="form checkout-form" method="post" action="{% url 'checkout' %}" autocomplete="on">
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>Получатель</legend>
+            <div class="field">
+                <label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }} *</label>
+                {{ form.full_name }}
+                {{ form.full_name.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }} *</label>
+                {{ form.phone }}
+                <small>Формат: +375 (29) 123-45-67</small>
+                {{ form.phone.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }} *</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>{{ form.delivery_method.label }}</legend>
+            {{ form.delivery_method }}
+            {{ form.delivery_method.errors }}
+            <div class="field">
+                <label for="{{ form.delivery_address.id_for_label }}">{{ form.delivery_address.label }}</label>
+                {{ form.delivery_address }}
+                <small>Обязательно для курьера и отправки по Беларуси.</small>
+                {{ form.delivery_address.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.delivery_date.id_for_label }}">{{ form.delivery_date.label }}</label>
+                {{ form.delivery_date }}
+                {{ form.delivery_date.errors }}
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Оплата</legend>
+            <div class="field">
+                <label for="{{ form.payment_method.id_for_label }}">{{ form.payment_method.label }} *</label>
+                {{ form.payment_method }}
+                {{ form.payment_method.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.promo_code.id_for_label }}">{{ form.promo_code.label }}</label>
+                {{ form.promo_code }}
+                <datalist id="promo-codes">
+                    {% for promo in promos %}
+                        {% if promo.is_current %}<option value="{{ promo.code }}">Скидка {{ promo.discount_percent }}%</option>{% endif %}
+                    {% endfor %}
+                </datalist>
+                <small>Действующие коды перечислены на странице «Промокоды».</small>
+                {{ form.promo_code.errors }}
+            </div>
+
+            <fieldset>
+                <legend>Реквизиты карты — обязательны при оплате картой</legend>
+                <div class="field">
+                    <label for="{{ form.card_number.id_for_label }}">{{ form.card_number.label }}</label>
+                    {{ form.card_number }}
+                    <small id="id_card_number_helptext">{{ form.card_number.help_text }}</small>
+                    {{ form.card_number.errors }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.card_holder.id_for_label }}">{{ form.card_holder.label }}</label>
+                    {{ form.card_holder }}
+                    {{ form.card_holder.errors }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.card_expiry.id_for_label }}">{{ form.card_expiry.label }}</label>
+                    {{ form.card_expiry }}
+                    {{ form.card_expiry.errors }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.card_cvc.id_for_label }}">{{ form.card_cvc.label }}</label>
+                    {{ form.card_cvc }}
+                    {{ form.card_cvc.errors }}
+                </div>
+            </fieldset>
+        </fieldset>
+
+        <fieldset>
+            <legend>Дополнительно</legend>
+            <div class="field">
+                <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+            <div class="field">
+                {{ form.subscribe }}
+                <label for="{{ form.subscribe.id_for_label }}">{{ form.subscribe.label }}</label>
+            </div>
+            <div class="field">
+                {{ form.agree }}
+                <label for="{{ form.agree.id_for_label }}">
+                    {{ form.agree.label }} * (<a href="{% url 'privacy' %}" target="_blank" rel="noopener">открыть в новой вкладке</a>)
+                </label>
+                {{ form.agree.errors }}
+            </div>
+        </fieldset>
+
+        <p class="form-actions">
+            <button type="submit">Оплатить {{ cart_total }} BYN</button>
+            <input type="reset" value="Очистить форму">
+            <a href="{% url 'cart_detail' %}">Отмена</a>
+        </p>
+    </form>
+</section>
+
+<aside class="note">
+    <h2>Реквизиты для оплаты по счету</h2>
+    {% if company %}
+        <dl>
+            <dt>Получатель</dt>
+            <dd>{{ company.legal_name }}</dd>
+            <dt><abbr title="Учетный номер плательщика">УНП</abbr></dt>
+            <dd>{{ company.unp }}</dd>
+            <dt>Счет</dt>
+            <dd translate="no">{{ company.bank_account }}</dd>
+            <dt>Банк</dt>
+            <dd>{{ company.bank_name }}, <abbr title="Bank Identifier Code">BIC</abbr> <span translate="no">{{ company.bank_bic }}</span></dd>
+        </dl>
+    {% endif %}
+    <p><small>Счет для юридического лица выставляется менеджером в течение одного рабочего дня.</small></p>
+</aside>
+{% endblock %}

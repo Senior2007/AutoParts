@@ -1,0 +1,111 @@
+{% extends 'shop/base.html' %}
+{% block title %}Заказ {{ order.number }} оплачен{% endblock %}
+{% block description %}Подтверждение оплаты заказа в интернет-магазине AutoParts.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'cart_detail' %}"><span itemprop="name">Корзина</span></a>
+            <meta itemprop="position" content="2">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Подтверждение</span>
+            <meta itemprop="position" content="3">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="order" itemscope itemtype="https://schema.org/Order">
+    <h1>Заказ <span itemprop="orderNumber">{{ order.number }}</span> оплачен</h1>
+
+    <p>
+        Шаг оформления:
+        <progress max="3" value="3">шаг 3 из 3</progress>
+        <span>корзина → оплата → <b>подтверждение</b></span>
+    </p>
+
+    <p>
+        Оплата прошла <time itemprop="paymentDueDate" datetime="{{ order.paid_at|date:'Y-m-d\TH:i:sO' }}">{{ order.paid_at|date:"d/m/Y H:i" }}</time>.
+        Статус заказа: <b itemprop="orderStatus">{{ order.get_status_display }}</b>.
+        {% if order.discount_percent %}
+            Применен промокод <span translate="no">{{ order.promo_code }}</span>, скидка {{ order.discount_percent }}%.
+        {% endif %}
+    </p>
+
+    <table class="data-table">
+        <caption>Оплаченные позиции заказа {{ order.number }}</caption>
+        <thead>
+        <tr>
+            <th id="o-name" scope="col">Товар</th>
+            <th id="o-price" scope="col">Цена, BYN</th>
+            <th id="o-qty" scope="col">Количество, шт.</th>
+            <th id="o-sum" scope="col">Сумма, BYN</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order.items.all %}
+            <tr itemprop="orderedItem" itemscope itemtype="https://schema.org/Product">
+                <td headers="o-name"><a itemprop="url" href="{{ item.part.get_absolute_url }}"><span itemprop="name">{{ item.part.name }}</span></a></td>
+                <td headers="o-price">{{ item.unit_price }}</td>
+                <td headers="o-qty">{{ item.quantity }}</td>
+                <td headers="o-sum">{{ item.total_price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th id="o-total" colspan="3" scope="row">Оплачено</th>
+            <td headers="o-total o-sum"><b><data itemprop="price" value="{{ order.total }}">{{ order.total }}</data></b></td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <section>
+        <h2>Данные получателя</h2>
+        <dl>
+            <dt>Получатель</dt>
+            <dd>{{ order.full_name }}</dd>
+            <dt>Телефон</dt>
+            <dd><a href="tel:{{ order.phone|cut:' '|cut:'('|cut:')'|cut:'-' }}">{{ order.phone }}</a></dd>
+            <dt>Почта</dt>
+            <dd><a href="mailto:{{ order.email }}">{{ order.email }}</a></dd>
+            <dt>Способ получения</dt>
+            <dd>{{ order.get_delivery_method_display }}</dd>
+            {% if order.delivery_address %}
+                <dt>Адрес доставки</dt>
+                <dd><address>{{ order.delivery_address }}</address></dd>
+            {% endif %}
+            {% if order.delivery_date %}
+                <dt>Желаемая дата получения</dt>
+                <dd><time datetime="{{ order.delivery_date|date:'Y-m-d' }}">{{ order.delivery_date|date:"d/m/Y" }}</time></dd>
+            {% endif %}
+            <dt>Способ оплаты</dt>
+            <dd>{{ order.get_payment_method_display }}</dd>
+            {% if order.comment %}
+                <dt>Комментарий</dt>
+                <dd>{{ order.comment }}</dd>
+            {% endif %}
+        </dl>
+    </section>
+
+    <section>
+        <h2>Что дальше</h2>
+        <ol>
+            <li>Менеджер комплектует заказ и звонит по указанному телефону.</li>
+            <li>Документы приходят письмом на <a href="mailto:{{ order.email }}">{{ order.email }}</a>.</li>
+            <li>История покупок доступна в <a href="{% url 'profile' %}">личном кабинете</a>.</li>
+        </ol>
+        <p>
+            <a href="{% url 'part_list' %}">Вернуться в каталог</a> ·
+            <a href="{% url 'reviews' %}">Оставить отзыв о покупке</a>
+        </p>
+    </section>
+</article>
+{% endblock %}

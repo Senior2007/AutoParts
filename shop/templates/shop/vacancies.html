@@ -1,0 +1,89 @@
+{% extends 'shop/base.html' %}
+{% block title %}Вакансии{% endblock %}
+{% block description %}Вакансии AutoParts: менеджер по подбору запчастей, специалист склада, закупщик, курьер и другие открытые позиции с описанием и вилкой зарплаты.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Вакансии</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Вакансии</h1>
+<p>
+    Резюме отправляйте на <a href="mailto:hr@autoparts.test?subject=Резюме">hr@autoparts.test</a>
+    или оставляйте заявку на странице <a href="{% url 'contacts' %}#feedback">«Контакты»</a>.
+</p>
+
+<section id="open-positions">
+    <h2>Открытые позиции</h2>
+    {% for vacancy in vacancies %}
+        {% if vacancy.is_active %}
+            <details class="vacancy" itemscope itemtype="https://schema.org/JobPosting">
+                <summary><span itemprop="title">{{ vacancy.title }}</span></summary>
+                <p itemprop="description">{{ vacancy.description }}</p>
+                <p itemprop="baseSalary" itemscope itemtype="https://schema.org/MonetaryAmount">
+                    <meta itemprop="currency" content="BYN">
+                    Зарплата:
+                    <span itemprop="value" itemscope itemtype="https://schema.org/QuantitativeValue">
+                        <data itemprop="minValue" value="{{ vacancy.salary_min }}">{{ vacancy.salary_min }}</data> —
+                        <data itemprop="maxValue" value="{{ vacancy.salary_max }}">{{ vacancy.salary_max }}</data> BYN
+                        <meta itemprop="unitText" content="MONTH">
+                    </span>
+                </p>
+                <p>
+                    Опубликована <time itemprop="datePosted" datetime="{{ vacancy.created_at_utc|date:'Y-m-d' }}">{{ vacancy.created_at_utc|date:"d/m/Y" }}</time>.
+                    <span itemprop="hiringOrganization" itemscope itemtype="https://schema.org/Organization">
+                        Работодатель — <span itemprop="name">AutoParts</span>
+                    </span>
+                </p>
+                <p><a href="mailto:hr@autoparts.test?subject=Отклик%20на%20вакансию">Откликнуться письмом</a></p>
+            </details>
+        {% endif %}
+    {% endfor %}
+</section>
+
+<section id="all-vacancies">
+    <h2>Все вакансии в таблице</h2>
+    <table class="data-table">
+        <caption>Список вакансий с вилкой зарплаты и статусом</caption>
+        <thead>
+        <tr>
+            <th id="v-title" scope="col">Должность</th>
+            <th id="v-desc" scope="col">Описание</th>
+            <th id="v-salary" colspan="2" scope="colgroup">Зарплата, BYN</th>
+            <th id="v-status" scope="col">Статус</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <th id="v-min" scope="col">от</th>
+            <th id="v-max" scope="col">до</th>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for vacancy in vacancies %}
+            <tr>
+                <th id="v-row-{{ vacancy.pk }}" scope="row">{{ vacancy.title }}</th>
+                <td headers="v-row-{{ vacancy.pk }} v-desc">{{ vacancy.description }}</td>
+                <td headers="v-row-{{ vacancy.pk }} v-salary v-min">{{ vacancy.salary_min }}</td>
+                <td headers="v-row-{{ vacancy.pk }} v-salary v-max">{{ vacancy.salary_max }}</td>
+                <td headers="v-row-{{ vacancy.pk }} v-status">{% if vacancy.is_active %}активна{% else %}архив{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">Вакансии пока не добавлены.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

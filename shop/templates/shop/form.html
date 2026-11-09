@@ -1,0 +1,28 @@
+{% extends 'shop/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block description %}{{ title }} — форма интернет-магазина AutoParts.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <ol>
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li>{{ title }}</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form class="form{% if form_class %} {{ form_class }}{% endif %}" method="post" autocomplete="on">
+    {% csrf_token %}
+    <fieldset>
+        <legend>{{ title }}</legend>
+        {{ form.as_p }}
+    </fieldset>
+    <p class="form-actions">
+        <button type="submit">{{ submit_label|default:"Сохранить" }}</button>
+        <input type="reset" value="Очистить форму">
+        <a href="{{ request.META.HTTP_REFERER|default:'/' }}">Назад</a>
+    </p>
+</form>
+{% endblock %}

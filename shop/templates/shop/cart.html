@@ -1,0 +1,133 @@
+{% extends 'shop/base.html' %}
+{% block title %}Корзина заказа{% endblock %}
+{% block description %}Корзина интернет-магазина AutoParts: список выбранных запчастей, изменение количества, удаление позиции и переход к оплате.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'part_list' %}"><span itemprop="name">Каталог</span></a>
+            <meta itemprop="position" content="2">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Корзина</span>
+            <meta itemprop="position" content="3">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Корзина заказа</h1>
+
+<p>
+    Шаг оформления:
+    <progress max="3" value="1">шаг 1 из 3</progress>
+    <span>корзина → оплата → подтверждение</span>
+</p>
+
+{% if cart.is_empty %}
+    <section class="empty-cart">
+        <h2>Корзина пуста</h2>
+        <p>Добавьте детали из <a href="{% url 'part_list' %}">каталога</a> или посмотрите подборку ниже.</p>
+        <ul>
+            {% for part in recommended_parts %}
+                <li><a href="{{ part.get_absolute_url }}">{{ part.name }}</a> — {{ part.price }} BYN</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% else %}
+    <table class="data-table">
+        <caption>Товары, добавленные в корзину</caption>
+        <thead>
+        <tr>
+            <th id="k-photo" scope="col">Фото</th>
+            <th id="k-name" scope="col">Товар</th>
+            <th id="k-price" scope="col">Цена, BYN</th>
+            <th id="k-qty" scope="col">Количество</th>
+            <th id="k-sum" scope="col">Сумма, BYN</th>
+            <th id="k-actions" scope="col">Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in cart %}
+            <tr>
+                <td headers="k-photo">
+                    {% if row.part.image_url %}
+                        <img class="thumb" src="{{ row.part.image_url }}" width="72" height="54" loading="lazy" alt="Фото товара {{ row.part.name }}">
+                    {% endif %}
+                </td>
+                <td headers="k-name">
+                    <a href="{{ row.part.get_absolute_url }}">{{ row.part.name }}</a><br>
+                    <small>{{ row.part.product_type.name }}, <span translate="no">{{ row.part.manufacturer.name }}</span></small>
+                    {% if row.exceeds_stock %}
+                        <p><b>На складе только {{ row.part.quantity }} шт.</b></p>
+                    {% endif %}
+                </td>
+                <td headers="k-price">{{ row.unit_price }}</td>
+                <td headers="k-qty">
+                    <form class="qty-form" action="{% url 'cart_update' row.part.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="action" value="decrease" title="Уменьшить количество">−</button>
+                    </form>
+                    <data value="{{ row.quantity }}">{{ row.quantity }}</data>
+                    <form class="qty-form" action="{% url 'cart_update' row.part.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="action" value="increase" title="Увеличить количество">+</button>
+                    </form>
+                </td>
+                <td headers="k-sum">{{ row.total_price }}</td>
+                <td headers="k-actions">
+                    <form action="{% url 'cart_remove' row.part.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" title="Удалить позицию из корзины">
+                            <span aria-hidden="true">🗑</span> Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th id="k-total" colspan="4" scope="row">Итого к оплате</th>
+            <td headers="k-total k-sum"><b>{{ cart_total }}</b></td>
+            <td headers="k-total k-actions">{{ cart|length }} шт.</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <div class="cart-actions">
+        {% if user.is_authenticated %}
+            <form action="{% url 'checkout' %}" method="get">
+                <input type="submit" value="Оплатить заказ">
+            </form>
+        {% else %}
+            <form action="{% url 'login' %}" method="get">
+                <input type="hidden" name="next" value="{% url 'checkout' %}">
+                <input type="submit" value="Войти и оплатить заказ">
+            </form>
+            <p><small>Оформить и оплатить заказ может только зарегистрированный покупатель.</small></p>
+        {% endif %}
+        <form action="{% url 'cart_clear' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Очистить корзину</button>
+        </form>
+        <p><a href="{% url 'part_list' %}">Продолжить покупки</a></p>
+    </div>
+
+    <aside class="note">
+        <h2>Что дальше</h2>
+        <ol>
+            <li>Проверьте количество и уберите лишние позиции.</li>
+            <li>Нажмите <b>«Оплатить заказ»</b> и заполните данные получателя.</li>
+            <li>После оплаты заказ появится в <a href="{% url 'profile' %}">личном кабинете</a>.</li>
+        </ol>
+        <p><small>Промокод вводится на странице оплаты и применяется ко всем позициям заказа.</small></p>
+    </aside>
+{% endif %}
+{% endblock %}

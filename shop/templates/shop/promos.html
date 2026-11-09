@@ -1,0 +1,91 @@
+{% extends 'shop/base.html' %}
+{% block title %}Промокоды и купоны{% endblock %}
+{% block description %}Действующие и архивные промокоды AutoParts: код, размер скидки, срок действия и типы товаров.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Промокоды</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Промокоды и купоны</h1>
+<p>Код вводится на <a href="{% url 'checkout' %}">странице оплаты</a> и применяется ко всем позициям заказа.</p>
+
+<nav class="page-nav" aria-label="Навигация по разделу">
+    <ul>
+        <li><a href="#active-promos">Действующие</a></li>
+        <li><a href="#archive-promos">Архив</a></li>
+    </ul>
+</nav>
+
+<section id="active-promos">
+    <h2>Действующие промокоды</h2>
+    <p>Коды, которые можно применить сегодня.</p>
+    <ul class="coupon-list">
+        {% for promo in promos %}
+            {% if promo.is_current %}
+                <li class="coupon">
+                    <p class="coupon-head">
+                        <b class="coupon-code" translate="no">{{ promo.code }}</b>
+                        <span class="coupon-discount">−{{ promo.discount_percent }}%</span>
+                    </p>
+                    <p>{{ promo.description }}</p>
+                    <p>
+                        Действует с <time datetime="{{ promo.starts_at|date:'Y-m-d' }}">{{ promo.starts_at|date:"d/m/Y" }}</time>
+                        по <time datetime="{{ promo.ends_at|date:'Y-m-d' }}">{{ promo.ends_at|date:"d/m/Y" }}</time>
+                    </p>
+                    <ul class="coupon-types">
+                        {% for product_type in promo.product_types.all %}
+                            <li>{{ product_type.name }}</li>
+                        {% empty %}
+                            <li>все типы товаров</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
+
+<section id="archive-promos">
+    <h2>Архив промокодов</h2>
+    <table class="data-table">
+        <caption>Коды, срок действия которых истек или которые отключены</caption>
+        <thead>
+        <tr>
+            <th id="pr-code" scope="col">Код</th>
+            <th id="pr-discount" scope="col">Скидка, %</th>
+            <th id="pr-period" scope="col">Период действия</th>
+            <th id="pr-desc" scope="col">Описание</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for promo in promos %}
+            {% if not promo.is_current %}
+                <tr>
+                    <th id="pr-row-{{ promo.pk }}" scope="row" translate="no"><s>{{ promo.code }}</s></th>
+                    <td headers="pr-row-{{ promo.pk }} pr-discount">{{ promo.discount_percent }}</td>
+                    <td headers="pr-row-{{ promo.pk }} pr-period">
+                        <time datetime="{{ promo.starts_at|date:'Y-m-d' }}">{{ promo.starts_at|date:"d/m/Y" }}</time> —
+                        <time datetime="{{ promo.ends_at|date:'Y-m-d' }}">{{ promo.ends_at|date:"d/m/Y" }}</time>
+                    </td>
+                    <td headers="pr-row-{{ promo.pk }} pr-desc">{{ promo.description }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<p><small>Промокоды не суммируются между собой и не применяются к товарам из архива каталога.</small></p>
+{% endblock %}

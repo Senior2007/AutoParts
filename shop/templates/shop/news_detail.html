@@ -1,0 +1,62 @@
+{% extends 'shop/base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block description %}{{ article.summary }}{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+{% block og_description %}{{ article.summary }}{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'news_list' %}"><span itemprop="name">Новости</span></a>
+            <meta itemprop="position" content="2">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ article.title }}</span>
+            <meta itemprop="position" content="3">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="detail" itemscope itemtype="https://schema.org/NewsArticle">
+    <header>
+        <h1 itemprop="headline">{{ article.title }}</h1>
+        <p>
+            Опубликовано <time itemprop="datePublished" datetime="{{ article.published_at|date:'Y-m-d\TH:i:sO' }}">{{ article.published_at|date:"d/m/Y H:i" }}</time>,
+            обновлено <time itemprop="dateModified" datetime="{{ article.updated_at_utc|date:'Y-m-d\TH:i:sO' }}">{{ article.updated_at_utc|date:"d/m/Y H:i" }}</time>.
+            <span itemprop="author" itemscope itemtype="https://schema.org/Organization">
+                Автор — <span itemprop="name">редакция AutoParts</span>
+            </span>
+        </p>
+    </header>
+
+    {% if article.image_url %}
+        <figure>
+            <img itemprop="image" class="detail-image" src="{{ article.image_url }}" width="720" height="480"
+                 alt="Иллюстрация к новости «{{ article.title }}»">
+            <figcaption>{{ article.title }}</figcaption>
+        </figure>
+    {% endif %}
+
+    <p><em itemprop="description">{{ article.summary }}</em></p>
+
+    <div class="article-body" itemprop="articleBody">
+        {{ article.content|linebreaks }}
+    </div>
+
+    <footer>
+        <p>
+            <a href="{% url 'news_list' %}">← Все новости</a> ·
+            <a href="{% url 'part_list' %}">Перейти в каталог</a> ·
+            <a href="#top">Наверх</a>
+        </p>
+        <p><small>Материал носит информационный характер и не является публичной офертой.</small></p>
+    </footer>
+</article>
+{% endblock %}

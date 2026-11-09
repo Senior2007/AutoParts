@@ -1,0 +1,65 @@
+{% extends 'shop/base.html' %}
+{% block title %}Отзывы{% endblock %}
+{% block description %}Отзывы покупателей AutoParts: оценки, тексты и даты публикации. Оставить отзыв может авторизованный пользователь.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Отзывы</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="page-title">
+    <h1>Отзывы покупателей</h1>
+    <p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'review_create' %}">Добавить отзыв</a>
+        {% else %}
+            <a href="{% url 'login' %}?next={% url 'review_create' %}">Войти и добавить отзыв</a>
+        {% endif %}
+    </p>
+</div>
+
+<p>
+    Отзыв может оставить пользователь, вошедший в аккаунт: имя подставляется из профиля,
+    а оценка выбирается по шкале от 1 до 5.
+</p>
+
+<div class="grid">
+    {% for review in reviews %}
+        <article class="card" itemscope itemtype="https://schema.org/Review">
+            <h2 itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name">{{ review.name }}</span>
+            </h2>
+            <p itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                Оценка:
+                <data itemprop="ratingValue" value="{{ review.rating }}"><b>{{ review.rating }}</b></data>
+                из <data itemprop="bestRating" value="5">5</data>
+                <meta itemprop="worstRating" content="1">
+                <meter min="1" max="5" low="2" high="4" optimum="5" value="{{ review.rating }}">{{ review.rating }} из 5</meter>
+            </p>
+            <blockquote itemprop="reviewBody">
+                <p>{{ review.text }}</p>
+            </blockquote>
+            <p>
+                <small>
+                    <time itemprop="datePublished" datetime="{{ review.created_at_utc|date:'Y-m-d\TH:i:sO' }}">{{ review.created_at_utc|date:"d/m/Y H:i" }}</time> UTC,
+                    {{ review.created_at_local_text }} {{ review.created_at_timezone }}
+                </small>
+            </p>
+            <meta itemprop="itemReviewed" content="AutoParts">
+        </article>
+    {% empty %}
+        <p>Отзывов пока нет — ваш будет первым.</p>
+    {% endfor %}
+</div>
+{% endblock %}

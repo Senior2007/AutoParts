@@ -1,0 +1,212 @@
+{% extends 'shop/base.html' %}
+{% block title %}Контакты{% endblock %}
+{% block description %}Контакты AutoParts: сотрудники магазина, зона ответственности, телефоны, почта, схема проезда и форма заявки на подбор детали.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Контакты</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Контакты</h1>
+
+<nav class="page-nav" aria-label="Навигация по разделу">
+    <ul>
+        <li><a href="#office">Офис и склад</a></li>
+        <li><a href="#map">Схема проезда</a></li>
+        <li><a href="#staff">Сотрудники</a></li>
+        <li><a href="#feedback">Форма заявки</a></li>
+    </ul>
+</nav>
+
+<section id="office">
+    <h2>Офис и склад</h2>
+    <address>
+        {% if company %}{{ company.legal_name }}{% else %}ООО «АвтоПартс Групп»{% endif %}<br>
+        220037, Минск, ул. Монтажников, 12<br>
+        Телефон отдела продаж: <a href="tel:+375291001010">+375 (29) 100-10-10</a><br>
+        Телефон склада: <a href="tel:+375291001011">+375 (29) 100-10-11</a><br>
+        Почта: <a href="mailto:info@autoparts.test?subject=Вопрос%20с%20сайта">info@autoparts.test</a>
+    </address>
+    <p>
+        Приемка заказов на самовывоз идет ежедневно, кроме воскресенья.
+        Заявки, оставленные после <time datetime="19:00">19:00</time>, обрабатываются на следующий рабочий день.
+    </p>
+</section>
+
+<section id="map">
+    <h2>Схема проезда</h2>
+    <figure>
+        <iframe title="Карта: расположение склада AutoParts в Минске" width="640" height="400"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=27.5380%2C53.8740%2C27.5850%2C53.8950&amp;layer=mapnik&amp;marker=53.8845%2C27.5615"></iframe>
+        <figcaption>
+            Склад и пункт выдачи, Минск, ул. Монтажников, 12.
+            <a href="https://www.openstreetmap.org/?mlat=53.8845&amp;mlon=27.5615#map=15/53.8845/27.5615"
+               target="_blank" rel="noopener noreferrer external">Открыть карту в новой вкладке</a>.
+        </figcaption>
+    </figure>
+</section>
+
+<section id="staff">
+    <h2>Сотрудники и зоны ответственности</h2>
+    <div class="staff-list">
+        {% for employee in employees %}
+            <article class="card staff-card" itemscope itemtype="https://schema.org/Person">
+                {% if employee.photo_url %}
+                    <img itemprop="image" src="{{ employee.photo_url }}" width="300" height="300" loading="lazy"
+                         alt="Фотография сотрудника: {{ employee.last_name }} {{ employee.first_name }}">
+                {% endif %}
+                <div class="staff-info">
+                    <h3>
+                        <span itemprop="familyName">{{ employee.last_name }}</span>
+                        <span itemprop="givenName">{{ employee.first_name }}</span>
+                    </h3>
+                    <p><strong itemprop="jobTitle">{{ employee.position }}</strong></p>
+                    <p itemprop="description">{{ employee.responsibilities }}</p>
+                    <p>
+                        <a itemprop="telephone" href="tel:{{ employee.phone|cut:' '|cut:'('|cut:')'|cut:'-' }}">{{ employee.phone }}</a><br>
+                        <a itemprop="email" href="mailto:{{ employee.email }}">{{ employee.email }}</a>
+                    </p>
+                    <p><small>Работает в отделе с <time datetime="{{ employee.created_at_utc|date:'Y-m-d' }}">{{ employee.created_at_utc|date:"d/m/Y" }}</time></small></p>
+                </div>
+            </article>
+        {% empty %}
+            <p>Сотрудники пока не добавлены.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="feedback">
+    <h2>Заявка на подбор детали</h2>
+    <p>Поля со звездочкой обязательны. Менеджер отвечает в течение рабочего дня.</p>
+
+    <form class="form feedback-form" method="post" action="{% url 'contacts' %}#feedback"
+          enctype="multipart/form-data" autocomplete="on">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="errorlist">{{ form.non_field_errors }}</div>{% endif %}
+
+        <fieldset>
+            <legend>Контактные данные</legend>
+
+            <div class="field">
+                <label for="{{ form.name.id_for_label }}">{{ form.name.label }} *</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }} *</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }} *</label>
+                {{ form.phone }}
+                <small>Формат: +375 (29) 123-45-67</small>
+                {{ form.phone.errors }}
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Автомобиль и деталь</legend>
+
+            <div class="field">
+                <label for="{{ form.topic.id_for_label }}">{{ form.topic.label }} *</label>
+                {{ form.topic }}
+                {{ form.topic.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.vin.id_for_label }}">{{ form.vin.label }}</label>
+                {{ form.vin }}
+                <small>17 символов, буквы <b>I</b>, <b>O</b> и <b>Q</b> в VIN не используются.</small>
+                {{ form.vin.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.interests.id_for_label }}">{{ form.interests.label }}</label>
+                {{ form.interests }}
+                <small id="id_interests_helptext">{{ form.interests.help_text }}</small>
+                {{ form.interests.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.production_year.id_for_label }}">{{ form.production_year.label }}</label>
+                {{ form.production_year }}
+                {{ form.production_year.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.budget.id_for_label }}">{{ form.budget.label }}</label>
+                {{ form.budget }}
+                <output id="budgetOutput" name="budgetOutput" for="{{ form.budget.id_for_label }}">{{ form.budget.value|default:300 }}</output> BYN
+                {{ form.budget.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.reference_url.id_for_label }}">{{ form.reference_url.label }}</label>
+                {{ form.reference_url }}
+                {{ form.reference_url.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.attachment.id_for_label }}">{{ form.attachment.label }}</label>
+                {{ form.attachment }}
+                <small>Допустимые форматы: JPG, PNG, PDF.</small>
+                {{ form.attachment.errors }}
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Когда и как связаться</legend>
+
+            <div class="field">
+                <label for="pickup-city">Город пункта выдачи</label>
+                <input type="text" id="pickup-city" value="Минск" disabled>
+                <small>Пункт выдачи пока работает только в Минске.</small>
+            </div>
+
+            <div class="field">
+                <label for="{{ form.call_date.id_for_label }}">{{ form.call_date.label }}</label>
+                {{ form.call_date }}
+                {{ form.call_date.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.call_time.id_for_label }}">{{ form.call_time.label }}</label>
+                {{ form.call_time }}
+                {{ form.call_time.errors }}
+            </div>
+
+            <fieldset>
+                <legend>{{ form.contact_method.label }}</legend>
+                {{ form.contact_method }}
+                {{ form.contact_method.errors }}
+            </fieldset>
+        </fieldset>
+
+        <fieldset>
+            <legend>Сообщение</legend>
+            <div class="field">
+                <label for="{{ form.message.id_for_label }}">{{ form.message.label }} *</label>
+                {{ form.message }}
+                <small>От 10 до 600 символов.</small>
+                {{ form.message.errors }}
+            </div>
+            <div class="field">
+                {{ form.agree }}
+                <label for="{{ form.agree.id_for_label }}">{{ form.agree.label }} *</label>
+                {{ form.agree.errors }}
+            </div>
+        </fieldset>
+
+        <p class="form-actions">
+            <button type="submit">Отправить заявку</button>
+            <input type="reset" value="Очистить форму">
+        </p>
+    </form>
+</section>
+{% endblock %}

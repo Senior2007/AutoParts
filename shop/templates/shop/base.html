@@ -1,0 +1,204 @@
+{% load static %}<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block description %}AutoParts — магазин автомобильных запасных частей и расходных материалов в Минске: каталог, поставки, промокоды и доставка по Беларуси.{% endblock %}">
+    <meta name="author" content="ООО «АвтоПартс Групп»">
+    <meta name="keywords" content="автозапчасти, запчасти Минск, фильтры, тормозные колодки, амортизаторы, свечи зажигания, моторное масло">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffb020">
+    <meta name="generator" content="Django">
+    <meta name="format-detection" content="telephone=no">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AutoParts">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:title" content="{% block og_title %}AutoParts — автомобильные запчасти{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Каталог запчастей, промокоды, доставка по Беларуси и подбор деталей по VIN.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'shop/img/banners/banner-service-1600.jpg' %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <link rel="icon" href="{% static 'shop/img/favicon.svg' %}" type="image/svg+xml">
+    <link rel="icon" href="{% static 'shop/img/favicon-32.png' %}" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'shop/img/apple-touch-icon.png' %}" sizes="180x180">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Mono&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Serif:wght@400;700&amp;family=Russo+One&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'shop/css/styles.css' %}">
+    <script src="{% static 'shop/js/theme.js' %}"></script>
+    <title>{% block title %}Автомагазин{% endblock %} | AutoParts</title>
+</head>
+<body id="top">
+<a class="skip-link" href="#main" accesskey="1">Перейти к основному содержимому</a>
+
+<header class="site-header">
+    <div class="brand">
+        <a href="{% url 'home' %}" title="AutoParts — на главную страницу">
+            <img src="{% static 'shop/img/logo.svg' %}" width="260" height="64" alt="Логотип магазина AutoParts">
+        </a>
+        <p class="slogan" translate="no">AutoParts — <span lang="en" dir="ltr">auto parts</span> для планового обслуживания</p>
+    </div>
+
+    <form class="header-search" action="{% url 'part_list' %}" method="get" role="search">
+        <label for="header-search-input">Поиск по каталогу</label>
+        <input type="search" id="header-search-input" name="q" value="{{ search_query|default:'' }}"
+               placeholder="Фильтр, колодки, свеча…" accesskey="s" autocomplete="off"
+               maxlength="80" list="popular-queries">
+        <datalist id="popular-queries">
+            <option value="Фильтры"></option>
+            <option value="Тормозная система"></option>
+            <option value="Свечи зажигания"></option>
+            <option value="Масла и жидкости"></option>
+        </datalist>
+        <button type="submit">Найти</button>
+    </form>
+
+    <label class="theme-switch" for="theme-toggle">
+        <input type="checkbox" id="theme-toggle">
+        Темная тема
+    </label>
+
+    <div class="auth">
+        <a class="cart-link" href="{% url 'cart_detail' %}" title="Корзина заказа">
+            Корзина <data value="{{ cart_quantity }}">({{ cart_quantity }})</data>
+        </a>
+        {% if user.is_authenticated %}
+            <span class="user-name">{{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Войти</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </div>
+</header>
+
+<nav class="nav nav-horizontal" aria-label="Основная навигация">
+    <ul>
+        <li><a href="{% url 'home' %}" accesskey="h">Главная</a></li>
+        <li><a href="{% url 'part_list' %}" accesskey="c">Каталог</a></li>
+        <li><a href="{% url 'news_list' %}">Новости</a></li>
+        <li><a href="{% url 'about' %}">О компании</a></li>
+        <li><a href="{% url 'terms' %}">Словарь</a></li>
+        <li><a href="{% url 'contacts' %}">Контакты</a></li>
+        <li><a href="{% url 'employees' %}">Сотрудники</a></li>
+        <li><a href="{% url 'vacancies' %}">Вакансии</a></li>
+        <li><a href="{% url 'reviews' %}">Отзывы</a></li>
+        {% if user.is_authenticated %}<li><a href="{% url 'promos' %}">Промокоды</a></li>{% endif %}
+        <li><a href="{% url 'external_apis' %}">API</a></li>
+        <li><a href="{% url 'js_tasks' %}">JS</a></li>
+        {% if user.is_staff or user.is_superuser %}<li><a href="{% url 'stats' %}">Статистика</a></li>{% endif %}
+        {% if user.is_authenticated %}<li><a href="{% url 'profile' %}">Кабинет</a></li>{% endif %}
+    </ul>
+</nav>
+
+<div class="layout">
+    <aside class="sidebar" aria-label="Дополнительные разделы">
+        <nav class="nav nav-vertical" aria-label="Вертикальная навигация по сервису">
+            <h2>Покупателю</h2>
+            <ul>
+                <li><a href="{% url 'part_list' %}">Каталог запчастей</a></li>
+                <li><a href="{% url 'cart_detail' %}">Корзина заказа</a></li>
+                <li><a href="{% url 'checkout' %}">Оплата заказа</a></li>
+                <li><a href="{% url 'terms' %}#faq">Частые вопросы</a></li>
+                <li><a href="{% url 'privacy' %}">Политика конфиденциальности</a></li>
+                <li><a href="{% url 'contacts' %}#feedback">Задать вопрос</a></li>
+            </ul>
+            <h2>Компания</h2>
+            <ul>
+                <li><a href="{% url 'about' %}#history">История по годам</a></li>
+                <li><a href="{% url 'about' %}#requisites">Реквизиты</a></li>
+                <li><a href="{% url 'about' %}#certificate">Сертификат</a></li>
+                <li><a href="{% url 'vacancies' %}">Вакансии</a></li>
+                <li><a href="{% url 'reviews' %}">Отзывы клиентов</a></li>
+            </ul>
+        </nav>
+
+        <section class="widget">
+            <h2>Режим работы</h2>
+            <dl>
+                <dt>Будни</dt>
+                <dd><time datetime="09:00">9:00</time>&nbsp;— <time datetime="20:00">20:00</time></dd>
+                <dt>Суббота</dt>
+                <dd><time datetime="10:00">10:00</time>&nbsp;— <time datetime="17:00">17:00</time></dd>
+                <dt>Воскресенье</dt>
+                <dd>выходной</dd>
+            </dl>
+            <p><a href="tel:+375291001010">+375 (29) 100-10-10</a></p>
+            <p><a href="mailto:info@autoparts.test?subject=Вопрос%20по%20каталогу">info@autoparts.test</a></p>
+            <p><a href="{% static 'shop/docs/autoparts-price-list.pdf' %}" download="autoparts-price-list.pdf" type="application/pdf">Скачать прайс-лист (PDF)</a></p>
+        </section>
+    </aside>
+
+    <main class="container" id="main" tabindex="-1">
+        {% block breadcrumbs %}{% endblock %}
+
+        {% if messages %}
+            <div class="messages" role="status">
+                {% for message in messages %}
+                    <p class="message {{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+        <p class="to-top"><a href="#top">Наверх ↑</a></p>
+    </main>
+</div>
+
+<footer class="site-footer" itemscope itemtype="https://schema.org/AutoPartsStore">
+    <section class="footer-block">
+        <h2 itemprop="name">AutoParts</h2>
+        <img itemprop="logo" src="{% static 'shop/img/favicon-192.png' %}" width="64" height="64" alt="Знак магазина AutoParts">
+        <p itemprop="description">Запасные части и расходные материалы для планового обслуживания автомобиля.</p>
+        <link itemprop="url" href="{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}">
+        <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+            <span itemprop="streetAddress">ул. Монтажников, 12</span>,
+            <span itemprop="addressLocality">Минск</span>,
+            <span itemprop="postalCode">220037</span>,
+            <span itemprop="addressCountry">BY</span><br>
+            Телефон: <a href="tel:+375291001010" itemprop="telephone">+375 (29) 100-10-10</a><br>
+            Почта: <a href="mailto:info@autoparts.test" itemprop="email">info@autoparts.test</a>
+        </address>
+        <meta itemprop="priceRange" content="30-900 BYN">
+        <meta itemprop="openingHours" content="Mo-Fr 09:00-20:00">
+        <meta itemprop="openingHours" content="Sa 10:00-17:00">
+    </section>
+
+    <section class="footer-block">
+        <h2>Сервер</h2>
+        <p><b>Таймзона:</b> {{ server_timezone }} ({{ timezone_offset }})</p>
+        <p><b>UTC:</b> <time datetime="{{ now_utc|date:'Y-m-d\TH:i:sO' }}">{{ now_utc|date:"d/m/Y H:i" }}</time></p>
+        <p><b>Локальное время:</b> <time datetime="{{ now_local|date:'Y-m-d\TH:i:sO' }}">{{ now_local|date:"d/m/Y H:i" }}</time></p>
+    </section>
+
+    <section class="footer-block">
+        <h2>Календарь</h2>
+        <pre>{{ text_calendar }}</pre>
+    </section>
+
+    <section class="footer-block">
+        <h2>Документы</h2>
+        <ul>
+            <li><a href="{% url 'privacy' %}">Политика конфиденциальности</a></li>
+            <li><a href="{% url 'about' %}#certificate">Сертификат соответствия</a></li>
+            <li><a href="{% static 'shop/docs/autoparts-price-list.pdf' %}" download>Прайс-лист</a></li>
+            <li><a href="https://www.gs1by.by/" target="_blank" rel="noopener noreferrer">GS1 Беларусь</a></li>
+        </ul>
+        <p><small>&copy; 2016—2026 ООО «АвтоПартс Групп». <abbr title="Учетный номер плательщика">УНП</abbr> 191234567.</small></p>
+    </section>
+</footer>
+
+<div class="preloader" role="status" aria-label="Загрузка страницы">
+    <span class="preloader-ring"></span>
+    <span class="preloader-dot"></span>
+    <span class="preloader-dot"></span>
+    <span class="preloader-dot"></span>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

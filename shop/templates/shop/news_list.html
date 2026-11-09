@@ -1,0 +1,46 @@
+{% extends 'shop/base.html' %}
+{% block title %}Новости{% endblock %}
+{% block description %}Новости магазина AutoParts: поставки, акции, сезонные подборки запчастей и изменения в работе склада.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Новости</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Новости магазина</h1>
+<p>Статьи публикуются по тематике каталога: поставки, акции и изменения в работе склада.</p>
+
+<div class="grid news-list">
+    {% for article in articles %}
+        <article class="card" itemscope itemtype="https://schema.org/NewsArticle">
+            <figure>
+                {% if article.image_url %}
+                    <img itemprop="image" src="{{ article.image_url }}" width="300" height="200" loading="lazy"
+                         alt="Иллюстрация к новости «{{ article.title }}»">
+                {% endif %}
+                <figcaption><small>Фото из фотобанка Unsplash</small></figcaption>
+            </figure>
+            <h2 itemprop="headline">{{ article.title }}</h2>
+            <p>
+                <time itemprop="datePublished" datetime="{{ article.published_at|date:'Y-m-d\TH:i:sO' }}">{{ article.published_at|date:"d/m/Y" }}</time>
+                <meta itemprop="author" content="Редакция AutoParts">
+            </p>
+            <p class="summary" itemprop="description">{{ article.summary }}</p>
+            <p><a class="button" itemprop="url" href="{{ article.get_absolute_url }}">Читать далее</a></p>
+        </article>
+    {% empty %}
+        <p>Новости пока не опубликованы.</p>
+    {% endfor %}
+</div>
+{% endblock %}

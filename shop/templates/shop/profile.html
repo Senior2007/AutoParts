@@ -1,0 +1,146 @@
+{% extends 'shop/base.html' %}
+{% block title %}Личный кабинет{% endblock %}
+{% block description %}Личный кабинет покупателя AutoParts: профиль, оформленные заказы и история покупок.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <ol>
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li>Личный кабинет</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Личный кабинет</h1>
+
+{% if not client and not employee and not user.is_staff %}
+    <section class="section">
+        <h2>Профиль клиента не заполнен</h2>
+        <p>Без профиля покупки недоступны.</p>
+        <p><a href="{% url 'complete_client_profile' %}">Заполнить профиль клиента</a></p>
+    </section>
+{% endif %}
+
+{% if client %}
+    <section id="client-profile">
+        <h2>Профиль клиента</h2>
+        <dl>
+            <dt>Фамилия и имя</dt>
+            <dd>{{ client.last_name }} {{ client.first_name }}</dd>
+            <dt>Телефон</dt>
+            <dd><a href="tel:{{ client.phone|cut:' '|cut:'('|cut:')'|cut:'-' }}">{{ client.phone }}</a></dd>
+            <dt>Почта</dt>
+            <dd><a href="mailto:{{ client.email }}">{{ client.email }}</a></dd>
+            <dt>Адрес</dt>
+            <dd><address>{{ client.address }}</address></dd>
+        </dl>
+    </section>
+{% endif %}
+
+<section id="orders">
+    <h2>Оформленные заказы</h2>
+    <table class="data-table">
+        <caption>Заказы, оформленные через корзину сайта</caption>
+        <thead>
+        <tr>
+            <th id="ord-number" scope="col">Номер</th>
+            <th id="ord-date" scope="col">Дата оплаты</th>
+            <th id="ord-items" scope="col">Позиций, шт.</th>
+            <th id="ord-total" scope="col">Сумма, BYN</th>
+            <th id="ord-status" scope="col">Статус</th>
+            <th id="ord-actions" scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th id="ord-row-{{ order.pk }}" scope="row"><a href="{{ order.get_absolute_url }}">{{ order.number }}</a></th>
+                <td headers="ord-row-{{ order.pk }} ord-date">
+                    {% if order.paid_at %}<time datetime="{{ order.paid_at|date:'Y-m-d\TH:i:sO' }}">{{ order.paid_at|date:"d/m/Y H:i" }}</time>{% else %}—{% endif %}
+                </td>
+                <td headers="ord-row-{{ order.pk }} ord-items">{{ order.positions_count }}</td>
+                <td headers="ord-row-{{ order.pk }} ord-total">{{ order.total }}</td>
+                <td headers="ord-row-{{ order.pk }} ord-status">{{ order.get_status_display }}</td>
+                <td headers="ord-row-{{ order.pk }} ord-actions">
+                    {% if order.status == 'new' %}
+                        <form method="post" action="{% url 'order_pay' order.pk %}">{% csrf_token %}<button type="submit">Оплатить</button></form>
+                        <form method="post" action="{% url 'order_cancel' order.pk %}">{% csrf_token %}<button type="submit">Отменить</button></form>
+                    {% else %}—{% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">Заказов пока нет. <a href="{% url 'part_list' %}">Перейти в каталог</a>.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+{% if client %}
+    <section id="purchases">
+        <h2>История покупок</h2>
+        <table class="data-table">
+            <caption>Продажи, записанные в складском учете</caption>
+            <thead>
+            <tr>
+                <th id="pu-date" scope="col">Дата</th>
+                <th id="pu-part" scope="col">Товар</th>
+                <th id="pu-qty" scope="col">Количество, шт.</th>
+                <th id="pu-price" scope="col">Цена, BYN</th>
+                <th id="pu-sum" scope="col">Сумма, BYN</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sale in sales %}
+                <tr>
+                    <td headers="pu-date"><time datetime="{{ sale.sold_at|date:'Y-m-d\TH:i:sO' }}">{{ sale.sold_at|date:"d/m/Y H:i" }}</time></td>
+                    <td headers="pu-part"><a href="{{ sale.part.get_absolute_url }}">{{ sale.part.name }}</a></td>
+                    <td headers="pu-qty">{{ sale.quantity }}</td>
+                    <td headers="pu-price">{{ sale.unit_price }}</td>
+                    <td headers="pu-sum">{{ sale.total_price }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">Покупок пока нет.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endif %}
+
+{% if employee %}
+    <section id="employee-profile">
+        <h2>Профиль сотрудника</h2>
+        <p>{{ employee.last_name }} {{ employee.first_name }}, <strong>{{ employee.position }}</strong></p>
+        <p>{{ employee.responsibilities }}</p>
+    </section>
+{% endif %}
+
+{% if user.is_staff %}
+    <section id="staff-sales">
+        <h2>Последние продажи магазина</h2>
+        <table class="data-table">
+            <caption>Двадцать последних продаж для сотрудника</caption>
+            <thead>
+            <tr>
+                <th id="ss-client" scope="col">Клиент</th>
+                <th id="ss-part" scope="col">Товар</th>
+                <th id="ss-qty" scope="col">Количество, шт.</th>
+                <th id="ss-date" scope="col">Дата</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sale in staff_sales %}
+                <tr>
+                    <td headers="ss-client">{{ sale.client }}</td>
+                    <td headers="ss-part">{{ sale.part.name }}</td>
+                    <td headers="ss-qty">{{ sale.quantity }}</td>
+                    <td headers="ss-date"><time datetime="{{ sale.sold_at|date:'Y-m-d\TH:i:sO' }}">{{ sale.sold_at|date:"d/m/Y H:i" }}</time></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">Продаж пока нет.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endif %}
+{% endblock %}

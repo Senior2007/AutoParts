@@ -1,0 +1,38 @@
+{% extends 'shop/base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block description %}Регистрация клиента интернет-магазина AutoParts.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <ol>
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li>Регистрация</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Регистрация клиента</h1>
+<p>Аккаунт нужен для оформления заказов, отзывов и доступа к промокодам.</p>
+<form class="form" method="post" action="{% url 'register' %}" autocomplete="on">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Данные покупателя</legend>
+        {{ form.as_p }}
+    </fieldset>
+    <fieldset>
+        <legend>Требования к паролю</legend>
+        <ul>
+            <li>пароль не должен быть похож на другие данные профиля;</li>
+            <li>не короче 8 символов;</li>
+            <li>не входит в список часто используемых паролей;</li>
+            <li>не состоит только из цифр.</li>
+        </ul>
+    </fieldset>
+    <p class="form-actions">
+        <button type="submit">Зарегистрироваться</button>
+        <input type="reset" value="Очистить форму">
+    </p>
+</form>
+<p>Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a>.</p>
+{% endblock %}

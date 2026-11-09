@@ -1,0 +1,90 @@
+{% extends 'shop/base.html' %}
+{% block title %}Словарь терминов{% endblock %}
+{% block description %}Словарь терминов и часто задаваемых вопросов AutoParts: артикул, VIN-подбор, аналог, кросс-номер, резерв и гарантийный срок.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Словарь терминов</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Словарь терминов и понятий</h1>
+<p>
+    Раздел объясняет слова, которые менеджеры используют в переписке и накладных.
+    Нажмите на вопрос, чтобы раскрыть развернутый ответ.
+</p>
+
+<nav class="page-nav" aria-label="Навигация по разделу">
+    <ul>
+        <li><a href="#faq">Часто задаваемые вопросы</a></li>
+        <li><a href="#glossary">Краткий глоссарий</a></li>
+        <li><a href="#sources">Источники</a></li>
+    </ul>
+</nav>
+
+<section id="faq" itemscope itemtype="https://schema.org/FAQPage">
+    <h2>Часто задаваемые вопросы</h2>
+    {% for term in terms %}
+        <details class="faq-item" itemprop="mainEntity" itemscope itemtype="https://schema.org/Question" {% if forloop.first %}open{% endif %}>
+            <summary itemprop="name">{{ term.title }}</summary>
+            <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                <p itemprop="text">{{ term.definition }}</p>
+            </div>
+            <p><small>Добавлено на сайт: <time datetime="{{ term.added_on|date:'Y-m-d' }}">{{ term.added_on|date:"d/m/Y" }}</time></small></p>
+        </details>
+    {% empty %}
+        <p>Термины пока не добавлены.</p>
+    {% endfor %}
+</section>
+
+<section id="glossary">
+    <h2>Краткий глоссарий</h2>
+    <dl class="glossary">
+        <dt><dfn id="dfn-sku" title="Артикул">Артикул</dfn></dt>
+        <dd>Уникальный код позиции. В магазине он записывается как <samp>AP-FIL-184</samp>.</dd>
+
+        <dt><dfn id="dfn-vin"><abbr title="Vehicle Identification Number">VIN</abbr></dfn></dt>
+        <dd>Идентификационный номер автомобиля из 17 символов, по которому подбирается деталь.</dd>
+
+        <dt><dfn id="dfn-cross">Кросс-номер</dfn></dt>
+        <dd>Артикул совместимой детали другого изготовителя.</dd>
+
+        <dt><dfn id="dfn-oem"><abbr title="Original Equipment Manufacturer">OEM</abbr></dfn></dt>
+        <dd>Изготовитель, поставляющий деталь на конвейер автозавода.</dd>
+
+        <dt><dfn id="dfn-reserve">Резерв</dfn></dt>
+        <dd>Временное удержание позиции под заказ клиента, обычно на <time datetime="PT48H">48 часов</time>.</dd>
+    </dl>
+
+    <p>
+        Официальное определение звучит строже:
+        <q cite="https://www.mann-filter.com/">фильтр — устройство для отделения механических примесей от рабочей жидкости или воздуха</q>,
+        но в магазине под фильтром понимают конкретную деталь из каталога.
+    </p>
+
+    <blockquote cite="https://www.gost.ru/">
+        <p>Срок службы фильтрующего элемента определяется изготовителем транспортного средства и указывается в руководстве по эксплуатации.</p>
+        <footer>— <cite>СТБ 1393-2003 «Услуги торговли. Общие требования»</cite></footer>
+    </blockquote>
+</section>
+
+<section id="sources">
+    <h2>Источники и полезные ссылки</h2>
+    <ol>
+        <li><a href="https://www.gs1by.by/" target="_blank" rel="noopener noreferrer external">GS1 Беларусь — система штрихового кодирования товаров</a></li>
+        <li><a href="{% url 'about' %}#marking">Правила маркировки деталей на этом сайте</a></li>
+        <li><a href="{% url 'privacy' %}#terms-of-use">Условия использования каталога</a></li>
+        <li><a href="mailto:info@autoparts.test?subject=Дополнить%20словарь">Предложить новый термин письмом</a></li>
+    </ol>
+</section>
+{% endblock %}

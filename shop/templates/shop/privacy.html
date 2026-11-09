@@ -1,0 +1,171 @@
+{% extends 'shop/base.html' %}
+{% block title %}Политика конфиденциальности{% endblock %}
+{% block description %}Политика конфиденциальности интернет-магазина AutoParts: какие персональные данные собираются, зачем, как долго хранятся и как их удалить.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Политика конфиденциальности</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="policy">
+    <h1>Политика конфиденциальности интернет-магазина AutoParts</h1>
+    <p>
+        Редакция от <time datetime="2026-09-01">1 сентября 2026 года</time>.
+        Оператор персональных данных — {% if company %}{{ company.legal_name }}, <abbr title="Учетный номер плательщика">УНП</abbr> {{ company.unp }}{% else %}ООО «АвтоПартс Групп»{% endif %}.
+    </p>
+
+    <nav class="page-nav" aria-label="Содержание документа">
+        <h2>Содержание</h2>
+        <ol>
+            <li><a href="#scope">Область применения</a></li>
+            <li><a href="#data">Какие данные собираются</a></li>
+            <li><a href="#purposes">Цели обработки</a></li>
+            <li><a href="#storage">Сроки хранения</a></li>
+            <li><a href="#cookies">Файлы cookie</a></li>
+            <li><a href="#rights">Права пользователя</a></li>
+            <li><a href="#terms-of-use">Условия использования каталога</a></li>
+            <li><a href="#contacts-privacy">Контакты по вопросам данных</a></li>
+        </ol>
+    </nav>
+
+    <section id="scope">
+        <h2>1. Область применения</h2>
+        <p>
+            Документ описывает обработку персональных данных посетителей сайта магазина автозапчастей:
+            покупателей каталога, авторов отзывов и кандидатов, откликающихся на <a href="{% url 'vacancies' %}">вакансии</a>.
+            Политика составлена в соответствии с Законом Республики Беларусь
+            <cite>«О защите персональных данных»</cite> от 7 мая 2021 г. № 99-З.
+        </p>
+        <blockquote cite="https://pravo.by/document/?guid=12551&amp;p0=H12100099">
+            <p>Обработка персональных данных осуществляется с согласия субъекта персональных данных, если иное не предусмотрено законодательными актами.</p>
+            <footer>— <cite>Закон Республики Беларусь «О защите персональных данных», статья 5</cite></footer>
+        </blockquote>
+    </section>
+
+    <section id="data">
+        <h2>2. Какие данные собираются</h2>
+        <table class="data-table">
+            <caption>Состав обрабатываемых данных по разделам сайта</caption>
+            <thead>
+            <tr>
+                <th id="p-section" scope="col">Раздел сайта</th>
+                <th id="p-fields" scope="col">Данные</th>
+                <th id="p-basis" scope="col">Основание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th id="p-register" scope="row">Регистрация</th>
+                <td headers="p-register p-fields">Логин, имя, фамилия, дата рождения, телефон, почта, адрес</td>
+                <td headers="p-register p-basis">Согласие при создании аккаунта</td>
+            </tr>
+            <tr>
+                <th id="p-order" scope="row">Корзина и оплата</th>
+                <td headers="p-order p-fields">Состав заказа, способ получения, адрес доставки, промокод</td>
+                <td headers="p-order p-basis">Исполнение договора купли-продажи</td>
+            </tr>
+            <tr>
+                <th id="p-review" scope="row">Отзывы</th>
+                <td headers="p-review p-fields">Имя автора, оценка, текст, дата публикации</td>
+                <td headers="p-review p-basis">Согласие при публикации</td>
+            </tr>
+            <tr>
+                <th id="p-feedback" scope="row">Заявка на подбор</th>
+                <td headers="p-feedback p-fields">Имя, телефон, почта, VIN, год выпуска, вложение</td>
+                <td headers="p-feedback p-basis">Согласие в форме обращения</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>
+            Магазин <mark>не запрашивает</mark> паспортные данные, а реквизиты банковской карты
+            не сохраняются на стороне сайта — они передаются напрямую в платежный шлюз банка.
+        </p>
+    </section>
+
+    <section id="purposes">
+        <h2>3. Цели обработки</h2>
+        <ul>
+            <li>подбор детали по <abbr title="Vehicle Identification Number">VIN</abbr> и артикулу;</li>
+            <li>оформление, комплектация и доставка заказа;</li>
+            <li>ответ на обращение, оставленное через форму на странице <a href="{% url 'contacts' %}#feedback">«Контакты»</a>;</li>
+            <li>учет продаж и складских остатков;</li>
+            <li>информирование о промокодах, если пользователь дал отдельное согласие.</li>
+        </ul>
+    </section>
+
+    <section id="storage">
+        <h2>4. Сроки хранения</h2>
+        <dl>
+            <dt>Данные аккаунта</dt>
+            <dd>хранятся, пока аккаунт активен, и <time datetime="P30D">30 дней</time> после запроса на удаление;</dd>
+            <dt>Документы по заказам</dt>
+            <dd>хранятся <time datetime="P1095D">3 года</time> в соответствии с требованиями бухгалтерского учета;</dd>
+            <dt>Обращения из формы заявки</dt>
+            <dd>хранятся <time datetime="P365D">1 год</time> с момента последнего ответа менеджера.</dd>
+        </dl>
+    </section>
+
+    <section id="cookies">
+        <h2>5. Файлы cookie</h2>
+        <p>Сайт использует минимальный набор служебных cookie.</p>
+        <details>
+            <summary>Список используемых cookie</summary>
+            <ul>
+                <li><code>sessionid</code> — идентификатор сессии, нужен для входа в кабинет и работы корзины;</li>
+                <li><code>csrftoken</code> — защита форм от подделки межсайтовых запросов;</li>
+                <li><code>cart</code> — состав корзины хранится в серверной сессии и очищается после оплаты заказа.</li>
+            </ul>
+        </details>
+        <p><small>Отключение cookie в браузере делает вход в личный кабинет и оформление заказа невозможным.</small></p>
+    </section>
+
+    <section id="rights">
+        <h2>6. Права пользователя</h2>
+        <ol>
+            <li>получить сведения об обработке своих данных;</li>
+            <li>изменить неточные данные в <a href="{% url 'profile' %}">личном кабинете</a>;</li>
+            <li>отозвать согласие и потребовать удаления данных;</li>
+            <li>обжаловать действия оператора в Национальном центре защиты персональных данных.</li>
+        </ol>
+        <p>
+            Запрос подается письмом на <a href="mailto:privacy@autoparts.test?subject=Запрос%20по%20персональным%20данным">privacy@autoparts.test</a>.
+            Ответ направляется <ins datetime="2026-09-01">в течение 15 календарных дней</ins>
+            <del datetime="2026-08-31">в течение одного месяца</del>.
+        </p>
+    </section>
+
+    <section id="terms-of-use">
+        <h2>7. Условия использования каталога</h2>
+        <p>
+            Описания, фотографии и артикулы каталога принадлежат магазину и изготовителям деталей.
+            Копирование карточек товаров для коммерческого использования допускается только с письменного разрешения.
+        </p>
+        <p>
+            Цены в каталоге указаны в белорусских рублях (<abbr title="Белорусский рубль">BYN</abbr>) и не являются публичной офертой:
+            окончательная стоимость подтверждается менеджером при оформлении заказа.
+        </p>
+        <p><a href="#top">Вернуться к началу документа</a> · <a href="{% url 'terms' %}#glossary">перейти к словарю терминов</a>.</p>
+    </section>
+
+    <section id="contacts-privacy">
+        <h2>8. Контакты по вопросам данных</h2>
+        <address>
+            Ответственный за защиту персональных данных<br>
+            220037, Минск, ул. Монтажников, 12<br>
+            <a href="tel:+375291001012">+375 (29) 100-10-12</a><br>
+            <a href="mailto:privacy@autoparts.test">privacy@autoparts.test</a>
+        </address>
+    </section>
+</article>
+{% endblock %}

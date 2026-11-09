@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.git/
+.gitignore
+.idea/
+.DS_Store
+.cache/
+.matplotlib/
+.coverage
+htmlcov/
+staticfiles/
+media/
+*.log
+db.sqlite3
+*.docx
+*.pdf

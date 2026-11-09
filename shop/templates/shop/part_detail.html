@@ -1,0 +1,166 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}{{ part.name }}{% endblock %}
+{% block description %}{{ part.name }} — {{ part.description|truncatewords:20 }}{% endblock %}
+{% block og_title %}{{ part.name }} — AutoParts{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'part_list' %}"><span itemprop="name">Каталог</span></a>
+            <meta itemprop="position" content="2">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'part_list' %}?type={{ part.product_type.pk }}"><span itemprop="name">{{ part.product_type.name }}</span></a>
+            <meta itemprop="position" content="3">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ part.name }}</span>
+            <meta itemprop="position" content="4">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="detail" itemscope itemtype="https://schema.org/Product">
+    <h1 itemprop="name">{{ part.name }}</h1>
+
+    <figure>
+        {% if part.image_url %}
+            <img itemprop="image" src="{{ part.image_url }}"
+                 {% if part.image_srcset %}srcset="{{ part.image_srcset }}" sizes="(min-width: 800px) 720px, 92vw"{% else %}width="720"{% endif %}
+                 alt="Фотография детали «{{ part.name }}»">
+        {% else %}
+            <img src="{% static 'shop/img/banners/banner-brake-480.jpg' %}" width="480" height="240" alt="Изображение товара отсутствует">
+        {% endif %}
+        <figcaption>
+            {{ part.name }}, изготовитель <span translate="no">{{ part.manufacturer.name }}</span>.
+            Фотография носит справочный характер.
+        </figcaption>
+    </figure>
+
+    <p itemprop="description">{{ part.description }}</p>
+
+    <section class="specs">
+        <h2>Характеристики</h2>
+        <table class="data-table">
+            <caption>Карточка товара из складского учета</caption>
+            <tbody>
+            {% if user.is_staff or user.is_superuser %}
+                <tr>
+                    <th id="d-sku" scope="row">Артикул</th>
+                    <td headers="d-sku"><data itemprop="sku" value="{{ part.sku }}">{{ part.sku }}</data></td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th id="d-type" scope="row">Тип товара</th>
+                <td headers="d-type"><span itemprop="category">{{ part.product_type.name }}</span></td>
+            </tr>
+            <tr>
+                <th id="d-brand" scope="row">Изготовитель</th>
+                <td headers="d-brand" itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+                    <span itemprop="name" translate="no">{{ part.manufacturer.name }}</span>,
+                    {{ part.manufacturer.country }}
+                </td>
+            </tr>
+            <tr>
+                <th id="d-price" scope="row">Цена</th>
+                <td headers="d-price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                    <data itemprop="price" value="{{ part.price }}"><b>{{ part.price }}</b></data>
+                    <span itemprop="priceCurrency" content="BYN">BYN</span>
+                    <link itemprop="availability" href="{% if part.quantity %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}">
+                    <link itemprop="url" href="{{ request.build_absolute_uri }}">
+                </td>
+            </tr>
+            <tr>
+                <th id="d-stock" scope="row">Остаток на складе</th>
+                <td headers="d-stock">
+                    <meter min="0" max="100" low="10" high="50" optimum="80" value="{{ part.quantity }}">{{ part.quantity }} шт.</meter>
+                    {{ part.quantity }} шт.
+                </td>
+            </tr>
+            {% if user.is_staff or user.is_superuser %}
+                <tr>
+                    <th id="d-suppliers" scope="row">Поставщики</th>
+                    <td headers="d-suppliers">
+                        {% for supplier in part.suppliers.all %}{{ supplier.name }}{% if not forloop.last %}, {% endif %}{% empty %}нет данных{% endfor %}
+                    </td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th id="d-created" scope="row">Карточка создана</th>
+                <td headers="d-created">
+                    <time datetime="{{ part.created_at_utc|date:'Y-m-d\TH:i:sO' }}">{{ part.created_at_utc|date:"d/m/Y H:i" }}</time> UTC
+                    ({{ part.created_at_local_text }} {{ part.created_at_timezone }})
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="buy">
+        <h2>Заказ</h2>
+        <form class="form" action="{% url 'cart_add' part.pk %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'cart_detail' %}">
+            <p>
+                <label for="buy-quantity">Количество, шт.</label>
+                <input type="number" id="buy-quantity" name="quantity" value="1" min="1" max="{{ part.quantity|default:1 }}"
+                       step="1" inputmode="numeric" required {% if part.quantity == 0 %}disabled{% endif %}>
+            </p>
+            <p class="form-actions">
+                <button type="submit" title="Положить деталь в корзину заказа" {% if part.quantity == 0 %}disabled{% endif %}>
+                    <span aria-hidden="true">🛒</span> Добавить в корзину
+                </button>
+                <a href="{% url 'cart_detail' %}">Перейти в корзину</a>
+            </p>
+            {% if part.quantity == 0 %}
+                <p><b>Позиции нет на складе.</b> Оставьте <a href="{% url 'contacts' %}#feedback">заявку на подбор</a>.</p>
+            {% endif %}
+        </form>
+
+        <details>
+            <summary>Действующие промокоды для этой позиции</summary>
+            <ul>
+                {% for promo in promos %}
+                    {% if promo.is_current %}
+                        <li>
+                            <b translate="no">{{ promo.code }}</b> — скидка {{ promo.discount_percent }}%,
+                            действует до <time datetime="{{ promo.ends_at|date:'Y-m-d' }}">{{ promo.ends_at|date:"d/m/Y" }}</time>
+                        </li>
+                    {% endif %}
+                {% empty %}
+                    <li>Действующих промокодов нет.</li>
+                {% endfor %}
+            </ul>
+        </details>
+
+        {% if user.is_staff or user.is_superuser %}
+            <p>
+                <a href="{% url 'part_update' part.pk %}">Редактировать карточку</a> ·
+                <a href="{% url 'part_delete' part.pk %}">Удалить из каталога</a>
+            </p>
+        {% endif %}
+    </section>
+
+    {% if similar_parts %}
+        <section class="similar">
+            <h2>Похожие позиции того же типа</h2>
+            <ul>
+                {% for similar in similar_parts %}
+                    <li>
+                        <a href="{{ similar.get_absolute_url }}">{{ similar.name }}</a>,
+                        <span translate="no">{{ similar.manufacturer.name }}</span>, {{ similar.price }} BYN
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+</article>
+{% endblock %}

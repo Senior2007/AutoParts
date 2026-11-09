@@ -1,0 +1,131 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Задания по JavaScript{% endblock %}
+{% block description %}Задания по JavaScript: генерация полей загрузки файлов, проверка возраста, классы книг, API браузера и график cos x на Chart.js.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Задания по JavaScript</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Задания по JavaScript</h1>
+
+<nav class="page-nav" aria-label="Навигация по разделу">
+    <ul>
+        <li><a href="#file-fields-task">Поля загрузки файлов</a></li>
+        <li><a href="#age-task">Проверка возраста</a></li>
+        <li><a href="#books-task">Книги</a></li>
+        <li><a href="#web-api-task">API браузера</a></li>
+        <li><a href="#chart-task">График cos x</a></li>
+    </ul>
+</nav>
+
+<section id="file-fields-task">
+    <h2>Поля загрузки файлов</h2>
+    <p>
+        Флажок добавляет на страницу элемент <code>&lt;input type="file"&gt;</code> и поля для настройки его атрибутов
+        <code>name</code>, <code>accept</code>, <code>multiple</code>, <code>required</code>, <code>capture</code>.
+        Созданные элементы сохраняются после обновления страницы.
+    </p>
+    <p>
+        <input type="checkbox" id="file-field-add">
+        <label for="file-field-add">Добавить поле загрузки файла</label>
+    </p>
+    <form class="form file-fields" id="file-fields"></form>
+</section>
+
+<section id="age-task">
+    <h2>Проверка возраста</h2>
+    <form class="form inline-form" id="age-form">
+        <label for="birth-date">Дата рождения</label>
+        <input type="date" id="birth-date" required>
+        <button type="submit">Проверить</button>
+    </form>
+    <p class="note" id="age-result" role="status" hidden></p>
+</section>
+
+<section id="books-task">
+    <h2>Книги</h2>
+    <p>
+        Дан массив объектов со сведениями о книгах: фамилия автора, название и год издания.
+        Нужно найти названия книг данного автора, изданных с 1980 года.
+        Базовый класс «Издание» хранит название и год, класс-наследник «Книга» добавляет автора.
+    </p>
+    <div class="books-variants">
+        {% include 'shop/books_task.html' with section_id='books-prototype' heading='Вариант 1: прототипное наследование' %}
+        {% include 'shop/books_task.html' with section_id='books-class' heading='Вариант 2: class / extends' %}
+    </div>
+</section>
+
+<section id="web-api-task">
+    <h2>API браузера</h2>
+    <h3>Геолокация</h3>
+    <p><button type="button" id="geo-button">Определить местоположение</button></p>
+    <p id="geo-result" role="status"></p>
+
+    <h3>Синтез речи</h3>
+    <form class="form" id="speech-form">
+        <p>
+            <label for="speech-text">Текст для озвучивания</label>
+            <textarea id="speech-text" rows="2" maxlength="300">Добро пожаловать в магазин автозапчастей AutoParts!</textarea>
+        </p>
+        <p class="form-actions"><button type="submit">Озвучить</button></p>
+    </form>
+    <p id="speech-result" role="status"></p>
+</section>
+
+<section id="chart-task">
+    <h2>График cos x</h2>
+    <p>
+        Задание варианта 7 ЛР3 по ИГИ: cos x = Σ (−1)<sup>n</sup> x<sup>2n</sup> / (2n)! = 1 − x<sup>2</sup>/2! + x<sup>4</sup>/4! − …
+        Сумма ряда F(x) считается до тех пор, пока очередной член по модулю не меньше eps.
+    </p>
+    <form class="form inline-form" id="chart-form">
+        <label for="chart-eps">Точность eps</label>
+        <input type="number" id="chart-eps" value="0.001" min="0.000001" max="1" step="any" required>
+        <button type="submit">Построить</button>
+        <button type="button" id="chart-save">Сохранить график (PNG)</button>
+    </form>
+    <div class="chart-box">
+        <canvas id="cos-chart" role="img" aria-label="График функции cos x и суммы ее ряда"></canvas>
+    </div>
+    <div class="table-scroll">
+        <table class="data-table" id="series-table">
+            <caption>Значения ряда и функции</caption>
+            <thead>
+            <tr>
+                <th scope="col">x</th>
+                <th scope="col">n</th>
+                <th scope="col">F(x)</th>
+                <th scope="col">Math F(x)</th>
+                <th scope="col">eps</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="{% static 'shop/js/file-fields.js' %}"></script>
+<script src="{% static 'shop/js/age.js' %}"></script>
+<script src="{% static 'shop/js/books-prototype.js' %}"></script>
+<script src="{% static 'shop/js/books-class.js' %}"></script>
+<script src="{% static 'shop/js/books.js' %}"></script>
+<script src="{% static 'shop/js/web-api.js' %}"></script>
+<script src="{% static 'shop/js/cos-chart.js' %}"></script>
+{% endblock %}

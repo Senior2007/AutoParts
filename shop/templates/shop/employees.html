@@ -1,0 +1,104 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Сотрудники{% endblock %}
+{% block description %}Таблица сотрудников AutoParts: ФИО, фото, описание выполняемых работ, телефон и почта.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'home' %}"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Сотрудники</span>
+            <meta itemprop="position" content="2">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Сотрудники</h1>
+<p>
+    Данные загружаются с сервера. Нажмите на название столбца, чтобы отсортировать таблицу,
+    и на строку, чтобы увидеть все сведения о сотруднике под таблицей.
+</p>
+
+<div class="employees-toolbar">
+    <button type="button" id="employee-add-toggle" aria-expanded="false" aria-controls="employee-form">Добавить</button>
+    <form class="employee-filter" id="employee-filter" role="search">
+        <label for="employee-filter-input">Поиск по таблице</label>
+        <input type="search" id="employee-filter-input" placeholder="Фамилия, должность, телефон…" maxlength="80">
+        <button type="submit">Найти</button>
+    </form>
+</div>
+
+<form class="form employee-form" id="employee-form" hidden>
+    <fieldset>
+        <legend>Новый сотрудник</legend>
+        <div class="field">
+            <label for="new-full-name">ФИО</label>
+            <input type="text" id="new-full-name" name="full_name" maxlength="120">
+        </div>
+        <div class="field">
+            <label for="new-photo-url">Фото (URL)</label>
+            <input type="text" id="new-photo-url" name="photo_url" placeholder="https://site.ru/photo.php">
+        </div>
+        <div class="field">
+            <label for="new-description">Описание выполняемых работ</label>
+            <textarea id="new-description" name="description" rows="3" maxlength="300"></textarea>
+        </div>
+        <div class="field">
+            <label for="new-phone">Телефон</label>
+            <input type="tel" id="new-phone" name="phone" placeholder="+375 (29) 111-22-33">
+        </div>
+        <div class="field">
+            <label for="new-email">Почта</label>
+            <input type="email" id="new-email" name="email" placeholder="name@autoparts.test">
+        </div>
+        <p class="form-actions">
+            <button type="submit" id="employee-add" disabled>Добавить в таблицу</button>
+        </p>
+    </fieldset>
+    <p class="check-result" id="employee-check" role="status"></p>
+</form>
+
+<div class="table-box" id="employees-box">
+    <table class="data-table employees-table" id="employees-table" data-url="{% url 'employees_api' %}">
+        <caption>Сотрудники магазина AutoParts</caption>
+        <thead>
+        <tr>
+            <th scope="col">Выбор</th>
+            <th scope="col">Фото</th>
+            <th scope="col"><button type="button" class="sort-button" data-sort="full_name">ФИО <span class="sort-mark">⇅</span></button></th>
+            <th scope="col"><button type="button" class="sort-button" data-sort="description">Описание работ <span class="sort-mark">⇅</span></button></th>
+            <th scope="col"><button type="button" class="sort-button" data-sort="phone">Телефон <span class="sort-mark">⇅</span></button></th>
+            <th scope="col"><button type="button" class="sort-button" data-sort="email">Почта <span class="sort-mark">⇅</span></button></th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="preloader table-preloader" id="employees-preloader" role="status" aria-label="Выполняется операция" hidden>
+        <span class="preloader-ring"></span>
+        <span class="preloader-dot"></span>
+        <span class="preloader-dot"></span>
+        <span class="preloader-dot"></span>
+    </div>
+</div>
+
+<nav class="pagination" id="employees-pagination" aria-label="Страницы таблицы сотрудников"></nav>
+
+<p><button type="button" id="employee-bonus">Премировать</button></p>
+<p class="note" id="employee-bonus-text" hidden></p>
+
+<section class="employee-details" id="employee-details" hidden>
+    <h2>Сведения о сотруднике</h2>
+    <div id="employee-details-body"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'shop/js/pagination.js' %}"></script>
+<script src="{% static 'shop/js/employees.js' %}"></script>
+{% endblock %}

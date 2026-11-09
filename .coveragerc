@@ -1,0 +1,11 @@
+[run]
+source = shop
+omit =
+    shop/migrations/*
+    shop/tests/*
+    shop/management/*
+    config/*
+    manage.py
+
+[report]
+show_missing = True

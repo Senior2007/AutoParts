@@ -1,0 +1,48 @@
+{% extends 'shop/base.html' %}
+{% block title %}Внешние API{% endblock %}
+{% block description %}Открытые данные на сайте AutoParts и пример обращения к каталогу магазина.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <ol>
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li>Внешние API</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Внешние API</h1>
+<p>Сервисы-партнеры, данные которых магазин получает на стороне сервера.</p>
+
+<div class="grid">
+    <article class="card">
+        <h2>Cat Facts API</h2>
+        <p><a href="https://catfact.ninja/" target="_blank" rel="noopener noreferrer external">catfact.ninja</a></p>
+        <blockquote cite="https://catfact.ninja/fact">
+            <p lang="en" dir="ltr">{{ cat_fact }}</p>
+        </blockquote>
+    </article>
+    <article class="card">
+        <h2>IPify</h2>
+        <p><a href="https://www.ipify.org/" target="_blank" rel="noopener noreferrer external">ipify.org</a></p>
+        <p>Внешний адрес сервера: <samp>{{ ip }}</samp></p>
+    </article>
+</div>
+
+<section>
+    <h2>Каталог магазина в формате JSON</h2>
+    <p>Партнеры выгружают наличие и цены по адресу <a href="{% url 'parts_api' %}"><code>/api/parts/</code></a>. Доступ — по учетной записи магазина.</p>
+    <pre tabindex="0"><code>import requests
+
+response = requests.get(
+    'http://127.0.0.1:8000/api/parts/',
+    cookies={'sessionid': SESSION_ID},
+    timeout=5,
+)
+for part in response.json()['results']:
+    print(part['name'], part['price'], part['quantity'])</code></pre>
+    <p>Ответ: <samp>{"results": [{"name": "Термостат Valeo 87C", "price": "58.60", "quantity": 37}]}</samp></p>
+    <p><small>Если сервис недоступен, магазин показывает запасной текст и записывает предупреждение в журнал.</small></p>
+</section>
+{% endblock %}

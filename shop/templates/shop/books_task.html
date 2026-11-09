@@ -1,0 +1,19 @@
+<section class="books-variant" id="{{ section_id }}">
+    <h3>{{ heading }}</h3>
+    <form class="form" data-role="add-form">
+        <fieldset>
+            <legend>Новая книга</legend>
+            <p><label>Фамилия автора <input type="text" name="author" required maxlength="60"></label></p>
+            <p><label>Название <input type="text" name="title" required maxlength="120"></label></p>
+            <p><label>Год издания <input type="number" name="year" required min="1450" max="{% now 'Y' %}"></label></p>
+            <p class="form-actions"><button type="submit">Добавить книгу</button></p>
+        </fieldset>
+    </form>
+    <form class="form" data-role="search-form">
+        <p><label>Автор <input type="text" name="author" required maxlength="60"></label></p>
+        <p class="form-actions"><button type="submit">Найти книги с 1980 года</button></p>
+    </form>
+    <div class="note" data-role="result" role="status" hidden></div>
+    <h4>Все книги</h4>
+    <ol class="books-list" data-role="list"></ol>
+</section>

@@ -1,0 +1,235 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block description %}AutoParts: каталог автомобильных запчастей, акции месяца, свежие новости склада и список компаний-партнеров.{% endblock %}
+{% block og_title %}AutoParts — запчасти и расходники в наличии{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ol>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Главная</span>
+            <meta itemprop="position" content="1">
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="intro" id="intro">
+    <h1>Автомагазин запасных частей <span class="company-name">AutoParts</span></h1>
+    <div class="scene" role="img" aria-label="Анимация: коробка открывается, из нее вылетают автозапчасти и исчезают у земли, затем появляется название магазина AutoParts">
+        <div class="box">
+            <span class="box-flap box-flap-left"></span>
+            <span class="box-flap box-flap-right"></span>
+        </div>
+        <img class="part part-1" src="{% static 'shop/img/parts/gear.svg' %}" width="48" height="48" alt="">
+        <img class="part part-2" src="{% static 'shop/img/parts/spark-plug.svg' %}" width="48" height="48" alt="">
+        <img class="part part-3" src="{% static 'shop/img/parts/brake-disc.svg' %}" width="48" height="48" alt="">
+        <img class="part part-4" src="{% static 'shop/img/parts/oil-filter.svg' %}" width="48" height="48" alt="">
+        <img class="part part-5" src="{% static 'shop/img/parts/wheel.svg' %}" width="48" height="48" alt="">
+        <span class="scene-title company-name">AutoParts</span>
+    </div>
+    <figure class="logo-figure">
+        <img src="{% static 'shop/img/logo.svg' %}" width="260" height="64" alt="Логотип AutoParts: шестерня и название магазина">
+        <figcaption>Фирменный знак магазина используется с <time datetime="2016-03-14">14 марта 2016 года</time>.</figcaption>
+    </figure>
+    <p>
+        Мы держим на складе <mark>расходники для планового обслуживания</mark>, тормозные системы, детали подвески,
+        электрику и оптику. Менеджеры подбирают деталь по артикулу, <abbr title="Vehicle Identification Number — идентификационный номер транспортного средства">VIN</abbr>
+        и истории обслуживания автомобиля.
+    </p>
+    <ul class="metrics">
+        <li><strong>{{ parts_count }}</strong> активных позиций каталога</li>
+        {% if user.is_staff or user.is_superuser %}<li><strong>{{ suppliers_count }}</strong> поставщиков</li>{% endif %}
+        {% if user.is_authenticated %}<li><strong>{{ active_promos }}</strong> действующих промокодов</li>{% endif %}
+    </ul>
+</section>
+
+<section class="banners" id="banners">
+    <h2>Реклама и акции месяца</h2>
+
+    <div class="slider" id="banner-slider" data-delay="{{ site_company.slider_delay|default:5 }}">
+    <figure class="banner slide active">
+        <a href="{% url 'part_list' %}?q=Фильтры" title="Перейти к фильтрам в каталоге">
+        <picture>
+            <source media="(max-width: 480px)"
+                    srcset="{% static 'shop/img/banners/banner-service-portrait-640.jpg' %} 640w,
+                            {% static 'shop/img/banners/banner-service-portrait-1280.jpg' %} 1280w"
+                    sizes="92vw">
+            <img src="{% static 'shop/img/banners/banner-service-960.jpg' %}"
+                 srcset="{% static 'shop/img/banners/banner-service-480.jpg' %} 480w,
+                         {% static 'shop/img/banners/banner-service-960.jpg' %} 960w,
+                         {% static 'shop/img/banners/banner-service-1600.jpg' %} 1600w"
+                 sizes="(min-width: 1100px) 1000px, 92vw"
+                 alt="Баннер: плановое техобслуживание со скидкой 10 процентов на фильтры по промокоду FILTER10">
+        </picture>
+        </a>
+        <figcaption>Плановое <abbr title="техническое обслуживание">ТО</abbr> со скидкой 10%: промокод <b>FILTER10</b> на фильтры.</figcaption>
+    </figure>
+
+    <figure class="banner slide">
+        <a href="{% url 'part_list' %}?q=Brembo" title="Перейти к тормозным системам Brembo">
+        <picture>
+            <source media="(max-width: 480px)"
+                    srcset="{% static 'shop/img/banners/banner-brake-portrait-640.jpg' %} 640w,
+                            {% static 'shop/img/banners/banner-brake-portrait-1280.jpg' %} 1280w"
+                    sizes="92vw">
+            <img src="{% static 'shop/img/banners/banner-brake-960.jpg' %}"
+                 srcset="{% static 'shop/img/banners/banner-brake-480.jpg' %} 480w,
+                         {% static 'shop/img/banners/banner-brake-960.jpg' %} 960w,
+                         {% static 'shop/img/banners/banner-brake-1600.jpg' %} 1600w"
+                 sizes="(min-width: 1100px) 1000px, 92vw"
+                 loading="lazy" decoding="async"
+                 alt="Баннер: новая поставка тормозных систем Brembo, скидка 15 процентов по промокоду BRAKE15">
+        </picture>
+        </a>
+        <figcaption>Новая поставка тормозных дисков и колодок <span translate="no">Brembo</span>.</figcaption>
+    </figure>
+
+    <figure class="banner slide">
+        <a href="{% url 'contacts' %}#office" title="Адрес склада и пункта выдачи">
+        <picture>
+            <source media="(max-width: 480px)"
+                    srcset="{% static 'shop/img/banners/banner-delivery-portrait-640.jpg' %} 640w,
+                            {% static 'shop/img/banners/banner-delivery-portrait-1280.jpg' %} 1280w"
+                    sizes="92vw">
+            <img src="{% static 'shop/img/banners/banner-delivery-960.jpg' %}"
+                 srcset="{% static 'shop/img/banners/banner-delivery-480.jpg' %} 480w,
+                         {% static 'shop/img/banners/banner-delivery-960.jpg' %} 960w,
+                         {% static 'shop/img/banners/banner-delivery-1600.jpg' %} 1600w"
+                 sizes="(min-width: 1100px) 1000px, 92vw"
+                 loading="lazy" decoding="async"
+                 alt="Баннер: доставка запчастей по всей Беларуси, самовывоз бесплатно">
+        </picture>
+        </a>
+        <figcaption>Отправляем оплаченные заказы в день оплаты по всей Беларуси.</figcaption>
+    </figure>
+    </div>
+
+    {% if user.is_staff or user.is_superuser %}
+        <form class="slider-settings" method="post" action="{% url 'slider_settings' %}">
+            {% csrf_token %}
+            <label for="slider-delay">Интервал смены слайдов, секунд</label>
+            <input type="number" id="slider-delay" name="slider_delay" min="1" max="60" required
+                   value="{{ site_company.slider_delay|default:5 }}">
+            <button type="submit">Сохранить</button>
+        </form>
+    {% endif %}
+</section>
+
+<section class="catalog" id="catalog">
+    <h2>Каталог товаров и услуг</h2>
+    <nav class="catalog-nav" aria-label="Разделы каталога">
+        <ul>
+            {% for product_type in catalog_types %}
+                <li><a href="{% url 'part_list' %}?type={{ product_type.pk }}" title="{{ product_type.description }}">{{ product_type.name }}</a></li>
+            {% endfor %}
+            <li><a href="{% url 'part_list' %}">Весь каталог</a></li>
+        </ul>
+    </nav>
+
+    <div class="grid">
+        {% for part in showcase_parts %}
+            <article class="card product-card" itemscope itemtype="https://schema.org/Product">
+                {% if part.image_url %}
+                    <img itemprop="image" src="{{ part.image_url }}" width="300" height="200" loading="lazy" alt="Фотография товара: {{ part.name }}">
+                {% endif %}
+                <h3 itemprop="name"><a itemprop="url" href="{{ part.get_absolute_url }}">{{ part.name }}</a></h3>
+                <p itemprop="description">{{ part.description|truncatewords:14 }}</p>
+                <p>
+                    <span itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+                        <span itemprop="name" translate="no">{{ part.manufacturer.name }}</span>
+                    </span>
+                </p>
+                <p itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                    <data itemprop="price" value="{{ part.price }}">{{ part.price }}</data>
+                    <span itemprop="priceCurrency" content="BYN">BYN</span>
+                    <link itemprop="availability" href="https://schema.org/InStock">
+                </p>
+                <form action="{% url 'cart_add' part.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit">Добавить в корзину</button>
+                </form>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="parts-road" id="parts-road">
+    <h2>Детали в пути</h2>
+    <p>Прокрутите страницу: запчасти едут по экрану, а при прокрутке вверх возвращаются обратно.</p>
+    <div class="road" id="road">
+        <img class="road-part" src="{% static 'shop/img/parts/gear.svg' %}" width="56" height="56" alt="">
+        <img class="road-part" src="{% static 'shop/img/parts/spark-plug.svg' %}" width="56" height="56" alt="">
+        <img class="road-part" src="{% static 'shop/img/parts/brake-disc.svg' %}" width="56" height="56" alt="">
+        <img class="road-part" src="{% static 'shop/img/parts/oil-filter.svg' %}" width="56" height="56" alt="">
+        <img class="road-part" src="{% static 'shop/img/parts/wheel.svg' %}" width="56" height="56" alt="">
+    </div>
+    <div class="wheel-lane">
+        <img class="rolling-wheel" id="rolling-wheel" src="{% static 'shop/img/parts/wheel.svg' %}" width="56" height="56" alt="">
+    </div>
+    <p><button type="button" id="wheel-toggle">Пауза</button></p>
+</section>
+
+<section class="latest-news" id="latest-news">
+    <h2>Последняя опубликованная статья</h2>
+    {% if latest_news %}
+        <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+            {% if latest_news.image_url %}
+                <img itemprop="image" src="{{ latest_news.image_url }}" width="400" height="260" loading="lazy" alt="Иллюстрация к новости «{{ latest_news.title }}»">
+            {% endif %}
+            <div>
+                <h3 itemprop="headline">{{ latest_news.title }}</h3>
+                <p><time itemprop="datePublished" datetime="{{ latest_news.published_at|date:'Y-m-d\TH:i:sO' }}">{{ latest_news.published_at|date:"d/m/Y H:i" }}</time></p>
+                <p itemprop="description">{{ latest_news.summary }}</p>
+                <p><a itemprop="url" href="{{ latest_news.get_absolute_url }}">Читать далее</a></p>
+            </div>
+        </article>
+    {% else %}
+        <p>Новости пока не опубликованы.</p>
+    {% endif %}
+</section>
+
+<section class="partners" id="partners">
+    <h2>Компании-партнеры</h2>
+    <p>Прямые поставки идут от изготовителей, с которыми у магазина заключены договоры.</p>
+    <ul class="partner-list">
+        {% for partner in partners %}
+            <li itemscope itemtype="https://schema.org/Organization">
+                <figure>
+                    <a href="{{ partner.site_url }}" target="_blank" rel="noopener noreferrer external" itemprop="url"
+                       title="Открыть сайт {{ partner.name }} в новой вкладке">
+                        <img itemprop="logo" src="{% static partner.logo_static_path %}" width="240" height="90" loading="lazy"
+                             draggable="false" alt="Логотип компании {{ partner.name }}">
+                    </a>
+                    <figcaption>
+                        <b itemprop="name" translate="no">{{ partner.name }}</b>
+                        <span itemprop="description">{{ partner.description }}</span>
+                    </figcaption>
+                </figure>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section class="quote-block">
+    <h2>Что говорят клиенты</h2>
+    <blockquote cite="{% url 'reviews' %}">
+        <p>Нашли фильтр по артикулу за пару минут, забрал в тот же день.</p>
+        <footer>— Илья Мартынов, <cite><a href="{% url 'reviews' %}">отзывы покупателей AutoParts</a></cite></footer>
+    </blockquote>
+    <p>Менеджеры отвечают коротко: <q cite="{% url 'terms' %}">оригинал и аналог отличаются брендом упаковки, а не заводом-изготовителем</q>.</p>
+    <p>
+        Девиз магазина для иностранных партнеров — <q lang="en">the right part at the right time</q>,
+        а в немецком варианте — <q lang="de">das richtige Teil zur richtigen Zeit</q>.
+    </p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'shop/js/slider.js' %}"></script>
+<script src="{% static 'shop/js/card-tilt.js' %}"></script>
+<script src="{% static 'shop/js/scroll-parts.js' %}"></script>
+{% endblock %}

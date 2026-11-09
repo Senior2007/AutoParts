@@ -1,0 +1,49 @@
+{% extends 'shop/base.html' %}
+{% block title %}Статистика{% endblock %}
+{% block description %}Статистика продаж AutoParts: сумма, среднее, медиана, мода и диаграмма выручки по типам товаров.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <ol>
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li>Статистика</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1>Статистика автомагазина</h1>
+
+<section id="key-figures">
+    <h2>Ключевые показатели</h2>
+    <dl class="metrics">
+        <dt>Сумма продаж</dt>
+        <dd>{{ stat_values.total_sum|floatformat:2 }} BYN</dd>
+        <dt>Средняя продажа</dt>
+        <dd>{{ stat_values.average|floatformat:2 }} BYN</dd>
+        <dt>Медиана</dt>
+        <dd>{{ stat_values.median|floatformat:2 }} BYN</dd>
+        <dt>Мода</dt>
+        <dd>{{ stat_values.mode|floatformat:2 }} BYN</dd>
+        <dt>Популярный тип товара</dt>
+        <dd>{{ stat_values.top_type }}</dd>
+    </dl>
+</section>
+
+<section id="chart">
+    <h2>Диаграмма продаж</h2>
+    <figure>
+        <img class="chart" src="{% url 'sales_chart' %}" width="800" height="400" alt="Столбчатая диаграмма выручки по типам товаров">
+        <figcaption>Выручка по типам товаров, построена на стороне сервера библиотекой Matplotlib.</figcaption>
+    </figure>
+</section>
+
+<section id="alphabet">
+    <h2>Товары по алфавиту</h2>
+    <ol>
+        {% for part in parts_by_name %}
+            <li><a href="{{ part.get_absolute_url }}">{{ part.name }}</a> — {{ part.price }} BYN</li>
+        {% endfor %}
+    </ol>
+</section>
+{% endblock %}
