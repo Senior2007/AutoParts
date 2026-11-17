@@ -126,7 +126,6 @@ docker compose up --build
 - [docs/state-diagram.md](docs/state-diagram.md) — диаграмма состояний заказа (ЛР1);
 - [ISSUES.md](ISSUES.md) — найденные дефекты;
 - [docs/testing.md](docs/testing.md) — описание тестов и покрытие (ЛР2);
-- [ЗАЩИТА.md](ЗАЩИТА.md) — что показывать на защите и ответы на вопросы.
 
 ## Страницы
 
