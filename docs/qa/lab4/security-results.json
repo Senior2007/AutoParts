@@ -1,0 +1,281 @@
+{
+  "date": "2026-11-23",
+  "results": [
+    {
+      "id": "SEC-01",
+      "title": "Защищённые URL без входа",
+      "expected": "Все 8 ответов 302 на вход.",
+      "actual": {
+        "/profile/": [
+          302,
+          "/login/?next=/profile/"
+        ],
+        "/profile/complete/": [
+          302,
+          "/login/?next=/profile/complete/"
+        ],
+        "/checkout/": [
+          302,
+          "/login/?next=/checkout/"
+        ],
+        "/checkout/success/3/": [
+          302,
+          "/login/?next=/checkout/success/3/"
+        ],
+        "/reviews/add/": [
+          302,
+          "/login/?next=/reviews/add/"
+        ],
+        "/stats/": [
+          302,
+          "/login/?next=/stats/"
+        ],
+        "/stats/chart.png": [
+          302,
+          "/login/?next=/stats/chart.png"
+        ],
+        "/api/parts/": [
+          302,
+          "/login/?next=/api/parts/"
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "SEC-02",
+      "title": "Изоляция заказа второго клиента",
+      "expected": "Свой ответ 200, чужие ответы 404, new / 5 / 0 без изменений.",
+      "actual": {
+        "own_confirmation": 200,
+        "other_confirmation": 404,
+        "other_pay": 404,
+        "other_cancel": 404,
+        "other_state": "new",
+        "other_stock": 5,
+        "other_sales": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "SEC-03",
+      "title": "Запрет изменяющих GET и POST без CSRF",
+      "expected": "На выбранных изменяющих маршрутах GET → 405, POST без токена → 403.",
+      "actual": {
+        "/cart/add/17/": [
+          405,
+          403
+        ],
+        "/cart/update/17/": [
+          405,
+          403
+        ],
+        "/cart/remove/17/": [
+          405,
+          403
+        ],
+        "/cart/clear/": [
+          405,
+          403
+        ],
+        "/orders/3/pay/": [
+          405,
+          403
+        ],
+        "/orders/3/cancel/": [
+          405,
+          403
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "SEC-04",
+      "title": "Неразглашение деталей ошибок при DEBUG=False",
+      "expected": "Ответы 404/500 не содержат трассировки, путей или SQL.",
+      "actual": {
+        "/api/qa-missing/": {
+          "status": 404,
+          "markers": []
+        },
+        "/parts/?type=abc": {
+          "status": 500,
+          "markers": []
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "SEC-05",
+      "title": "Детали ошибок при значении DEBUG по умолчанию",
+      "expected": "Пользователь не получает техническую информацию и трассировку.",
+      "actual": {
+        "/api/qa-missing/": {
+          "status": 404,
+          "markers": []
+        },
+        "/parts/?type=abc": {
+          "status": 500,
+          "markers": [
+            "traceback",
+            "server_path",
+            "django_debug"
+          ]
+        }
+      },
+      "status": "FAIL"
+    },
+    {
+      "id": "SEC-06",
+      "title": "Журнал ошибок и обратной связи",
+      "expected": "INFO заявки, два WARNING интеграций, WARNING 404 и ERROR 500.",
+      "actual": {
+        "performed": {
+          "login": true,
+          "feedback": true,
+          "external": true,
+          "http404": true,
+          "http500": true,
+          "payment": true,
+          "cancel": true
+        },
+        "logged": {
+          "feedback": true,
+          "external": 2,
+          "http404": true,
+          "http500": true,
+          "login": false,
+          "payment": false,
+          "cancel": false
+        },
+        "entries": [
+          "shop.views | INFO | Feedback from qa.audit@example.test on topic order",
+          "shop.views | WARNING | External API failed: 503 Server Error: Service Unavailable for url: https://catfact.ninja/fact",
+          "shop.views | WARNING | External API failed: 503 Server Error: Service Unavailable for url: https://api.ipify.org/?format=json",
+          "django.request | WARNING | Not Found: /api/qa-missing/",
+          "django.request | ERROR | Internal Server Error: /parts/"
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "SEC-07",
+      "title": "Аудит основных операций",
+      "expected": "Вход, оплата и отмена оставляют прикладное событие с результатом.",
+      "actual": {
+        "performed": {
+          "login": true,
+          "payment": true,
+          "cancel": true
+        },
+        "logged": {
+          "login": false,
+          "payment": false,
+          "cancel": false
+        }
+      },
+      "status": "FAIL"
+    },
+    {
+      "id": "SEC-08",
+      "title": "Хранение пароля",
+      "expected": "Сохранён хеш, исходный пароль проверяется.",
+      "actual": {
+        "plaintext": false,
+        "matches": true
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "PERF-01",
+      "title": "Отклик каталога на стенде",
+      "expected": "Каждый из 20 последовательных запросов → 200 и ≤1000 мс.",
+      "actual": {
+        "samples": [
+          {
+            "status": 200,
+            "ms": 7.14
+          },
+          {
+            "status": 200,
+            "ms": 7.51
+          },
+          {
+            "status": 200,
+            "ms": 5.83
+          },
+          {
+            "status": 200,
+            "ms": 5.24
+          },
+          {
+            "status": 200,
+            "ms": 5.19
+          },
+          {
+            "status": 200,
+            "ms": 5.06
+          },
+          {
+            "status": 200,
+            "ms": 5.87
+          },
+          {
+            "status": 200,
+            "ms": 7.17
+          },
+          {
+            "status": 200,
+            "ms": 7.73
+          },
+          {
+            "status": 200,
+            "ms": 10.25
+          },
+          {
+            "status": 200,
+            "ms": 14.24
+          },
+          {
+            "status": 200,
+            "ms": 7.02
+          },
+          {
+            "status": 200,
+            "ms": 6.28
+          },
+          {
+            "status": 200,
+            "ms": 6.73
+          },
+          {
+            "status": 200,
+            "ms": 6.07
+          },
+          {
+            "status": 200,
+            "ms": 7.76
+          },
+          {
+            "status": 200,
+            "ms": 5.48
+          },
+          {
+            "status": 200,
+            "ms": 5.47
+          },
+          {
+            "status": 200,
+            "ms": 7.0
+          },
+          {
+            "status": 200,
+            "ms": 5.39
+          }
+        ],
+        "median_ms": 6.505000000000001,
+        "max_ms": 14.24
+      },
+      "status": "PASS"
+    }
+  ]
+}

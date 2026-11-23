@@ -1,0 +1,3127 @@
+{
+  "info": {
+    "name": "AutoParts | ЛР4 | UC-1–UC-9",
+    "description": "Стенд Django с SQLite, демоданными и синтетическими QA-фикстурами. Отключите HTTP redirects, чтобы видеть серверные коды. Сессия через cookie jar, CSRF берётся из HTML и обновляется при входе.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Публичные маршруты и отказ в доступе",
+      "item": [
+        {
+          "name": "Гость → профиль",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('run', Date.now().toString(36)); ['partId','orderId','partCreated','typeId','brandId','csrf'].forEach(k => pm.collectionVariables.unset(k));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Гость → завершение профиля",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/complete/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Гость → оформление",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Гость → отзывы",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/reviews/add/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Гость → статистика",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/stats/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Гость → JSON каталога",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/parts/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Несуществующий API",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/qa-missing/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => { pm.response.to.have.status(404) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Каталог: поиск и сортировка",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/?q=QA%20Контрольный&sort=price"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });",
+                  "pm.test(\"Каталог содержит форму и карточку\", () => { pm.expect(pm.response.text()).to.match(/id=\"catalog-table\"/); });",
+                  "const match = pm.response.text().match(/href=\"\\/parts\\/(\\d+)\\/\"><span itemprop=\"name\">QA Контрольный фильтр/); pm.test('Получен ID тестовой детали', () => pm.expect(match).to.be.ok); if(match) pm.collectionVariables.set('partId',match[1]);",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Карточка: цена и остаток",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partId}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });",
+                  "pm.test(\"HTML содержит 123,45\", () => { pm.expect(pm.response.text()).to.include(\"123,45\") });",
+                  "pm.test(\"Остаток присутствует\", () => { pm.expect(pm.response.text()).to.include('Остаток на складе') });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Карточка: отсутствующий ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/999999/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => { pm.response.to.have.status(404) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Сотрудники: JSON и контрольная запись",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/employees/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"Схема и значения публичного справочника\", () => { const rows=pm.response.json().results; pm.expect(rows).to.be.an('array'); const x=rows.find(a=>a.email==='qa.employee@example.test'); pm.expect(x).to.have.keys('id','full_name','photo_url','description','phone','email'); pm.expect(x.id).to.be.a('number'); pm.expect(x.full_name).to.eql('Проверова Мария'); pm.expect(x.description).to.eql('Менеджер. Тестовый каталог'); pm.expect(x.phone).to.eql(pm.collectionVariables.get('phone')); });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Внешние данные: UC-9",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/external-apis/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Cat Facts API\", () => { pm.expect(pm.response.text()).to.include(\"Cat Facts API\") });",
+                  "pm.test(\"HTML содержит IPify\", () => { pm.expect(pm.response.text()).to.include(\"IPify\") });",
+                  "pm.test(\"Оба значения заполнены\", () => { pm.expect(pm.response.text()).to.match(/<blockquote[^>]*>\\s*<p[^>]*>[^<]+<\\/p>/); pm.expect(pm.response.text()).to.match(/<samp>[^<]+<\\/samp>/); });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Корзина гостя",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Корзина пуста\", () => { pm.expect(pm.response.text()).to.include(\"Корзина пуста\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Изменение корзины GET",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 405\", () => { pm.response.to.have.status(405) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Изменение корзины без CSRF",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => { pm.response.to.have.status(403) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Регистрация, вход, выход и профиль",
+      "item": [
+        {
+          "name": "Форма регистрации",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/register/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Регистрация с неверным телефоном",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/register/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "qa_pm_{{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "first_name",
+                  "value": "Иван",
+                  "type": "text"
+                },
+                {
+                  "key": "last_name",
+                  "value": "Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "birth_date",
+                  "value": "1990-01-01",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "123",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Минск",
+                  "type": "text"
+                },
+                {
+                  "key": "password1",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password2",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Телефон должен быть в формате\", () => { pm.expect(pm.response.text()).to.include(\"Телефон должен быть в формате\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Регистрация клиента",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/register/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "qa_pm_{{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "first_name",
+                  "value": "Иван",
+                  "type": "text"
+                },
+                {
+                  "key": "last_name",
+                  "value": "Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "birth_date",
+                  "value": "1990-01-01",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Минск",
+                  "type": "text"
+                },
+                {
+                  "key": "password1",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password2",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/\") });",
+                  "pm.test(\"Ответ устанавливает sessionid\", () => { pm.expect(pm.response.headers.all().some(h => h.key.toLowerCase()==='set-cookie' && /^sessionid=[^;]/.test(h.value))).to.be.true });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Профиль и обновлённый CSRF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Профиль клиента\", () => { pm.expect(pm.response.text()).to.include(\"Профиль клиента\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Выход клиента",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/logout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма входа",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Вход с неверным паролем",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/login/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "qa_pm_{{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "bad-password",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Пожалуйста\", () => { pm.expect(pm.response.text()).to.include(\"Пожалуйста\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Вход клиента и установка сессии",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/login/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "qa_pm_{{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/\") });",
+                  "pm.test(\"Ответ устанавливает sessionid\", () => { pm.expect(pm.response.headers.all().some(h => h.key.toLowerCase()==='set-cookie' && /^sessionid=[^;]/.test(h.value))).to.be.true });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Профиль: сессия из логина",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Личный кабинет\", () => { pm.expect(pm.response.text()).to.include(\"Личный кабинет\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Клиентский JSON без SKU",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/parts/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"Контрольная позиция: name, price, quantity\", () => { const x=pm.response.json().results.find(a=>a.name===\"QA Контрольный фильтр\"); pm.expect(x).to.have.keys('name','price','quantity'); pm.expect(x.price).to.eql('123.45'); pm.expect(x.quantity).to.be.at.least(4); pm.collectionVariables.set('baseline', x.quantity); });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Каталог: тип и направление сортировки",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/?sort=quantity_desc"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });",
+                  "const match = pm.response.text().match(/<option value=\"(\\d+)\"[^>]*>\\s*Контрольные фильтры/); pm.test('Получен ID типа', () => pm.expect(match).to.be.ok); if(match) pm.collectionVariables.set('typeId',match[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Каталог: фильтр по типу",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/?type={{typeId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Каталог: неверный фильтр игнорируется (BUG-1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/?type=abc"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Клиент → создание товара",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/create/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /login/?next=\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/login/?next=\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Корзина и жизненный цикл заказа",
+      "item": [
+        {
+          "name": "Пустая корзина не оформляется",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /parts/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/parts/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Добавить 2 шт. в корзину",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "2",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Корзина: итог 246,90 BYN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });",
+                  "pm.test(\"HTML содержит 246,90\", () => { pm.expect(pm.response.text()).to.include(\"246,90\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Увеличить количество до 3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/update/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "action",
+                  "value": "increase",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Корзина: итог 370,35 BYN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит 370,35\", () => { pm.expect(pm.response.text()).to.include(\"370,35\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Удалить позицию",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/remove/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Корзина после удаления",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Корзина пуста\", () => { pm.expect(pm.response.text()).to.include(\"Корзина пуста\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Добавить перед очисткой",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Очистить корзину",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/clear/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Корзина после очистки",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Корзина пуста\", () => { pm.expect(pm.response.text()).to.include(\"Корзина пуста\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Добавить для ЕРИП",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "2",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма оформления",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Данные получателя и оплата\", () => { pm.expect(pm.response.text()).to.include(\"Данные получателя и оплата\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Проверка телефона, адреса и согласия",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "full_name",
+                  "value": "Иван Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "bad",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "delivery_method",
+                  "value": "courier",
+                  "type": "text"
+                },
+                {
+                  "key": "payment_method",
+                  "value": "erip",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Для доставки нужно указать адрес.\", () => { pm.expect(pm.response.text()).to.include(\"Для доставки нужно указать адрес.\") });",
+                  "pm.test(\"HTML содержит Телефон должен быть в формате\", () => { pm.expect(pm.response.text()).to.include(\"Телефон должен быть в формате\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Неизвестный промокод",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "full_name",
+                  "value": "Иван Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "delivery_method",
+                  "value": "pickup",
+                  "type": "text"
+                },
+                {
+                  "key": "payment_method",
+                  "value": "erip",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "promo_code",
+                  "value": "QA_MISSING_CODE",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Промокод не найден.\", () => { pm.expect(pm.response.text()).to.include(\"Промокод не найден.\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Создать заказ ЕРИП",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "full_name",
+                  "value": "Иван Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "delivery_method",
+                  "value": "pickup",
+                  "type": "text"
+                },
+                {
+                  "key": "payment_method",
+                  "value": "erip",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Заказ ожидает оплаты: взять ID из профиля",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Ожидает оплаты\", () => { pm.expect(pm.response.text()).to.include(\"Ожидает оплаты\") });",
+                  "const candidate = pm.response.text().match(/href=\"\\/checkout\\/success\\/(\\d+)\\/\"/); pm.test('Сохранён ID последнего заказа', () => pm.expect(candidate).to.be.ok); if (candidate) pm.collectionVariables.set('orderId', candidate[1]);",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Собственное подтверждение",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/success/{{orderId}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Оплата по GET запрещена",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}/pay/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 405\", () => { pm.response.to.have.status(405) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Оплатить из профиля",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}/pay/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /checkout/success/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/checkout/success/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "После оплаты отражён статус",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/success/{{orderId}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит оплачен\", () => { pm.expect(pm.response.text()).to.include(\"оплачен\") });",
+                  "pm.test(\"HTML содержит 246,90\", () => { pm.expect(pm.response.text()).to.include(\"246,90\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "В JSON остаток уменьшился на 2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/parts/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"Фактическое списание 2 шт.\", () => { pm.expect(pm.response.json().results.find(a=>a.name===\"QA Контрольный фильтр\").quantity).to.eql(Number(pm.collectionVariables.get('baseline'))-2) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Повторная оплата: отказ",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}/pay/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Сообщение о повторном платеже",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Оплатить можно только заказ\", () => { pm.expect(pm.response.text()).to.include(\"Оплатить можно только заказ\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Добавить позицию для счёта",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Создать заказ по счёту",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "full_name",
+                  "value": "Иван Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "delivery_method",
+                  "value": "pickup",
+                  "type": "text"
+                },
+                {
+                  "key": "payment_method",
+                  "value": "invoice",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Сохранить ID заказа для отмены",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Ожидает оплаты\", () => { pm.expect(pm.response.text()).to.include(\"Ожидает оплаты\") });",
+                  "const candidate = pm.response.text().match(/href=\"\\/checkout\\/success\\/(\\d+)\\/\"/); pm.test('Сохранён ID последнего заказа', () => pm.expect(candidate).to.be.ok); if (candidate) pm.collectionVariables.set('orderId', candidate[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Отменить заказ",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}/cancel/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "После отмены статус отображён",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Отменен\", () => { pm.expect(pm.response.text()).to.include(\"Отменен\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Действующие промокоды",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/promos/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит STO20\", () => { pm.expect(pm.response.text()).to.include(\"STO20\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Добавить позицию для карты",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Тестовая карта и промокод в нижнем регистре",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "full_name",
+                  "value": "Иван Тестов",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "delivery_method",
+                  "value": "pickup",
+                  "type": "text"
+                },
+                {
+                  "key": "payment_method",
+                  "value": "card",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "promo_code",
+                  "value": "sto20",
+                  "type": "text"
+                },
+                {
+                  "key": "card_number",
+                  "value": "4111 1111 1111 1111",
+                  "type": "text"
+                },
+                {
+                  "key": "card_holder",
+                  "value": "IVAN TESTOV",
+                  "type": "text"
+                },
+                {
+                  "key": "card_expiry",
+                  "value": "2031-01",
+                  "type": "text"
+                },
+                {
+                  "key": "card_cvc",
+                  "value": "123",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /checkout/success/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/checkout/success/\") });",
+                  "const location=pm.response.headers.get('Location') || ''; const match=location.match(/checkout\\/success\\/(\\d+)\\//); pm.test('Получен ID карточного заказа', () => pm.expect(match).to.be.ok); if (match) pm.collectionVariables.set('orderId', match[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Тестовая карта: оплачен, скидка 20%, итог 98,76",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/success/{{orderId}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит оплачен\", () => { pm.expect(pm.response.text()).to.include(\"оплачен\") });",
+                  "pm.test(\"HTML содержит 98,76\", () => { pm.expect(pm.response.text()).to.include(\"98,76\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "После карточного заказа корзина очищена",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Корзина пуста\", () => { pm.expect(pm.response.text()).to.include(\"Корзина пуста\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Отзывы и форма обратной связи",
+      "item": [
+        {
+          "name": "Список отзывов",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/reviews/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Отзывы\", () => { pm.expect(pm.response.text()).to.include(\"Отзывы\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма отзыва",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/reviews/add/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Оценка 6 отклоняется",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/reviews/add/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "rating",
+                  "value": "6",
+                  "type": "text"
+                },
+                {
+                  "key": "text",
+                  "value": "Контрольный отзыв QA",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Убедитесь\", () => { pm.expect(pm.response.text()).to.include(\"Убедитесь\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Отзыв с оценкой 5 принимается",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/reviews/add/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "rating",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "text",
+                  "value": "Контрольный отзыв QA {{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /reviews/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/reviews/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Отзыв доступен",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/reviews/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"Текст только что созданного отзыва\", () => { pm.expect(pm.response.text()).to.include('Контрольный отзыв QA ' + pm.collectionVariables.get('run')) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма контактов",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/contacts/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Заявка без VIN",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/contacts/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Иван",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "topic",
+                  "value": "vin",
+                  "type": "text"
+                },
+                {
+                  "key": "vin",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Проверка заявки лабораторной работы",
+                  "type": "text"
+                },
+                {
+                  "key": "contact_method",
+                  "value": "phone",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "production_year",
+                  "value": "2020",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Для подбора по VIN укажите\", () => { pm.expect(pm.response.text()).to.include(\"Для подбора по VIN укажите\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Заявка с валидными полями",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/contacts/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Иван",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "qa_pm_{{run}}@example.test",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "{{phone}}",
+                  "type": "text"
+                },
+                {
+                  "key": "topic",
+                  "value": "vin",
+                  "type": "text"
+                },
+                {
+                  "key": "vin",
+                  "value": "WVWZZZ1KZAW000001",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Проверка заявки лабораторной работы",
+                  "type": "text"
+                },
+                {
+                  "key": "contact_method",
+                  "value": "phone",
+                  "type": "text"
+                },
+                {
+                  "key": "agree",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "production_year",
+                  "value": "2020",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /contacts/#feedback\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/contacts/#feedback\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Подтверждение контактов",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/contacts/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Заявка отправлена\", () => { pm.expect(pm.response.text()).to.include(\"Заявка отправлена\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Выход клиента",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/logout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Сотрудник: SKU, операции товаров и аналитика",
+      "item": [
+        {
+          "name": "Логин сотрудника: CSRF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Логин сотрудника",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/login/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "qa_staff",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Ответ устанавливает sessionid\", () => { pm.expect(pm.response.headers.all().some(h => h.key.toLowerCase()==='set-cookie' && /^sessionid=[^;]/.test(h.value))).to.be.true });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Статистика сотрудника",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/stats/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Медиана\", () => { pm.expect(pm.response.text()).to.include(\"Медиана\") });",
+                  "pm.test(\"HTML содержит Сумма\", () => { pm.expect(pm.response.text()).to.include(\"Сумма\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "График продаж",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/stats/chart.png"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"График отдан как PNG\", () => { pm.expect(pm.response.headers.get('Content-Type')).to.include('image/png') });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "JSON сотрудника с SKU",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/parts/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"Отдан артикул контрольной детали\", () => { const x=pm.response.json().results.find(a=>a.sku==='QA-API-PART'); pm.expect(x).to.deep.equal({sku:'QA-API-PART',name:'QA Контрольный фильтр',price:'123.45',quantity:Number(pm.collectionVariables.get('baseline'))-3}) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Поиск сотрудником по SKU",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/?q=QA-API-PART"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит QA Контрольный фильтр\", () => { pm.expect(pm.response.text()).to.include(\"QA Контрольный фильтр\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма нового товара",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/create/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);",
+                  "const match = pm.response.text().match(/<option value=\"(\\d+)\"[^>]*>\\s*QA Bosch/); pm.test('Получен ID производителя', () => pm.expect(match).to.be.ok); if(match) pm.collectionVariables.set('brandId',match[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Создать товар",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/parts/create/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "sku",
+                  "value": "QA-PM-{{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "QA Postman {{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "product_type",
+                  "value": "{{typeId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "manufacturer",
+                  "value": "{{brandId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "quantity",
+                  "value": "3",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "25.00",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Деталь для проверки Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "is_active",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "const location=pm.response.headers.get('Location') || ''; const match=location.match(/\\/parts\\/(\\d+)\\//); pm.test('Созданная карточка имеет ID', () => pm.expect(match).to.be.ok); if(match) pm.collectionVariables.set('partCreated',match[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма редактирования",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partCreated}}/edit/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Редактировать товар\", () => { pm.expect(pm.response.text()).to.include(\"Редактировать товар\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Изменить цену",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partCreated}}/edit/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "sku",
+                  "value": "QA-PM-{{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "QA Postman {{run}}",
+                  "type": "text"
+                },
+                {
+                  "key": "product_type",
+                  "value": "{{typeId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "manufacturer",
+                  "value": "{{brandId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "quantity",
+                  "value": "3",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "29.50",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Деталь для проверки Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "is_active",
+                  "value": "on",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /parts/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/parts/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Проверить изменение цены",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partCreated}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит 29,50\", () => { pm.expect(pm.response.text()).to.include(\"29,50\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Подтверждение удаления",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partCreated}}/delete/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Удалить товар\", () => { pm.expect(pm.response.text()).to.include(\"Удалить товар\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Мягкое удаление",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partCreated}}/delete/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /parts/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/parts/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Удалённая карточка закрыта (BUG-3)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/parts/{{partCreated}}/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => { pm.response.to.have.status(404) });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Выход сотрудника",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/logout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Аккаунт без клиентского профиля",
+      "item": [
+        {
+          "name": "Новая форма входа",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/login/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Вход без профиля",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/login/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "qa_unprofiled",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Ответ устанавливает sessionid\", () => { pm.expect(pm.response.headers.all().some(h => h.key.toLowerCase()==='set-cookie' && /^sessionid=[^;]/.test(h.value))).to.be.true });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Форма заполнения профиля",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/profile/complete/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => { pm.response.to.have.status(200) });",
+                  "pm.test(\"HTML содержит Профиль клиента\", () => { pm.expect(pm.response.text()).to.include(\"Профиль клиента\") });",
+                  "const csrf = pm.response.text().match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]+)\"/); pm.test('Django отдал CSRF-токен', () => pm.expect(csrf).to.be.ok); if (csrf) pm.collectionVariables.set('csrf', csrf[1]);"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Добавить позицию без клиентского профиля",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/cart/add/{{partId}}/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /cart/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/cart/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Оформление требует заполнения профиля",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/checkout/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /profile/complete/\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/profile/complete/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "Выход пользователя без профиля",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/logout/",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "csrfmiddlewaretoken",
+                  "value": "{{csrf}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 302\", () => { pm.response.to.have.status(302) });",
+                  "pm.test(\"Путь перенаправления /\", () => { pm.expect(pm.response.headers.get('Location')).to.include(\"/\") });"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8765"
+    },
+    {
+      "key": "password",
+      "value": "DemoQA!926432"
+    },
+    {
+      "key": "phone",
+      "value": "+375 (29) 123-45-67"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if(!pm.collectionVariables.get('run')) pm.collectionVariables.set('run', Date.now().toString(36));"
+        ]
+      }
+    }
+  ]
+}

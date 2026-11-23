@@ -1,0 +1,2021 @@
+{
+  "tool": "Postman CLI 1.93.1",
+  "runtime": "PostmanRuntime/7.56.2",
+  "results": [
+    {
+      "n": 1,
+      "name": "Гость → профиль",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 302,
+      "duration_ms": 9,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "name": "Гость → завершение профиля",
+      "method": "GET",
+      "path": "/profile/complete/",
+      "code": 302,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "name": "Гость → оформление",
+      "method": "GET",
+      "path": "/checkout/",
+      "code": 302,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "name": "Гость → отзывы",
+      "method": "GET",
+      "path": "/reviews/add/",
+      "code": 302,
+      "duration_ms": 0,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "name": "Гость → статистика",
+      "method": "GET",
+      "path": "/stats/",
+      "code": 302,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "name": "Гость → JSON каталога",
+      "method": "GET",
+      "path": "/api/parts/",
+      "code": 302,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "name": "Несуществующий API",
+      "method": "GET",
+      "path": "/api/qa-missing/",
+      "code": 404,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 404",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "name": "Каталог: поиск и сортировка",
+      "method": "GET",
+      "path": "/parts/?q=QA Контрольный&sort=price",
+      "code": 200,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Каталог содержит форму и карточку",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Получен ID тестовой детали",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "name": "Карточка: цена и остаток",
+      "method": "GET",
+      "path": "/parts/11/",
+      "code": 200,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит 123,45",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Остаток присутствует",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "name": "Карточка: отсутствующий ID",
+      "method": "GET",
+      "path": "/parts/999999/",
+      "code": 404,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 404",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "name": "Сотрудники: JSON и контрольная запись",
+      "method": "GET",
+      "path": "/api/employees/",
+      "code": 200,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Схема и значения публичного справочника",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "name": "Внешние данные: UC-9",
+      "method": "GET",
+      "path": "/external-apis/",
+      "code": 200,
+      "duration_ms": 1083,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Cat Facts API",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит IPify",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Оба значения заполнены",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "name": "Корзина гостя",
+      "method": "GET",
+      "path": "/cart/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Корзина пуста",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "name": "Изменение корзины GET",
+      "method": "GET",
+      "path": "/cart/add/11/",
+      "code": 405,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 405",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "name": "Изменение корзины без CSRF",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 403,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 403",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "name": "Форма регистрации",
+      "method": "GET",
+      "path": "/register/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "name": "Регистрация с неверным телефоном",
+      "method": "POST",
+      "path": "/register/",
+      "code": 200,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Телефон должен быть в формате",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "name": "Регистрация клиента",
+      "method": "POST",
+      "path": "/register/",
+      "code": 302,
+      "duration_ms": 124,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Ответ устанавливает sessionid",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "name": "Профиль и обновлённый CSRF",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Профиль клиента",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "name": "Выход клиента",
+      "method": "POST",
+      "path": "/logout/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "name": "Форма входа",
+      "method": "GET",
+      "path": "/login/",
+      "code": 200,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "name": "Вход с неверным паролем",
+      "method": "POST",
+      "path": "/login/",
+      "code": 200,
+      "duration_ms": 120,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Пожалуйста",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 23,
+      "name": "Вход клиента и установка сессии",
+      "method": "POST",
+      "path": "/login/",
+      "code": 302,
+      "duration_ms": 121,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Ответ устанавливает sessionid",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 24,
+      "name": "Профиль: сессия из логина",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Личный кабинет",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 25,
+      "name": "Клиентский JSON без SKU",
+      "method": "GET",
+      "path": "/api/parts/",
+      "code": 200,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Контрольная позиция: name, price, quantity",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 26,
+      "name": "Каталог: тип и направление сортировки",
+      "method": "GET",
+      "path": "/parts/?sort=quantity_desc",
+      "code": 200,
+      "duration_ms": 79,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Получен ID типа",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 27,
+      "name": "Каталог: фильтр по типу",
+      "method": "GET",
+      "path": "/parts/?type=11",
+      "code": 200,
+      "duration_ms": 8,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 28,
+      "name": "Каталог: неверный фильтр игнорируется (BUG-1)",
+      "method": "GET",
+      "path": "/parts/?type=abc",
+      "code": 500,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "failed",
+          "message": "expected response to have status code 200 but got 500"
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "failed",
+          "message": "expected '\\n<!doctype html>\\n<html lang=\"en\">\\n…' to include 'QA Контрольный фильтр'"
+        }
+      ]
+    },
+    {
+      "n": 29,
+      "name": "Клиент → создание товара",
+      "method": "GET",
+      "path": "/parts/create/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /login/?next=",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "name": "Пустая корзина не оформляется",
+      "method": "GET",
+      "path": "/checkout/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /parts/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 31,
+      "name": "Добавить 2 шт. в корзину",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 302,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 32,
+      "name": "Корзина: итог 246,90 BYN",
+      "method": "GET",
+      "path": "/cart/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит 246,90",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 33,
+      "name": "Увеличить количество до 3",
+      "method": "POST",
+      "path": "/cart/update/11/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 34,
+      "name": "Корзина: итог 370,35 BYN",
+      "method": "GET",
+      "path": "/cart/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит 370,35",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 35,
+      "name": "Удалить позицию",
+      "method": "POST",
+      "path": "/cart/remove/11/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 36,
+      "name": "Корзина после удаления",
+      "method": "GET",
+      "path": "/cart/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Корзина пуста",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 37,
+      "name": "Добавить перед очисткой",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 38,
+      "name": "Очистить корзину",
+      "method": "POST",
+      "path": "/cart/clear/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 39,
+      "name": "Корзина после очистки",
+      "method": "GET",
+      "path": "/cart/",
+      "code": 200,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Корзина пуста",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 40,
+      "name": "Добавить для ЕРИП",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 41,
+      "name": "Форма оформления",
+      "method": "GET",
+      "path": "/checkout/",
+      "code": 200,
+      "duration_ms": 8,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Данные получателя и оплата",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 42,
+      "name": "Проверка телефона, адреса и согласия",
+      "method": "POST",
+      "path": "/checkout/",
+      "code": 200,
+      "duration_ms": 7,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Для доставки нужно указать адрес.",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Телефон должен быть в формате",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 43,
+      "name": "Неизвестный промокод",
+      "method": "POST",
+      "path": "/checkout/",
+      "code": 200,
+      "duration_ms": 7,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Промокод не найден.",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 44,
+      "name": "Создать заказ ЕРИП",
+      "method": "POST",
+      "path": "/checkout/",
+      "code": 302,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 45,
+      "name": "Заказ ожидает оплаты: взять ID из профиля",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Ожидает оплаты",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Сохранён ID последнего заказа",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 46,
+      "name": "Собственное подтверждение",
+      "method": "GET",
+      "path": "/checkout/success/7/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 47,
+      "name": "Оплата по GET запрещена",
+      "method": "GET",
+      "path": "/orders/7/pay/",
+      "code": 405,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 405",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 48,
+      "name": "Оплатить из профиля",
+      "method": "POST",
+      "path": "/orders/7/pay/",
+      "code": 302,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /checkout/success/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 49,
+      "name": "После оплаты отражён статус",
+      "method": "GET",
+      "path": "/checkout/success/7/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит оплачен",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит 246,90",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 50,
+      "name": "В JSON остаток уменьшился на 2",
+      "method": "GET",
+      "path": "/api/parts/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Фактическое списание 2 шт.",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 51,
+      "name": "Повторная оплата: отказ",
+      "method": "POST",
+      "path": "/orders/7/pay/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 52,
+      "name": "Сообщение о повторном платеже",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Оплатить можно только заказ",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 53,
+      "name": "Добавить позицию для счёта",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 54,
+      "name": "Создать заказ по счёту",
+      "method": "POST",
+      "path": "/checkout/",
+      "code": 302,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 55,
+      "name": "Сохранить ID заказа для отмены",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Ожидает оплаты",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Сохранён ID последнего заказа",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 56,
+      "name": "Отменить заказ",
+      "method": "POST",
+      "path": "/orders/8/cancel/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 57,
+      "name": "После отмены статус отображён",
+      "method": "GET",
+      "path": "/profile/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Отменен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 58,
+      "name": "Действующие промокоды",
+      "method": "GET",
+      "path": "/promos/",
+      "code": 200,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит STO20",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 59,
+      "name": "Добавить позицию для карты",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 60,
+      "name": "Тестовая карта и промокод в нижнем регистре",
+      "method": "POST",
+      "path": "/checkout/",
+      "code": 302,
+      "duration_ms": 16,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /checkout/success/",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Получен ID карточного заказа",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 61,
+      "name": "Тестовая карта: оплачен, скидка 20%, итог 98,76",
+      "method": "GET",
+      "path": "/checkout/success/9/",
+      "code": 200,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит оплачен",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит 98,76",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 62,
+      "name": "После карточного заказа корзина очищена",
+      "method": "GET",
+      "path": "/cart/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Корзина пуста",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 63,
+      "name": "Список отзывов",
+      "method": "GET",
+      "path": "/reviews/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Отзывы",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 64,
+      "name": "Форма отзыва",
+      "method": "GET",
+      "path": "/reviews/add/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 65,
+      "name": "Оценка 6 отклоняется",
+      "method": "POST",
+      "path": "/reviews/add/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Убедитесь",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 66,
+      "name": "Отзыв с оценкой 5 принимается",
+      "method": "POST",
+      "path": "/reviews/add/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /reviews/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 67,
+      "name": "Отзыв доступен",
+      "method": "GET",
+      "path": "/reviews/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Текст только что созданного отзыва",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 68,
+      "name": "Форма контактов",
+      "method": "GET",
+      "path": "/contacts/",
+      "code": 200,
+      "duration_ms": 7,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 69,
+      "name": "Заявка без VIN",
+      "method": "POST",
+      "path": "/contacts/",
+      "code": 200,
+      "duration_ms": 8,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Для подбора по VIN укажите",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 70,
+      "name": "Заявка с валидными полями",
+      "method": "POST",
+      "path": "/contacts/",
+      "code": 302,
+      "duration_ms": 1,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /contacts/#feedback",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 71,
+      "name": "Подтверждение контактов",
+      "method": "GET",
+      "path": "/contacts/",
+      "code": 200,
+      "duration_ms": 7,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Заявка отправлена",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 72,
+      "name": "Выход клиента",
+      "method": "POST",
+      "path": "/logout/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 73,
+      "name": "Логин сотрудника: CSRF",
+      "method": "GET",
+      "path": "/login/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 74,
+      "name": "Логин сотрудника",
+      "method": "POST",
+      "path": "/login/",
+      "code": 302,
+      "duration_ms": 125,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Ответ устанавливает sessionid",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 75,
+      "name": "Статистика сотрудника",
+      "method": "GET",
+      "path": "/stats/",
+      "code": 200,
+      "duration_ms": 27,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Медиана",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Сумма",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 76,
+      "name": "График продаж",
+      "method": "GET",
+      "path": "/stats/chart.png",
+      "code": 200,
+      "duration_ms": 48,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "График отдан как PNG",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 77,
+      "name": "JSON сотрудника с SKU",
+      "method": "GET",
+      "path": "/api/parts/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Отдан артикул контрольной детали",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 78,
+      "name": "Поиск сотрудником по SKU",
+      "method": "GET",
+      "path": "/parts/?q=QA-API-PART",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит QA Контрольный фильтр",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 79,
+      "name": "Форма нового товара",
+      "method": "GET",
+      "path": "/parts/create/",
+      "code": 200,
+      "duration_ms": 7,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Получен ID производителя",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 80,
+      "name": "Создать товар",
+      "method": "POST",
+      "path": "/parts/create/",
+      "code": 302,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Созданная карточка имеет ID",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 81,
+      "name": "Форма редактирования",
+      "method": "GET",
+      "path": "/parts/842/edit/",
+      "code": 200,
+      "duration_ms": 7,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Редактировать товар",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 82,
+      "name": "Изменить цену",
+      "method": "POST",
+      "path": "/parts/842/edit/",
+      "code": 302,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /parts/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 83,
+      "name": "Проверить изменение цены",
+      "method": "GET",
+      "path": "/parts/842/",
+      "code": 200,
+      "duration_ms": 6,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит 29,50",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 84,
+      "name": "Подтверждение удаления",
+      "method": "GET",
+      "path": "/parts/842/delete/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Удалить товар",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 85,
+      "name": "Мягкое удаление",
+      "method": "POST",
+      "path": "/parts/842/delete/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /parts/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 86,
+      "name": "Удалённая карточка закрыта (BUG-3)",
+      "method": "GET",
+      "path": "/parts/842/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 404",
+          "status": "failed",
+          "message": "expected response to have status code 404 but got 200"
+        }
+      ]
+    },
+    {
+      "n": 87,
+      "name": "Выход сотрудника",
+      "method": "POST",
+      "path": "/logout/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 88,
+      "name": "Новая форма входа",
+      "method": "GET",
+      "path": "/login/",
+      "code": 200,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 89,
+      "name": "Вход без профиля",
+      "method": "POST",
+      "path": "/login/",
+      "code": 302,
+      "duration_ms": 126,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Ответ устанавливает sessionid",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 90,
+      "name": "Форма заполнения профиля",
+      "method": "GET",
+      "path": "/profile/complete/",
+      "code": 200,
+      "duration_ms": 5,
+      "tests": [
+        {
+          "name": "HTTP 200",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "HTML содержит Профиль клиента",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Django отдал CSRF-токен",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 91,
+      "name": "Добавить позицию без клиентского профиля",
+      "method": "POST",
+      "path": "/cart/add/11/",
+      "code": 302,
+      "duration_ms": 4,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /cart/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 92,
+      "name": "Оформление требует заполнения профиля",
+      "method": "GET",
+      "path": "/checkout/",
+      "code": 302,
+      "duration_ms": 2,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /profile/complete/",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    },
+    {
+      "n": 93,
+      "name": "Выход пользователя без профиля",
+      "method": "POST",
+      "path": "/logout/",
+      "code": 302,
+      "duration_ms": 3,
+      "tests": [
+        {
+          "name": "HTTP 302",
+          "status": "passed",
+          "message": ""
+        },
+        {
+          "name": "Путь перенаправления /",
+          "status": "passed",
+          "message": ""
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "iterations": {
+      "executed": 1,
+      "errors": 0
+    },
+    "executedRequests": {
+      "executed": 93,
+      "errors": 0
+    },
+    "prerequestScripts": {
+      "executed": 94,
+      "errors": 0
+    },
+    "postresponseScripts": {
+      "executed": 93,
+      "errors": 0
+    },
+    "tests": {
+      "executed": 211,
+      "failed": 3,
+      "passed": 208,
+      "skipped": 0
+    },
+    "timeStats": {
+      "responseAverage": 23.770609318996414,
+      "responseMin": 1,
+      "responseMax": 1083,
+      "responseStandardDeviation": 113.94706245883623
+    }
+  }
+}

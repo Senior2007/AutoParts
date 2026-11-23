@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ЛР4 · Интерфейс, API и безопасность · AutoParts</title><link rel="stylesheet" href="../report.css"></head>
+<body><header><nav><a href="../index.html">Комплект работ AutoParts</a></nav><h1>ЛР4 · Интерфейс, API и безопасность</h1><p>AutoParts · 23 ноября 2026 г. · ревизия <code>305c4bf</code></p></header><main><section class="index" aria-label="Оглавление"><a href="#compat">Совместимость</a> <a href="#api">Отчёт API</a> <a href="#security">Безопасность</a> <a href="#ui">Автоматизация</a></section><section id="summary"><h2>Итоги</h2><div class="cards"><div class="kpi"><strong>5/5</strong>UI-сценарии</div><div class="kpi"><strong>15/20</strong>совместимость</div><div class="kpi"><strong>208/211</strong>утверждения API</div><div class="kpi"><strong>6/8</strong>базовые проверки защиты</div></div></section><section id="compat"><h2>Вёрстка и совместимость</h2><p>Дата прогона 23.11.2026. Chrome 157.0.8103.79, Firefox 159.0 из Playwright, браузер WebKit из сборки Playwright 2388 и Chrome с мобильным профилем Pixel 7. Проверка WebKit относится к движку Safari. Отдельный запуск приложения Safari и физические устройства в этом прогоне не использованы.</p><p>На десктопе проверены ширины 1440, 1024, 768 и 390 CSS px. В мобильном профиле эмулированы сенсорный ввод, мобильный viewport, ширины 393 и 360 CSS px. Масштаб применён к странице как CSS zoom 125% и 200%. Hover проверялся на десктопе, в мобильной эмуляции проверен coarse pointer.</p><div class="table"><table><thead><tr><th scope="col">Проверка</th><th scope="col">Chrome</th><th scope="col">Firefox</th><th scope="col">WebKit</th><th scope="col">Chrome mobile</th></tr></thead><tbody><tr><td><a href="#LAY-01">LAY-01</a> · Геометрия блоков, сетка, логотип и изображение в карточке</td><td><span class="pass">PASS</span> · <a href="#Chrome-LAY-01">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Firefox-LAY-01">Данные</a></td><td><span class="pass">PASS</span> · <a href="#WebKit-LAY-01">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Chrome-mobile-LAY-01">Данные</a></td></tr><tr><td><a href="#LAY-02">LAY-02</a> · Адаптивность каталога и CSS-масштаб 125% / 200%</td><td><span class="fail">FAIL</span> · <a href="#Chrome-LAY-02">Данные</a></td><td><span class="fail">FAIL</span> · <a href="#Firefox-LAY-02">Данные</a></td><td><span class="fail">FAIL</span> · <a href="#WebKit-LAY-02">Данные</a></td><td><span class="fail">FAIL</span> · <a href="#Chrome-mobile-LAY-02">Данные</a></td></tr><tr><td><a href="#LAY-03">LAY-03</a> · Кнопки, ссылки, фокус, hover, логотип и favicon</td><td><span class="pass">PASS</span> · <a href="#Chrome-LAY-03">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Firefox-LAY-03">Данные</a></td><td><span class="pass">PASS</span> · <a href="#WebKit-LAY-03">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Chrome-mobile-LAY-03">Данные</a></td></tr><tr><td><a href="#LAY-04">LAY-04</a> · 173-символьное имя, имя «Я», пустой список, 66 строк и пагинация</td><td><span class="pass">PASS</span> · <a href="#Chrome-LAY-04">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Firefox-LAY-04">Данные</a></td><td><span class="pass">PASS</span> · <a href="#WebKit-LAY-04">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Chrome-mobile-LAY-04">Данные</a></td></tr><tr><td><a href="#LAY-05">LAY-05</a> · Network и Console на восьми маршрутах</td><td><span class="pass">PASS</span> · <a href="#Chrome-LAY-05">Данные</a></td><td><span class="fail">FAIL</span> · <a href="#Firefox-LAY-05">Данные</a></td><td><span class="pass">PASS</span> · <a href="#WebKit-LAY-05">Данные</a></td><td><span class="pass">PASS</span> · <a href="#Chrome-mobile-LAY-05">Данные</a></td></tr></tbody></table></div><p>LAY-02 подтвердил горизонтальную прокрутку всей страницы при 1024 и 768 px на десктопе, а также при 200% на мобильном профиле. В Chrome ширина документа при viewport 1024 px составила 1071 px, а при viewport 768 px — 807 px. При мобильных 393 px и CSS zoom 200% ширина документа составила 575 px. <a href="../lab3/defects.html#QA-10">QA-10</a></p><p>События Network и Console собраны из браузеров через Playwright. На восьми маршрутах локальных HTTP 404, сетевых сбоев AutoParts и необработанных исключений JavaScript не зафиксировано. Firefox дважды зарегистрировал ошибку во внешнем скрипте карты OpenStreetMap. Диагностика внутреннего WorkerMain браузера вынесена в отдельное поле протокола. <a href="../lab3/defects.html#QA-11">QA-11</a></p><p>Маршруты сети: главная, каталог, пустая корзина, вход, регистрация, отзывы, контакты, сотрудники. Преднамеренные запросы 404 из негативных API-кейсов учтены в отчёте Postman.</p><h3 id="LAY-01">LAY-01 · Геометрия блоков, сетка, логотип и изображение в карточке</h3><details id="Chrome-LAY-01"><summary>Chrome · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-LAY-01-home.png">home</a> · <a href="evidence/Chrome-LAY-01-part.png">part</a></p></div></details><details id="Firefox-LAY-01"><summary>Firefox · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Firefox-LAY-01-home.png">home</a> · <a href="evidence/Firefox-LAY-01-part.png">part</a></p></div></details><details id="WebKit-LAY-01"><summary>WebKit · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/WebKit-LAY-01-home.png">home</a> · <a href="evidence/WebKit-LAY-01-part.png">part</a></p></div></details><details id="Chrome-mobile-LAY-01"><summary>Chrome-mobile · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-mobile-LAY-01-home.png">home</a> · <a href="evidence/Chrome-mobile-LAY-01-part.png">part</a></p></div></details><h3 id="LAY-02">LAY-02 · Адаптивность каталога и CSS-масштаб 125% / 200%</h3><details id="Chrome-LAY-02"><summary>Chrome · <span class="fail">FAIL</span></summary><div class="detail"><p><a href="evidence/Chrome-LAY-02-width-1440.png">width-1440</a> · <a href="evidence/Chrome-LAY-02-width-1024.png">width-1024</a> · <a href="evidence/Chrome-LAY-02-width-768.png">width-768</a> · <a href="evidence/Chrome-LAY-02-width-390.png">width-390</a> · <a href="evidence/Chrome-LAY-02-zoom-125.png">zoom-125</a> · <a href="evidence/Chrome-LAY-02-zoom-200.png">zoom-200</a> · <a href="evidence/Chrome-LAY-02-screenshot.png">screenshot</a></p><div class="table"><table><thead><tr><th scope="col">Ширина</th><th scope="col">CSS zoom</th><th scope="col">Клиентская ширина</th><th scope="col">Ширина содержимого</th></tr></thead><tbody><tr><td>1440</td><td>100</td><td>1440</td><td>1440</td></tr><tr><td>1024</td><td>100</td><td>1024</td><td>1071</td></tr><tr><td>768</td><td>100</td><td>768</td><td>807</td></tr><tr><td>390</td><td>100</td><td>390</td><td>390</td></tr><tr><td>1024</td><td>125</td><td>1024</td><td>1336</td></tr><tr><td>1024</td><td>200</td><td>1024</td><td>2143</td></tr></tbody></table></div></div></details><details id="Firefox-LAY-02"><summary>Firefox · <span class="fail">FAIL</span></summary><div class="detail"><p><a href="evidence/Firefox-LAY-02-width-1440.png">width-1440</a> · <a href="evidence/Firefox-LAY-02-width-1024.png">width-1024</a> · <a href="evidence/Firefox-LAY-02-width-768.png">width-768</a> · <a href="evidence/Firefox-LAY-02-width-390.png">width-390</a> · <a href="evidence/Firefox-LAY-02-zoom-125.png">zoom-125</a> · <a href="evidence/Firefox-LAY-02-zoom-200.png">zoom-200</a> · <a href="evidence/Firefox-LAY-02-screenshot.png">screenshot</a></p><div class="table"><table><thead><tr><th scope="col">Ширина</th><th scope="col">CSS zoom</th><th scope="col">Клиентская ширина</th><th scope="col">Ширина содержимого</th></tr></thead><tbody><tr><td>1440</td><td>100</td><td>1440</td><td>1440</td></tr><tr><td>1024</td><td>100</td><td>1024</td><td>1071</td></tr><tr><td>768</td><td>100</td><td>768</td><td>807</td></tr><tr><td>390</td><td>100</td><td>390</td><td>390</td></tr><tr><td>1024</td><td>125</td><td>1024</td><td>1336</td></tr><tr><td>1024</td><td>200</td><td>1024</td><td>2143</td></tr></tbody></table></div></div></details><details id="WebKit-LAY-02"><summary>WebKit · <span class="fail">FAIL</span></summary><div class="detail"><p><a href="evidence/WebKit-LAY-02-width-1440.png">width-1440</a> · <a href="evidence/WebKit-LAY-02-width-1024.png">width-1024</a> · <a href="evidence/WebKit-LAY-02-width-768.png">width-768</a> · <a href="evidence/WebKit-LAY-02-width-390.png">width-390</a> · <a href="evidence/WebKit-LAY-02-zoom-125.png">zoom-125</a> · <a href="evidence/WebKit-LAY-02-zoom-200.png">zoom-200</a> · <a href="evidence/WebKit-LAY-02-screenshot.png">screenshot</a></p><div class="table"><table><thead><tr><th scope="col">Ширина</th><th scope="col">CSS zoom</th><th scope="col">Клиентская ширина</th><th scope="col">Ширина содержимого</th></tr></thead><tbody><tr><td>1440</td><td>100</td><td>1440</td><td>1440</td></tr><tr><td>1024</td><td>100</td><td>1024</td><td>1071</td></tr><tr><td>768</td><td>100</td><td>768</td><td>807</td></tr><tr><td>390</td><td>100</td><td>390</td><td>390</td></tr><tr><td>1024</td><td>125</td><td>1024</td><td>1337</td></tr><tr><td>1024</td><td>200</td><td>1024</td><td>2136</td></tr></tbody></table></div></div></details><details id="Chrome-mobile-LAY-02"><summary>Chrome-mobile · <span class="fail">FAIL</span></summary><div class="detail"><p><a href="evidence/Chrome-mobile-LAY-02-width-393.png">width-393</a> · <a href="evidence/Chrome-mobile-LAY-02-width-360.png">width-360</a> · <a href="evidence/Chrome-mobile-LAY-02-zoom-125.png">zoom-125</a> · <a href="evidence/Chrome-mobile-LAY-02-zoom-200.png">zoom-200</a> · <a href="evidence/Chrome-mobile-LAY-02-screenshot.png">screenshot</a></p><div class="table"><table><thead><tr><th scope="col">Ширина</th><th scope="col">CSS zoom</th><th scope="col">Клиентская ширина</th><th scope="col">Ширина содержимого</th></tr></thead><tbody><tr><td>393</td><td>100</td><td>393</td><td>393</td></tr><tr><td>360</td><td>100</td><td>360</td><td>360</td></tr><tr><td>393</td><td>125</td><td>393</td><td>393</td></tr><tr><td>393</td><td>200</td><td>393</td><td>575</td></tr></tbody></table></div></div></details><h3 id="LAY-03">LAY-03 · Кнопки, ссылки, фокус, hover, логотип и favicon</h3><details id="Chrome-LAY-03"><summary>Chrome · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-LAY-03-interactions.png">interactions</a></p></div></details><details id="Firefox-LAY-03"><summary>Firefox · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Firefox-LAY-03-interactions.png">interactions</a></p></div></details><details id="WebKit-LAY-03"><summary>WebKit · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/WebKit-LAY-03-interactions.png">interactions</a></p></div></details><details id="Chrome-mobile-LAY-03"><summary>Chrome-mobile · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-mobile-LAY-03-interactions.png">interactions</a></p></div></details><h3 id="LAY-04">LAY-04 · 173-символьное имя, имя «Я», пустой список, 66 строк и пагинация</h3><details id="Chrome-LAY-04"><summary>Chrome · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-LAY-04-empty.png">empty</a> · <a href="evidence/Chrome-LAY-04-page-2.png">page-2</a></p></div></details><details id="Firefox-LAY-04"><summary>Firefox · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Firefox-LAY-04-empty.png">empty</a> · <a href="evidence/Firefox-LAY-04-page-2.png">page-2</a></p></div></details><details id="WebKit-LAY-04"><summary>WebKit · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/WebKit-LAY-04-empty.png">empty</a> · <a href="evidence/WebKit-LAY-04-page-2.png">page-2</a></p></div></details><details id="Chrome-mobile-LAY-04"><summary>Chrome-mobile · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-mobile-LAY-04-empty.png">empty</a> · <a href="evidence/Chrome-mobile-LAY-04-page-2.png">page-2</a></p></div></details><h3 id="LAY-05">LAY-05 · Network и Console на восьми маршрутах</h3><details id="Chrome-LAY-05"><summary>Chrome · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-LAY-05-employees.png">employees</a></p><pre>{
+  &quot;own404&quot;: [],
+  &quot;ownFailures&quot;: [],
+  &quot;consoleErrors&quot;: [],
+  &quot;exceptions&quot;: [],
+  &quot;external&quot;: [],
+  &quot;browserDiagnostics&quot;: []
+}</pre></div></details><details id="Firefox-LAY-05"><summary>Firefox · <span class="fail">FAIL</span></summary><div class="detail"><p><a href="evidence/Firefox-LAY-05-employees.png">employees</a> · <a href="evidence/Firefox-LAY-05-screenshot.png">screenshot</a></p><pre>{
+  &quot;own404&quot;: [],
+  &quot;ownFailures&quot;: [],
+  &quot;consoleErrors&quot;: [],
+  &quot;exceptions&quot;: [],
+  &quot;external&quot;: [
+    &quot;{\&quot;text\&quot;:\&quot;Error\&quot;,\&quot;source\&quot;:\&quot;https://www.openstreetmap.org/assets/embed-afb60fe075bb9646b7359b62132c4bdec16fc829b91b3c466ddd733046fb79da.js\&quot;}&quot;
+  ],
+  &quot;browserDiagnostics&quot;: [
+    &quot;{\&quot;text\&quot;:\&quot;[JavaScript Error: \\\&quot;NS_BINDING_ABORTED: \\\&quot; {file: \\\&quot;chrome://juggler/content/content/WorkerMain.js\\\&quot; line: 6}]\&quot;,\&quot;source\&quot;:\&quot;chrome://juggler/content/content/WorkerMain.js\&quot;}&quot;
+  ]
+}</pre></div></details><details id="WebKit-LAY-05"><summary>WebKit · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/WebKit-LAY-05-employees.png">employees</a></p><pre>{
+  &quot;own404&quot;: [],
+  &quot;ownFailures&quot;: [],
+  &quot;consoleErrors&quot;: [],
+  &quot;exceptions&quot;: [],
+  &quot;external&quot;: [],
+  &quot;browserDiagnostics&quot;: []
+}</pre></div></details><details id="Chrome-mobile-LAY-05"><summary>Chrome-mobile · <span class="pass">PASS</span></summary><div class="detail"><p><a href="evidence/Chrome-mobile-LAY-05-employees.png">employees</a></p><pre>{
+  &quot;own404&quot;: [],
+  &quot;ownFailures&quot;: [],
+  &quot;consoleErrors&quot;: [],
+  &quot;exceptions&quot;: [],
+  &quot;external&quot;: [],
+  &quot;browserDiagnostics&quot;: []
+}</pre></div></details></section><section id="api"><h2>API в Postman</h2><p>В коллекции покрыты маршруты UC-1–UC-9 и дополнительные FR-20/22, включая оба собственных JSON-эндпоинта. Коллекция проверяет HTTP-коды, значения и схему JSON, видимость SKU, формы, карточную оплату со скидкой, ЕРИП, счёт и отмену.</p><p>GET формы получает CSRF. POST входа проверяет Set-Cookie для sessionid, Postman передаёт полученную сессию через cookie jar, а следующая защищённая страница даёт токен для дальнейших POST. Идентификаторы товара, заказа, типа и производителя извлекаются из ответов. Проект использует сессионную аутентификацию Django.</p><div class="table"><table><thead><tr><th scope="col">Трассировка</th><th scope="col">Модуль</th><th scope="col">Маршруты</th></tr></thead><tbody><tr><td>UC-1</td><td>Каталог</td><td><code>GET /parts/ с q, type и sort; GET /parts/&lt;id&gt;/</code></td></tr><tr><td>UC-2</td><td>Корзина</td><td><code>GET /cart/; POST /cart/add/&lt;id&gt;/, /cart/update/&lt;id&gt;/, /cart/remove/&lt;id&gt;/, /cart/clear/</code></td></tr><tr><td>UC-3</td><td>Оформление и оплата</td><td><code>GET и POST /checkout/; GET /profile/, /profile/complete/, /promos/, /checkout/success/&lt;id&gt;/; POST /orders/&lt;id&gt;/pay/; сессия через /login/ и /logout/</code></td></tr><tr><td>UC-4</td><td>Отмена</td><td><code>GET /profile/; POST /orders/&lt;id&gt;/cancel/</code></td></tr><tr><td>UC-5</td><td>Регистрация</td><td><code>GET и POST /register/</code></td></tr><tr><td>UC-6</td><td>Отзывы</td><td><code>GET /reviews/, GET и POST /reviews/add/</code></td></tr><tr><td>UC-7</td><td>Каталог сотрудника</td><td><code>GET и POST /parts/create/, /parts/&lt;id&gt;/edit/, /parts/&lt;id&gt;/delete/</code></td></tr><tr><td>UC-8</td><td>Статистика</td><td><code>GET /stats/, /stats/chart.png</code></td></tr><tr><td>UC-9</td><td>Внешние данные</td><td><code>GET /external-apis/; отдельные заглушки поставщиков в TC-32/33</code></td></tr><tr><td>FR-20, FR-22</td><td>JSON каталога и заявка</td><td><code>GET /api/parts/; GET и POST /contacts/</code></td></tr><tr><td>Интерфейс сотрудников</td><td>Публичный справочник</td><td><code>GET /api/employees/</code></td></tr></tbody></table></div><p>Результат: 93 запросов и 211 утверждений. Из них 208 PASS, 3 FAIL. Два утверждения относятся к BUG-1, одно к BUG-3. <a href="postman/report.html">Полный отчёт</a> · <a href="postman/AutoParts.postman_collection.json">Коллекция Postman</a></p></section><section id="security"><h2>Безопасность и журналирование</h2><p>Проверки выполнены на локальной изолированной копии двумя синтетическими клиентами. Для операций на заказе использован корректный CSRF своей сессии. Для сравнения ошибок проверены два режима DEBUG. Содержимое диагностического 500-ответа в комплект не выложено, в журнале сохранены только маркеры.</p><div class="table"><table><thead><tr><th scope="col">ID</th><th scope="col">Проверка</th><th scope="col">Ожидание</th><th scope="col">Статус</th><th scope="col">Фактический результат</th></tr></thead><tbody><tr><td>SEC-01</td><td>Защищённые URL без входа</td><td>Все 8 ответов 302 на вход.</td><td><span class="pass">PASS</span></td><td>Все восемь прямых запросов гостя получили 302 на вход.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;/profile/&quot;: [
+    302,
+    &quot;/login/?next=/profile/&quot;
+  ],
+  &quot;/profile/complete/&quot;: [
+    302,
+    &quot;/login/?next=/profile/complete/&quot;
+  ],
+  &quot;/checkout/&quot;: [
+    302,
+    &quot;/login/?next=/checkout/&quot;
+  ],
+  &quot;/checkout/success/3/&quot;: [
+    302,
+    &quot;/login/?next=/checkout/success/3/&quot;
+  ],
+  &quot;/reviews/add/&quot;: [
+    302,
+    &quot;/login/?next=/reviews/add/&quot;
+  ],
+  &quot;/stats/&quot;: [
+    302,
+    &quot;/login/?next=/stats/&quot;
+  ],
+  &quot;/stats/chart.png&quot;: [
+    302,
+    &quot;/login/?next=/stats/chart.png&quot;
+  ],
+  &quot;/api/parts/&quot;: [
+    302,
+    &quot;/login/?next=/api/parts/&quot;
+  ]
+}</pre></div></details></td></tr><tr><td>SEC-02</td><td>Изоляция заказа второго клиента</td><td>Свой ответ 200, чужие ответы 404, new / 5 / 0 без изменений.</td><td><span class="pass">PASS</span></td><td>Своё подтверждение → 200. Чужие GET и два POST → 404. Заказ и остаток второго клиента не изменились.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;own_confirmation&quot;: 200,
+  &quot;other_confirmation&quot;: 404,
+  &quot;other_pay&quot;: 404,
+  &quot;other_cancel&quot;: 404,
+  &quot;other_state&quot;: &quot;new&quot;,
+  &quot;other_stock&quot;: 5,
+  &quot;other_sales&quot;: 0
+}</pre></div></details></td></tr><tr><td>SEC-03</td><td>Запрет изменяющих GET и POST без CSRF</td><td>На выбранных изменяющих маршрутах GET → 405, POST без токена → 403.</td><td><span class="pass">PASS</span></td><td>Шесть GET → 405 и шесть POST без токена → 403.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;/cart/add/17/&quot;: [
+    405,
+    403
+  ],
+  &quot;/cart/update/17/&quot;: [
+    405,
+    403
+  ],
+  &quot;/cart/remove/17/&quot;: [
+    405,
+    403
+  ],
+  &quot;/cart/clear/&quot;: [
+    405,
+    403
+  ],
+  &quot;/orders/3/pay/&quot;: [
+    405,
+    403
+  ],
+  &quot;/orders/3/cancel/&quot;: [
+    405,
+    403
+  ]
+}</pre></div></details></td></tr><tr><td>SEC-04</td><td>Неразглашение деталей ошибок при DEBUG=False</td><td>Ответы 404/500 не содержат трассировки, путей или SQL.</td><td><span class="pass">PASS</span></td><td>Ответы 404 и 500 при DEBUG=False без обнаруженных путей, трассировки или SQL.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;/api/qa-missing/&quot;: {
+    &quot;status&quot;: 404,
+    &quot;markers&quot;: []
+  },
+  &quot;/parts/?type=abc&quot;: {
+    &quot;status&quot;: 500,
+    &quot;markers&quot;: []
+  }
+}</pre></div></details></td></tr><tr><td>SEC-05</td><td>Детали ошибок при значении DEBUG по умолчанию</td><td>Пользователь не получает техническую информацию и трассировку.</td><td><span class="fail">FAIL</span></td><td>При DEBUG=True ответ 500 содержит стек и пути на сервере. Маркеры SQL в проверенных ответах не обнаружены.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;/api/qa-missing/&quot;: {
+    &quot;status&quot;: 404,
+    &quot;markers&quot;: []
+  },
+  &quot;/parts/?type=abc&quot;: {
+    &quot;status&quot;: 500,
+    &quot;markers&quot;: [
+      &quot;traceback&quot;,
+      &quot;server_path&quot;,
+      &quot;django_debug&quot;
+    ]
+  }
+}</pre></div></details></td></tr><tr><td>SEC-06</td><td>Журнал ошибок и обратной связи</td><td>INFO заявки, два WARNING интеграций, WARNING 404 и ERROR 500.</td><td><span class="pass">PASS</span></td><td>Журнал содержит INFO заявки, два WARNING интеграций, WARNING 404 и ERROR 500.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;performed&quot;: {
+    &quot;login&quot;: true,
+    &quot;feedback&quot;: true,
+    &quot;external&quot;: true,
+    &quot;http404&quot;: true,
+    &quot;http500&quot;: true,
+    &quot;payment&quot;: true,
+    &quot;cancel&quot;: true
+  },
+  &quot;logged&quot;: {
+    &quot;feedback&quot;: true,
+    &quot;external&quot;: 2,
+    &quot;http404&quot;: true,
+    &quot;http500&quot;: true,
+    &quot;login&quot;: false,
+    &quot;payment&quot;: false,
+    &quot;cancel&quot;: false
+  },
+  &quot;entries&quot;: [
+    &quot;shop.views | INFO | Feedback from qa.audit@example.test on topic order&quot;,
+    &quot;shop.views | WARNING | External API failed: 503 Server Error: Service Unavailable for url: https://catfact.ninja/fact&quot;,
+    &quot;shop.views | WARNING | External API failed: 503 Server Error: Service Unavailable for url: https://api.ipify.org/?format=json&quot;,
+    &quot;django.request | WARNING | Not Found: /api/qa-missing/&quot;,
+    &quot;django.request | ERROR | Internal Server Error: /parts/&quot;
+  ]
+}</pre></div></details></td></tr><tr><td>SEC-07</td><td>Аудит основных операций</td><td>Вход, оплата и отмена оставляют прикладное событие с результатом.</td><td><span class="fail">FAIL</span></td><td>Вход, оплата и отмена успешны. В прикладном журнале нет событий этих операций.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;performed&quot;: {
+    &quot;login&quot;: true,
+    &quot;payment&quot;: true,
+    &quot;cancel&quot;: true
+  },
+  &quot;logged&quot;: {
+    &quot;login&quot;: false,
+    &quot;payment&quot;: false,
+    &quot;cancel&quot;: false
+  }
+}</pre></div></details></td></tr><tr><td>SEC-08</td><td>Хранение пароля</td><td>Сохранён хеш, исходный пароль проверяется.</td><td><span class="pass">PASS</span></td><td>Хеш подтверждён, пароль проходит check_password.<details><summary>Показать данные</summary><div class="detail"><pre>{
+  &quot;plaintext&quot;: false,
+  &quot;matches&quot;: true
+}</pre></div></details></td></tr></tbody></table></div><p><a href="security-results.json">Журнал безопасности и замеров</a> · <a href="security_checks.py">Воспроизводимые проверки</a> · <a href="../lab3/defects.html#QA-08">QA-08</a> · <a href="../lab3/defects.html#QA-09">QA-09</a></p></section><section id="ui"><h2>UI-автоматизация</h2><p>Пять функциональных сценариев Playwright выполнены в Chrome. Page Object разделяет регистрацию, каталог, корзину, оформление и профиль. Каждый сценарий получает собственный browser context, при необходимости генерирует отдельный товар и регистрирует уникального клиента. Ожидания основаны на состоянии URL, DOM и ответах. Конфигурация сохраняет при падении скриншот и trace.</p><div class="table"><table><thead><tr><th scope="col">Кейс</th><th scope="col">Сценарий</th><th scope="col">Результат</th><th scope="col">мс</th></tr></thead><tbody><tr><td>UI-01</td><td>Регистрация создаёт профиль клиента</td><td><span class="pass">PASS</span></td><td>2205</td></tr><tr><td>UI-02</td><td>Поиск, изменение количества и очистка корзины</td><td><span class="pass">PASS</span></td><td>3250</td></tr><tr><td>UI-03</td><td>Заказ ЕРИП оплачивается из профиля</td><td><span class="pass">PASS</span></td><td>3189</td></tr><tr><td>UI-04</td><td>Заказ по счёту отменяется из профиля</td><td><span class="pass">PASS</span></td><td>2966</td></tr><tr><td>UI-05</td><td>Гость перенаправляется на вход при прямом переходе к оформлению</td><td><span class="pass">PASS</span></td><td>2292</td></tr></tbody></table></div><p><a href="ui/tests/flows.spec.cjs">UI-тесты</a> · <a href="ui/tests/pages.cjs">Page Object</a> · <a href="ui/playwright.config.cjs">Конфигурация</a> · <a href="playwright-results.json">Протокол Playwright</a></p></section></main></body></html>

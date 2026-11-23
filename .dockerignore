@@ -15,3 +15,4 @@ media/
 db.sqlite3
 *.docx
 *.pdf
+docs/qa/

@@ -1,0 +1,13 @@
+{
+  "name": "autoparts-lab4-ui",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --project=Chrome-UI",
+    "test:compat": "playwright test --grep @compat",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}

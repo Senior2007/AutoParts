@@ -1,0 +1,561 @@
+[
+  {
+    "id": "UI-01",
+    "name": "UI-01 | Регистрация создаёт профиль клиента",
+    "project": "Chrome-UI",
+    "status": "PASS",
+    "duration_ms": 2205,
+    "errors": [],
+    "attachments": {}
+  },
+  {
+    "id": "UI-02",
+    "name": "UI-02 | Поиск, изменение количества и очистка корзины",
+    "project": "Chrome-UI",
+    "status": "PASS",
+    "duration_ms": 3250,
+    "errors": [],
+    "attachments": {}
+  },
+  {
+    "id": "UI-03",
+    "name": "UI-03 | Заказ ЕРИП оплачивается из профиля",
+    "project": "Chrome-UI",
+    "status": "PASS",
+    "duration_ms": 3189,
+    "errors": [],
+    "attachments": {}
+  },
+  {
+    "id": "UI-04",
+    "name": "UI-04 | Заказ по счёту отменяется из профиля",
+    "project": "Chrome-UI",
+    "status": "PASS",
+    "duration_ms": 2966,
+    "errors": [],
+    "attachments": {}
+  },
+  {
+    "id": "UI-05",
+    "name": "UI-05 | Гость перенаправляется на вход при прямом переходе к оформлению",
+    "project": "Chrome-UI",
+    "status": "PASS",
+    "duration_ms": 2292,
+    "errors": [],
+    "attachments": {}
+  },
+  {
+    "id": "LAY-01",
+    "name": "LAY-01 | Сетка, блоки, изображение и текст",
+    "project": "Chrome",
+    "status": "PASS",
+    "duration_ms": 2780,
+    "errors": [],
+    "attachments": {
+      "home": "evidence/Chrome-LAY-01-home.png",
+      "part": "evidence/Chrome-LAY-01-part.png"
+    }
+  },
+  {
+    "id": "LAY-01",
+    "name": "LAY-01 | Сетка, блоки, изображение и текст",
+    "project": "Firefox",
+    "status": "PASS",
+    "duration_ms": 3245,
+    "errors": [],
+    "attachments": {
+      "home": "evidence/Firefox-LAY-01-home.png",
+      "part": "evidence/Firefox-LAY-01-part.png"
+    }
+  },
+  {
+    "id": "LAY-01",
+    "name": "LAY-01 | Сетка, блоки, изображение и текст",
+    "project": "WebKit",
+    "status": "PASS",
+    "duration_ms": 2031,
+    "errors": [],
+    "attachments": {
+      "home": "evidence/WebKit-LAY-01-home.png",
+      "part": "evidence/WebKit-LAY-01-part.png"
+    }
+  },
+  {
+    "id": "LAY-01",
+    "name": "LAY-01 | Сетка, блоки, изображение и текст",
+    "project": "Chrome-mobile",
+    "status": "PASS",
+    "duration_ms": 2991,
+    "errors": [],
+    "attachments": {
+      "home": "evidence/Chrome-mobile-LAY-01-home.png",
+      "part": "evidence/Chrome-mobile-LAY-01-part.png"
+    }
+  },
+  {
+    "id": "LAY-02",
+    "name": "LAY-02 | Адаптивность по ширине и масштабу",
+    "project": "Chrome",
+    "status": "FAIL",
+    "duration_ms": 3564,
+    "errors": [
+      "Error: Ширина 1024\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    1071\n\n  57 |     const dimensions = await documentWidth(page);\n  58 |     checks.push({ width, zoom: 100, ...dimensions });\n> 59 |     expect.soft(dimensions.scroll, 'Ширина ' + width).toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                       ^\n  60 |     await capture(page, info, 'width-' + width);\n  61 |   }\n  62 |   await page.setViewportSize({ width: mobile ? 393 : 1024, height: 950 });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:59:55",
+      "Error: Ширина 768\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 770\nReceived:    807\n\n  57 |     const dimensions = await documentWidth(page);\n  58 |     checks.push({ width, zoom: 100, ...dimensions });\n> 59 |     expect.soft(dimensions.scroll, 'Ширина ' + width).toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                       ^\n  60 |     await capture(page, info, 'width-' + width);\n  61 |   }\n  62 |   await page.setViewportSize({ width: mobile ? 393 : 1024, height: 950 });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:59:55",
+      "Error: Масштаб 125%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    1336\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61",
+      "Error: Масштаб 200%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    2143\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61"
+    ],
+    "attachments": {
+      "width-1440": "evidence/Chrome-LAY-02-width-1440.png",
+      "width-1024": "evidence/Chrome-LAY-02-width-1024.png",
+      "width-768": "evidence/Chrome-LAY-02-width-768.png",
+      "width-390": "evidence/Chrome-LAY-02-width-390.png",
+      "zoom-125": "evidence/Chrome-LAY-02-zoom-125.png",
+      "zoom-200": "evidence/Chrome-LAY-02-zoom-200.png",
+      "metrics": [
+        {
+          "width": 1440,
+          "zoom": 100,
+          "client": 1440,
+          "scroll": 1440,
+          "left": 300,
+          "right": 1404
+        },
+        {
+          "width": 1024,
+          "zoom": 100,
+          "client": 1024,
+          "scroll": 1071,
+          "left": 280,
+          "right": 1008
+        },
+        {
+          "width": 768,
+          "zoom": 100,
+          "client": 768,
+          "scroll": 807,
+          "left": 16,
+          "right": 752
+        },
+        {
+          "width": 390,
+          "zoom": 100,
+          "client": 390,
+          "scroll": 390,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "width": 1024,
+          "zoom": 125,
+          "client": 1024,
+          "scroll": 1336,
+          "left": 350,
+          "right": 1004
+        },
+        {
+          "width": 1024,
+          "zoom": 200,
+          "client": 1024,
+          "scroll": 2143,
+          "left": 560,
+          "right": 992
+        }
+      ],
+      "screenshot": "evidence/Chrome-LAY-02-screenshot.png"
+    }
+  },
+  {
+    "id": "LAY-02",
+    "name": "LAY-02 | Адаптивность по ширине и масштабу",
+    "project": "Firefox",
+    "status": "FAIL",
+    "duration_ms": 4507,
+    "errors": [
+      "Error: Ширина 1024\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    1071\n\n  57 |     const dimensions = await documentWidth(page);\n  58 |     checks.push({ width, zoom: 100, ...dimensions });\n> 59 |     expect.soft(dimensions.scroll, 'Ширина ' + width).toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                       ^\n  60 |     await capture(page, info, 'width-' + width);\n  61 |   }\n  62 |   await page.setViewportSize({ width: mobile ? 393 : 1024, height: 950 });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:59:55",
+      "Error: Ширина 768\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 770\nReceived:    807\n\n  57 |     const dimensions = await documentWidth(page);\n  58 |     checks.push({ width, zoom: 100, ...dimensions });\n> 59 |     expect.soft(dimensions.scroll, 'Ширина ' + width).toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                       ^\n  60 |     await capture(page, info, 'width-' + width);\n  61 |   }\n  62 |   await page.setViewportSize({ width: mobile ? 393 : 1024, height: 950 });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:59:55",
+      "Error: Масштаб 125%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    1336\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61",
+      "Error: Масштаб 200%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    2143\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61"
+    ],
+    "attachments": {
+      "width-1440": "evidence/Firefox-LAY-02-width-1440.png",
+      "width-1024": "evidence/Firefox-LAY-02-width-1024.png",
+      "width-768": "evidence/Firefox-LAY-02-width-768.png",
+      "width-390": "evidence/Firefox-LAY-02-width-390.png",
+      "zoom-125": "evidence/Firefox-LAY-02-zoom-125.png",
+      "zoom-200": "evidence/Firefox-LAY-02-zoom-200.png",
+      "metrics": [
+        {
+          "width": 1440,
+          "zoom": 100,
+          "client": 1440,
+          "scroll": 1440,
+          "left": 300,
+          "right": 1404
+        },
+        {
+          "width": 1024,
+          "zoom": 100,
+          "client": 1024,
+          "scroll": 1071,
+          "left": 280,
+          "right": 1008
+        },
+        {
+          "width": 768,
+          "zoom": 100,
+          "client": 768,
+          "scroll": 807,
+          "left": 16,
+          "right": 752
+        },
+        {
+          "width": 390,
+          "zoom": 100,
+          "client": 390,
+          "scroll": 390,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "width": 1024,
+          "zoom": 125,
+          "client": 1024,
+          "scroll": 1336,
+          "left": 350,
+          "right": 1004
+        },
+        {
+          "width": 1024,
+          "zoom": 200,
+          "client": 1024,
+          "scroll": 2143,
+          "left": 560,
+          "right": 992
+        }
+      ],
+      "screenshot": "evidence/Firefox-LAY-02-screenshot.png"
+    }
+  },
+  {
+    "id": "LAY-02",
+    "name": "LAY-02 | Адаптивность по ширине и масштабу",
+    "project": "WebKit",
+    "status": "FAIL",
+    "duration_ms": 3281,
+    "errors": [
+      "Error: Ширина 1024\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    1071\n\n  57 |     const dimensions = await documentWidth(page);\n  58 |     checks.push({ width, zoom: 100, ...dimensions });\n> 59 |     expect.soft(dimensions.scroll, 'Ширина ' + width).toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                       ^\n  60 |     await capture(page, info, 'width-' + width);\n  61 |   }\n  62 |   await page.setViewportSize({ width: mobile ? 393 : 1024, height: 950 });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:59:55",
+      "Error: Ширина 768\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 770\nReceived:    807\n\n  57 |     const dimensions = await documentWidth(page);\n  58 |     checks.push({ width, zoom: 100, ...dimensions });\n> 59 |     expect.soft(dimensions.scroll, 'Ширина ' + width).toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                       ^\n  60 |     await capture(page, info, 'width-' + width);\n  61 |   }\n  62 |   await page.setViewportSize({ width: mobile ? 393 : 1024, height: 950 });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:59:55",
+      "Error: Масштаб 125%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    1337\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61",
+      "Error: Масштаб 200%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 1026\nReceived:    2136\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61"
+    ],
+    "attachments": {
+      "width-1440": "evidence/WebKit-LAY-02-width-1440.png",
+      "width-1024": "evidence/WebKit-LAY-02-width-1024.png",
+      "width-768": "evidence/WebKit-LAY-02-width-768.png",
+      "width-390": "evidence/WebKit-LAY-02-width-390.png",
+      "zoom-125": "evidence/WebKit-LAY-02-zoom-125.png",
+      "zoom-200": "evidence/WebKit-LAY-02-zoom-200.png",
+      "metrics": [
+        {
+          "width": 1440,
+          "zoom": 100,
+          "client": 1440,
+          "scroll": 1440,
+          "left": 300,
+          "right": 1404
+        },
+        {
+          "width": 1024,
+          "zoom": 100,
+          "client": 1024,
+          "scroll": 1071,
+          "left": 280,
+          "right": 1008
+        },
+        {
+          "width": 768,
+          "zoom": 100,
+          "client": 768,
+          "scroll": 807,
+          "left": 16,
+          "right": 752
+        },
+        {
+          "width": 390,
+          "zoom": 100,
+          "client": 390,
+          "scroll": 390,
+          "left": 16,
+          "right": 374
+        },
+        {
+          "width": 1024,
+          "zoom": 125,
+          "client": 1024,
+          "scroll": 1337,
+          "left": 350,
+          "right": 1004
+        },
+        {
+          "width": 1024,
+          "zoom": 200,
+          "client": 1024,
+          "scroll": 2136,
+          "left": 560,
+          "right": 992
+        }
+      ],
+      "screenshot": "evidence/WebKit-LAY-02-screenshot.png"
+    }
+  },
+  {
+    "id": "LAY-02",
+    "name": "LAY-02 | Адаптивность по ширине и масштабу",
+    "project": "Chrome-mobile",
+    "status": "FAIL",
+    "duration_ms": 3587,
+    "errors": [
+      "Error: Масштаб 200%\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 395\nReceived:    575\n\n  65 |     const dimensions = await documentWidth(page);\n  66 |     checks.push({ width: mobile ? 393 : 1024, zoom, ...dimensions });\n> 67 |     expect.soft(dimensions.scroll, 'Масштаб ' + zoom + '%').toBeLessThanOrEqual(dimensions.client + 2);\n     |                                                             ^\n  68 |     await capture(page, info, 'zoom-' + zoom);\n  69 |   }\n  70 |   await info.attach('metrics', { body: JSON.stringify(checks, null, 2), contentType: 'application/json' });\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:67:61"
+    ],
+    "attachments": {
+      "width-393": "evidence/Chrome-mobile-LAY-02-width-393.png",
+      "width-360": "evidence/Chrome-mobile-LAY-02-width-360.png",
+      "zoom-125": "evidence/Chrome-mobile-LAY-02-zoom-125.png",
+      "zoom-200": "evidence/Chrome-mobile-LAY-02-zoom-200.png",
+      "metrics": [
+        {
+          "width": 393,
+          "zoom": 100,
+          "client": 393,
+          "scroll": 393,
+          "left": 16,
+          "right": 377
+        },
+        {
+          "width": 360,
+          "zoom": 100,
+          "client": 360,
+          "scroll": 360,
+          "left": 16,
+          "right": 344
+        },
+        {
+          "width": 393,
+          "zoom": 125,
+          "client": 393,
+          "scroll": 393,
+          "left": 20,
+          "right": 373
+        },
+        {
+          "width": 393,
+          "zoom": 200,
+          "client": 393,
+          "scroll": 575,
+          "left": 32,
+          "right": 420.84375
+        }
+      ],
+      "screenshot": "evidence/Chrome-mobile-LAY-02-screenshot.png"
+    }
+  },
+  {
+    "id": "LAY-03",
+    "name": "LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",
+    "project": "Chrome",
+    "status": "PASS",
+    "duration_ms": 3054,
+    "errors": [],
+    "attachments": {
+      "interactions": "evidence/Chrome-LAY-03-interactions.png"
+    }
+  },
+  {
+    "id": "LAY-03",
+    "name": "LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",
+    "project": "Firefox",
+    "status": "PASS",
+    "duration_ms": 3674,
+    "errors": [],
+    "attachments": {
+      "interactions": "evidence/Firefox-LAY-03-interactions.png"
+    }
+  },
+  {
+    "id": "LAY-03",
+    "name": "LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",
+    "project": "WebKit",
+    "status": "PASS",
+    "duration_ms": 4580,
+    "errors": [],
+    "attachments": {
+      "interactions": "evidence/WebKit-LAY-03-interactions.png"
+    }
+  },
+  {
+    "id": "LAY-03",
+    "name": "LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",
+    "project": "Chrome-mobile",
+    "status": "PASS",
+    "duration_ms": 2483,
+    "errors": [],
+    "attachments": {
+      "interactions": "evidence/Chrome-mobile-LAY-03-interactions.png"
+    }
+  },
+  {
+    "id": "LAY-04",
+    "name": "LAY-04 | Длинные и короткие строки, пустой список и 66 записей",
+    "project": "Chrome",
+    "status": "PASS",
+    "duration_ms": 2838,
+    "errors": [],
+    "attachments": {
+      "empty": "evidence/Chrome-LAY-04-empty.png",
+      "page-2": "evidence/Chrome-LAY-04-page-2.png",
+      "data-width": {
+        "client": 1280,
+        "scroll": 1280,
+        "left": 280,
+        "right": 1264
+      }
+    }
+  },
+  {
+    "id": "LAY-04",
+    "name": "LAY-04 | Длинные и короткие строки, пустой список и 66 записей",
+    "project": "Firefox",
+    "status": "PASS",
+    "duration_ms": 2781,
+    "errors": [],
+    "attachments": {
+      "empty": "evidence/Firefox-LAY-04-empty.png",
+      "page-2": "evidence/Firefox-LAY-04-page-2.png",
+      "data-width": {
+        "client": 1280,
+        "scroll": 1280,
+        "left": 280,
+        "right": 1264
+      }
+    }
+  },
+  {
+    "id": "LAY-04",
+    "name": "LAY-04 | Длинные и короткие строки, пустой список и 66 записей",
+    "project": "WebKit",
+    "status": "PASS",
+    "duration_ms": 1963,
+    "errors": [],
+    "attachments": {
+      "empty": "evidence/WebKit-LAY-04-empty.png",
+      "page-2": "evidence/WebKit-LAY-04-page-2.png",
+      "data-width": {
+        "client": 1280,
+        "scroll": 1280,
+        "left": 280,
+        "right": 1264
+      }
+    }
+  },
+  {
+    "id": "LAY-04",
+    "name": "LAY-04 | Длинные и короткие строки, пустой список и 66 записей",
+    "project": "Chrome-mobile",
+    "status": "PASS",
+    "duration_ms": 2493,
+    "errors": [],
+    "attachments": {
+      "empty": "evidence/Chrome-mobile-LAY-04-empty.png",
+      "page-2": "evidence/Chrome-mobile-LAY-04-page-2.png",
+      "data-width": {
+        "client": 412,
+        "scroll": 412,
+        "left": 16,
+        "right": 396
+      }
+    }
+  },
+  {
+    "id": "LAY-05",
+    "name": "LAY-05 | Network и Console на маршрутах основного сценария",
+    "project": "Chrome",
+    "status": "PASS",
+    "duration_ms": 4677,
+    "errors": [],
+    "attachments": {
+      "network-console": {
+        "own404": [],
+        "ownFailures": [],
+        "consoleErrors": [],
+        "exceptions": [],
+        "external": [],
+        "browserDiagnostics": []
+      },
+      "employees": "evidence/Chrome-LAY-05-employees.png"
+    }
+  },
+  {
+    "id": "LAY-05",
+    "name": "LAY-05 | Network и Console на маршрутах основного сценария",
+    "project": "Firefox",
+    "status": "FAIL",
+    "duration_ms": 5820,
+    "errors": [
+      "Error: Ошибки внешних ресурсов в Network/Console\n\nexpect(received).toEqual(expected) // deep equality\n\n- Expected  - 1\n+ Received  + 3\n\n- Array []\n+ Array [\n+   \"{\\\"text\\\":\\\"Error\\\",\\\"source\\\":\\\"https://www.openstreetmap.org/assets/embed-afb60fe075bb9646b7359b62132c4bdec16fc829b91b3c466ddd733046fb79da.js\\\"}\",\n+ ]\n\n  171 |   expect.soft(evidence.consoleErrors, 'Ошибки Console').toEqual([]);\n  172 |   expect.soft(evidence.exceptions, 'Исключения JS').toEqual([]);\n> 173 |   expect.soft(evidence.external, 'Ошибки внешних ресурсов в Network/Console').toEqual([]);\n      |                                                                               ^\n  174 | });\n  175 |\n    at /Users/senior/Documents/Codex/2026-11-23/new-chat/outputs/AutoParts-QA/lab4/ui/tests/compat.spec.cjs:173:79"
+    ],
+    "attachments": {
+      "network-console": {
+        "own404": [],
+        "ownFailures": [],
+        "consoleErrors": [],
+        "exceptions": [],
+        "external": [
+          "{\"text\":\"Error\",\"source\":\"https://www.openstreetmap.org/assets/embed-afb60fe075bb9646b7359b62132c4bdec16fc829b91b3c466ddd733046fb79da.js\"}"
+        ],
+        "browserDiagnostics": [
+          "{\"text\":\"[JavaScript Error: \\\"NS_BINDING_ABORTED: \\\" {file: \\\"chrome://juggler/content/content/WorkerMain.js\\\" line: 6}]\",\"source\":\"chrome://juggler/content/content/WorkerMain.js\"}"
+        ]
+      },
+      "employees": "evidence/Firefox-LAY-05-employees.png",
+      "screenshot": "evidence/Firefox-LAY-05-screenshot.png"
+    }
+  },
+  {
+    "id": "LAY-05",
+    "name": "LAY-05 | Network и Console на маршрутах основного сценария",
+    "project": "WebKit",
+    "status": "PASS",
+    "duration_ms": 4292,
+    "errors": [],
+    "attachments": {
+      "network-console": {
+        "own404": [],
+        "ownFailures": [],
+        "consoleErrors": [],
+        "exceptions": [],
+        "external": [],
+        "browserDiagnostics": []
+      },
+      "employees": "evidence/WebKit-LAY-05-employees.png"
+    }
+  },
+  {
+    "id": "LAY-05",
+    "name": "LAY-05 | Network и Console на маршрутах основного сценария",
+    "project": "Chrome-mobile",
+    "status": "PASS",
+    "duration_ms": 4364,
+    "errors": [],
+    "attachments": {
+      "network-console": {
+        "own404": [],
+        "ownFailures": [],
+        "consoleErrors": [],
+        "exceptions": [],
+        "external": [],
+        "browserDiagnostics": []
+      },
+      "employees": "evidence/Chrome-mobile-LAY-05-employees.png"
+    }
+  }
+]

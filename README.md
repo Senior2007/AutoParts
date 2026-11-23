@@ -122,10 +122,15 @@ docker compose up --build
 
 ## Документация
 
-- [docs/requirements.md](docs/requirements.md) — спецификация требований и их верификация (ЛР1);
-- [docs/state-diagram.md](docs/state-diagram.md) — диаграмма состояний заказа (ЛР1);
-- [ISSUES.md](ISSUES.md) — найденные дефекты;
-- [docs/testing.md](docs/testing.md) — описание тестов и покрытие (ЛР2);
+| Лабораторная работа | Материалы |
+| --- | --- |
+| ЛР1 · Требования | [Спецификация и верификация](docs/requirements.md), [диаграмма состояний заказа](docs/state-diagram.md) |
+| ЛР2 · Автотесты | [Модульные, интеграционные и сценарные тесты](shop/tests/), [запуск и покрытие](docs/testing.md) |
+| ЛР3 · Системное тестирование | [План, чек-лист, 36 тест-кейсов и их скриншоты](docs/qa/lab3/report.html) |
+| ЛР4 · UI, API и безопасность | [Отчёт](docs/qa/lab4/report.html), [коллекция Postman](docs/qa/lab4/postman/AutoParts.postman_collection.json), [тесты Playwright](docs/qa/lab4/ui/) |
+
+[Реестр дефектов](ISSUES.md) содержит ссылки на подробные карточки и доказательства.
+Откройте [указатель отчётов и инструкцию запуска](docs/qa/index.html) в браузере из локальной папки репозитория.
 
 ## Страницы
 
