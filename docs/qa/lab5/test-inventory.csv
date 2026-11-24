@@ -1,0 +1,375 @@
+﻿Работа,ID,Имя,Требования,Доказательство
+ЛР2,shop/tests/test_defects.py::test_bug1_catalog_with_text_type_filter_does_not_crash,test_bug1_catalog_with_text_type_filter_does_not_crash,"FR-03, NFR-04",../../../shop/tests/test_defects.py
+ЛР2,shop/tests/test_defects.py::test_bug2_cart_add_does_not_redirect_to_external_site,test_bug2_cart_add_does_not_redirect_to_external_site,NFR-02,../../../shop/tests/test_defects.py
+ЛР2,shop/tests/test_defects.py::test_bug3_deleted_part_page_is_not_found,test_bug3_deleted_part_page_is_not_found,FR-05,../../../shop/tests/test_defects.py
+ЛР2,shop/tests/test_defects.py::test_bug4_cyrillic_search_ignores_case,test_bug4_cyrillic_search_ignores_case,FR-02,../../../shop/tests/test_defects.py
+ЛР2,shop/tests/test_defects.py::test_bug5_success_page_does_not_say_paid_for_new_order,test_bug5_success_page_does_not_say_paid_for_new_order,FR-13,../../../shop/tests/test_defects.py
+ЛР2,shop/tests/test_defects.py::test_bug6_feedback_accepts_next_model_year,test_bug6_feedback_accepts_next_model_year,FR-22,../../../shop/tests/test_defects.py
+ЛР2,shop/tests/test_integration.py::test_catalog_hides_inactive_parts,test_catalog_hides_inactive_parts,FR-01,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_search[BOSCH-expected_names1],test_catalog_search,FR-02,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_search[\u041c\u0430\u0441\u043b\u044f\u043d\u044b\u0439-expected_names0],test_catalog_search,FR-02,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_search[\u0422\u043e\u0440\u043c\u043e\u0437-expected_names2],test_catalog_search,FR-02,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_search[\u043d\u0435\u0442 \u0442\u0430\u043a\u043e\u0433\u043e-expected_names4],test_catalog_search,FR-02,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_search[brembo-expected_names3],test_catalog_search,FR-02,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_sort[price-expected_prices0],test_catalog_sort,FR-04,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_sort[price_desc-expected_prices1],test_catalog_sort,FR-04,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_catalog_sort[unknown-expected_prices2],test_catalog_sort,FR-04,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_client_cannot_create_part,test_client_cannot_create_part,FR-18,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_external_apis_page_shows_data_from_services,test_external_apis_page_shows_data_from_services,FR-21,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_external_apis_page_survives_service_failure[cat_stub0],test_external_apis_page_survives_service_failure,"FR-21, NFR-03",../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_external_apis_page_survives_service_failure[cat_stub1],test_external_apis_page_survives_service_failure,"FR-21, NFR-03",../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_external_apis_page_survives_service_failure[cat_stub2],test_external_apis_page_survives_service_failure,"FR-21, NFR-03",../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_order_pay_without_items_is_rejected,test_order_pay_without_items_is_rejected,NFR-03,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_order_pay_writes_sales_and_decreases_stock,test_order_pay_writes_sales_and_decreases_stock,"FR-12, NFR-03",../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_parts_api_hides_sku_for_client_and_shows_for_staff,test_parts_api_hides_sku_for_client_and_shows_for_staff,FR-20,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_promo_applies_to_part_by_product_type[promo_types0-True],test_promo_applies_to_part_by_product_type,BT-4,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_promo_applies_to_part_by_product_type[promo_types1-True],test_promo_applies_to_part_by_product_type,BT-4,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_promo_applies_to_part_by_product_type[promo_types2-False],test_promo_applies_to_part_by_product_type,BT-4,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_registration_creates_user_and_client_profile,test_registration_creates_user_and_client_profile,"FR-16, NFR-02",../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_registration_rejects_invalid_data[changes0-email],test_registration_rejects_invalid_data,FR-16,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_registration_rejects_invalid_data[changes1-birth_date],test_registration_rejects_invalid_data,FR-16,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_registration_rejects_invalid_data[changes2-phone],test_registration_rejects_invalid_data,FR-16,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_registration_rejects_invalid_data[changes3-password2],test_registration_rejects_invalid_data,FR-16,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_sale_decreases_stock_in_db,test_sale_decreases_stock_in_db,BT-2,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_sale_more_than_stock_is_rejected_and_stock_unchanged,test_sale_more_than_stock_is_rejected_and_stock_unchanged,BT-2,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_staff_soft_deletes_part,test_staff_soft_deletes_part,FR-18,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_stats_available_only_for_staff[anon-302],test_stats_available_only_for_staff,FR-19,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_stats_available_only_for_staff[client-302],test_stats_available_only_for_staff,FR-19,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_integration.py::test_stats_available_only_for_staff[staff-200],test_stats_available_only_for_staff,FR-19,../../../shop/tests/test_integration.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_add_is_limited_by_stock,test_add_is_limited_by_stock,FR-06,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_add_part_to_cart,test_add_part_to_cart,FR-06,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_cart_add_rejects_get_request,test_cart_add_rejects_get_request,NFR-02,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_cart_page_shows_total,test_cart_page_shows_total,FR-07,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_deactivated_part_is_dropped_from_cart,test_deactivated_part_is_dropped_from_cart,FR-08,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_decrease_last_item_removes_it,test_decrease_last_item_removes_it,FR-07,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_deleted_part_is_dropped_from_cart,test_deleted_part_is_dropped_from_cart,FR-08,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_empty_cart_page_available,test_empty_cart_page_available,FR-07,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_increase_above_stock_is_blocked,test_increase_above_stock_is_blocked,FR-07,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_increase_and_decrease_quantity,test_increase_and_decrease_quantity,FR-07,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_out_of_stock_part_is_not_added,test_out_of_stock_part_is_not_added,FR-06,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CartTests::test_remove_and_clear_cart,test_remove_and_clear_cart,FR-07,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutFormTests::test_card_number_must_contain_sixteen_digits,test_card_number_must_contain_sixteen_digits,FR-10,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutFormTests::test_card_payment_requires_card_fields,test_card_payment_requires_card_fields,FR-10,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutFormTests::test_courier_delivery_requires_address,test_courier_delivery_requires_address,FR-10,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutFormTests::test_delivery_date_cannot_be_in_the_past,test_delivery_date_cannot_be_in_the_past,FR-10,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutFormTests::test_valid_form_without_card,test_valid_form_without_card,FR-10,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_cart_offers_login_to_guest,test_cart_offers_login_to_guest,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_checkout_page_available_with_items,test_checkout_page_available_with_items,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_checkout_redirects_when_cart_is_empty,test_checkout_redirects_when_cart_is_empty,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_checkout_requires_client_profile,test_checkout_requires_client_profile,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_checkout_requires_login,test_checkout_requires_login,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_checkout_with_stale_cart_does_not_create_empty_order,test_checkout_with_stale_cart_does_not_create_empty_order,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_guest_cannot_pay_and_no_order_is_created,test_guest_cannot_pay_and_no_order_is_created,FR-09,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_invalid_payment_shows_error_summary_at_top,test_invalid_payment_shows_error_summary_at_top,NFR-06,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_order_success_is_hidden_from_other_user,test_order_success_is_hidden_from_other_user,FR-15,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_paid_order_appears_in_profile,test_paid_order_appears_in_profile,FR-12,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_paid_order_is_linked_to_user_and_client,test_paid_order_is_linked_to_user_and_client,FR-15,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_payment_decreases_stock_exactly_once,test_payment_decreases_stock_exactly_once,FR-12,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_payment_of_whole_stock_succeeds,test_payment_of_whole_stock_succeeds,FR-12,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_promo_code_reduces_order_total,test_promo_code_reduces_order_total,FR-11,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_successful_payment_creates_order_and_clears_cart,test_successful_payment_creates_order_and_clears_cart,FR-12,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CheckoutTests::test_unknown_promo_code_is_rejected,test_unknown_promo_code_is_rejected,FR-11,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CompanyContentTests::test_about_page_shows_requisites_and_certificate,test_about_page_shows_requisites_and_certificate,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CompanyContentTests::test_home_page_shows_partner_with_external_link,test_home_page_shows_partner_with_external_link,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CompanyContentTests::test_home_slider_uses_delay_from_company_profile,test_home_slider_uses_delay_from_company_profile,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CompanyContentTests::test_privacy_page_is_filled,test_privacy_page_is_filled,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CompanyContentTests::test_regular_user_cannot_change_slider_delay,test_regular_user_cannot_change_slider_delay,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::CompanyContentTests::test_staff_can_change_slider_delay,test_staff_can_change_slider_delay,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::FeedbackFormTests::test_feedback_view_saves_nothing_but_redirects,test_feedback_view_saves_nothing_but_redirects,FR-22,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::FeedbackFormTests::test_invalid_feedback_view_renders_errors,test_invalid_feedback_view_renders_errors,"FR-22, NFR-04",../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::FeedbackFormTests::test_short_vin_is_rejected,test_short_vin_is_rejected,FR-22,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::FeedbackFormTests::test_valid_feedback_is_accepted,test_valid_feedback_is_accepted,FR-22,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::FeedbackFormTests::test_vin_topic_requires_vin,test_vin_topic_requires_vin,FR-22,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::FeedbackFormTests::test_wrong_phone_is_rejected,test_wrong_phone_is_rejected,FR-22,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ResponsiveImageTests::test_home_banners_have_art_direction_and_resolution_switching,test_home_banners_have_art_direction_and_resolution_switching,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ResponsiveImageTests::test_srcset_is_built_for_resizable_image,test_srcset_is_built_for_resizable_image,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ResponsiveImageTests::test_srcset_is_empty_for_plain_image,test_srcset_is_empty_for_plain_image,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_api_requires_login,test_api_requires_login,FR-20,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_complete_client_profile_allows_purchase,test_complete_client_profile_allows_purchase,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_employees_page_and_api_are_available,test_employees_page_and_api_are_available,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_external_api_page_uses_two_values,test_external_api_page_uses_two_values,FR-21,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_js_tasks_page_is_available,test_js_tasks_page_is_available,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_logged_user_can_buy_part,test_logged_user_can_buy_part,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_news_detail_and_part_detail_are_available,test_news_detail_and_part_detail_are_available,FR-05,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_part_list_filter_by_type,test_part_list_filter_by_type,FR-03,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_part_list_search_without_javascript,test_part_list_search_without_javascript,FR-02,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_part_list_sort_by_price,test_part_list_sort_by_price,FR-04,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_promos_require_login,test_promos_require_login,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_public_parts_page_available,test_public_parts_page_available,FR-01,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_registration_post_succeeds_with_csrf,test_registration_post_succeeds_with_csrf,"FR-16, NFR-02",../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_required_public_pages_are_available,test_required_public_pages_are_available,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_review_create_requires_login_and_saves_for_user,test_review_create_requires_login_and_saves_for_user,FR-17,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_sale_rejects_promo_for_wrong_product_type,test_sale_rejects_promo_for_wrong_product_type,BT-4,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_sale_with_valid_promo_applies_discount,test_sale_with_valid_promo_applies_discount,BT-4,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_sku_hidden_for_regular_user,test_sku_hidden_for_regular_user,NFR-02,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_sku_visible_for_staff,test_sku_visible_for_staff,NFR-02,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_staff_can_soft_delete_part,test_staff_can_soft_delete_part,FR-18,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_staff_crud_is_forbidden_for_regular_user,test_staff_crud_is_forbidden_for_regular_user,FR-18,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_stats_and_chart_for_staff_only,test_stats_and_chart_for_staff_only,FR-19,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_suppliers_hidden_for_regular_user,test_suppliers_hidden_for_regular_user,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_suppliers_visible_for_staff,test_suppliers_visible_for_staff,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ShopViewTests::test_user_without_client_redirected_to_complete_profile_on_buy,test_user_without_client_redirected_to_complete_profile_on_buy,,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ValidationTests::test_registration_form_rejects_invalid_email,test_registration_form_rejects_invalid_email,FR-16,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ValidationTests::test_registration_form_rejects_wrong_phone,test_registration_form_rejects_wrong_phone,FR-16,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_regression.py::ValidationTests::test_validate_adult_rejects_underage,test_validate_adult_rejects_underage,FR-16,../../../shop/tests/test_regression.py
+ЛР2,shop/tests/test_scenarios.py::test_card_payment_moves_order_from_cart_to_paid,test_card_payment_moves_order_from_cart_to_paid,FR-12,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_deferred_payment_order_waits_then_becomes_paid[erip],test_deferred_payment_order_waits_then_becomes_paid,FR-13,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_deferred_payment_order_waits_then_becomes_paid[invoice],test_deferred_payment_order_waits_then_becomes_paid,FR-13,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_finished_order_does_not_change_state[order_cancel-order_cancel-canceled],test_finished_order_does_not_change_state,FR-14,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_finished_order_does_not_change_state[order_cancel-order_pay-canceled],test_finished_order_does_not_change_state,FR-14,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_finished_order_does_not_change_state[order_pay-order_cancel-paid],test_finished_order_does_not_change_state,FR-14,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_finished_order_does_not_change_state[order_pay-order_pay-paid],test_finished_order_does_not_change_state,FR-14,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_guest_is_sent_to_login_and_no_order_created,test_guest_is_sent_to_login_and_no_order_created,FR-09,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_new_order_can_be_canceled,test_new_order_can_be_canceled,FR-14,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_other_user_cannot_change_order[order_cancel],test_other_user_cannot_change_order,FR-15,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_other_user_cannot_change_order[order_pay],test_other_user_cannot_change_order,FR-15,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_pay_fails_when_stock_ran_out_and_order_stays_new,test_pay_fails_when_stock_ran_out_and_order_stays_new,"FR-13, NFR-03",../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_promo_code_is_applied_through_whole_scenario,test_promo_code_is_applied_through_whole_scenario,FR-11,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_state_change_requires_post[order_cancel],test_state_change_requires_post,NFR-02,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_scenarios.py::test_state_change_requires_post[order_pay],test_state_change_requires_post,NFR-02,../../../shop/tests/test_scenarios.py
+ЛР2,shop/tests/test_unit.py::test_cancel_is_forbidden_for_finished_order[canceled],test_cancel_is_forbidden_for_finished_order,FR-14,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cancel_is_forbidden_for_finished_order[paid],test_cancel_is_forbidden_for_finished_order,FR-14,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cancel_new_order_sets_canceled_status,test_cancel_new_order_sets_canceled_status,FR-14,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[0--3-False-5-1],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[0-0-False-5-1],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[0-1-False-5-1],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[0-10-False-5-5],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[0-150-False-500-99],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[2-2-False-5-4],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_add_keeps_quantity_within_limits[3-1-True-5-1],test_cart_add_keeps_quantity_within_limits,FR-06,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_clear_empties_session,test_cart_clear_empties_session,FR-07,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_drops_parts_that_are_no_longer_available,test_cart_drops_parts_that_are_no_longer_available,FR-08,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_remove_deletes_only_given_position,test_cart_remove_deletes_only_given_position,FR-07,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_remove_missing_position_does_not_fail,test_cart_remove_missing_position_does_not_fail,FR-07,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_cart_with_broken_session_value_starts_empty,test_cart_with_broken_session_value_starts_empty,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_erip_does_not_require_card,test_checkout_form_erip_does_not_require_card,FR-10,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes0-card_number],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes1-card_number],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes2-card_number],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes3-card_cvc],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes4-card_holder],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes5-delivery_address],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes6-delivery_date],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes7-phone],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes8-agree],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_rejects_invalid_input[changes9-payment_method],test_checkout_form_rejects_invalid_input,"FR-10, NFR-04",../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_checkout_form_valid_data_is_accepted,test_checkout_form_valid_data_is_accepted,FR-10,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_email_validator[a.b+c@mail.by-True],test_email_validator,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_email_validator[name@.c-False],test_email_validator,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_email_validator[name@domain-False],test_email_validator,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_email_validator[name@example.com-True],test_email_validator,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_email_validator[no-at-sign.com-False],test_email_validator,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_format_utc_offset[America/Caracas-UTC-04:00],test_format_utc_offset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_format_utc_offset[Asia/Kolkata-UTC+05:30],test_format_utc_offset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_format_utc_offset[Europe/Minsk-UTC+03:00],test_format_utc_offset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_format_utc_offset[UTC-UTC+00:00],test_format_utc_offset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_order_item_total_price,test_order_item_total_price,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_order_number_format[1-AP-000001],test_order_number_format,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_order_number_format[123456-AP-123456],test_order_number_format,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_order_number_format[42-AP-000042],test_order_number_format,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_part_image_srcset[-0],test_part_image_srcset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_part_image_srcset[https://img.example.com/a.jpg-0],test_part_image_srcset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_part_image_srcset[https://img.example.com/a.jpg?w=900-3],test_part_image_srcset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_part_image_srcset[https://img.example.com/a.jpg?x=1&w=480-3],test_part_image_srcset,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_pay_is_forbidden_for_finished_order[canceled],test_pay_is_forbidden_for_finished_order,FR-14,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_pay_is_forbidden_for_finished_order[paid],test_pay_is_forbidden_for_finished_order,FR-14,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_accepts_belarus_format[+375 (25) 999-99-99],test_phone_validator_accepts_belarus_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_accepts_belarus_format[+375 (29) 123-45-67],test_phone_validator_accepts_belarus_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_accepts_belarus_format[+375 (33) 201-21-31],test_phone_validator_accepts_belarus_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_accepts_belarus_format[+375 (44) 000-00-00],test_phone_validator_accepts_belarus_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_rejects_wrong_format[+375 (17) 123-45-67],test_phone_validator_rejects_wrong_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_rejects_wrong_format[+375 (29) 123-45-6a],test_phone_validator_rejects_wrong_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_rejects_wrong_format[+375 (29) 1234567],test_phone_validator_rejects_wrong_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_rejects_wrong_format[+375(29)123-45-67],test_phone_validator_rejects_wrong_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_rejects_wrong_format[80291234567],test_phone_validator_rejects_wrong_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_phone_validator_rejects_wrong_format[],test_phone_validator_rejects_wrong_format,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_promo_clean_rejects_end_before_start,test_promo_clean_rejects_end_before_start,FR-11,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_promo_is_current[False-starts4-ends4-False],test_promo_is_current,FR-11,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_promo_is_current[True-starts0-ends0-True],test_promo_is_current,FR-11,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_promo_is_current[True-starts1-ends1-True],test_promo_is_current,FR-11,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_promo_is_current[True-starts2-ends2-False],test_promo_is_current,FR-11,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_promo_is_current[True-starts3-ends3-False],test_promo_is_current,FR-11,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_safe_api_get_returns_fallback_on_error[error0],test_safe_api_get_returns_fallback_on_error,NFR-03,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_safe_api_get_returns_fallback_on_error[error1],test_safe_api_get_returns_fallback_on_error,NFR-03,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_safe_api_get_returns_fallback_on_error[error2],test_safe_api_get_returns_fallback_on_error,NFR-03,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_safe_api_get_returns_json_on_success,test_safe_api_get_returns_json_on_success,NFR-03,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_vacancy_clean_rejects_max_salary_below_min,test_vacancy_clean_rejects_max_salary_below_min,,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_validate_adult_boundaries[birth_date0-True],test_validate_adult_boundaries,FR-16,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_validate_adult_boundaries[birth_date1-False],test_validate_adult_boundaries,FR-16,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_validate_adult_boundaries[birth_date2-True],test_validate_adult_boundaries,FR-16,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_validate_adult_boundaries[birth_date3-False],test_validate_adult_boundaries,FR-16,../../../shop/tests/test_unit.py
+ЛР2,shop/tests/test_unit.py::test_validate_not_future_rejects_tomorrow,test_validate_not_future_rejects_tomorrow,NFR-04,../../../shop/tests/test_unit.py
+ЛР2,COV-01,pytest-cov · покрытие кода,NFR-07,evidence/pytest.txt
+ЛР3,TC-01,Активность товара в выдаче,FR-01,../lab3/report.html#TC-01
+ЛР3,TC-02,Подстрока в трёх полях и видимость артикула,FR-02,../lab3/report.html#TC-02
+ЛР3,TC-03,Регистр при поиске кириллицы,FR-02,../lab3/report.html#TC-03
+ЛР3,TC-04,Фильтр типа и несуществующий ID,FR-03,../lab3/report.html#TC-04
+ЛР3,TC-05,Нечисловой фильтр,"FR-03, NFR-04",../lab3/report.html#TC-05
+ЛР3,TC-06,Порядок сортировки и запасной вариант,FR-04,../lab3/report.html#TC-06
+ЛР3,TC-07,"Поля карточки, похожие товары и отсутствующий ID",FR-05,../lab3/report.html#TC-07
+ЛР3,TC-08,Карточка после мягкого удаления,FR-05,../lab3/report.html#TC-08
+ЛР3,TC-09,"Минимум, складской предел и потолок 99",FR-06,../lab3/report.html#TC-09
+ЛР3,TC-10,Нет товара на складе,FR-06,../lab3/report.html#TC-10
+ЛР3,TC-11,"Изменение количества, удаление и очистка",FR-07,../lab3/report.html#TC-11
+ЛР3,TC-12,Автоудаление недоступных позиций,FR-08,../lab3/report.html#TC-12
+ЛР3,TC-13,Гость и пустая корзина,FR-09,../lab3/report.html#TC-13
+ЛР3,TC-14,Заполненный и отсутствующий профиль,FR-09,../lab3/report.html#TC-14
+ЛР3,TC-15,Отклонение полей заказа,"FR-10, NFR-06",../lab3/report.html#TC-15
+ЛР3,TC-16,Активный промокод в другом регистре,FR-11,../lab3/report.html#TC-16
+ЛР3,TC-17,"Неизвестный, истёкший и отключённый промокоды",FR-11,../lab3/report.html#TC-17
+ЛР3,TC-18,Оплата картой и списание,"FR-10, FR-12",../lab3/report.html#TC-18
+ЛР3,TC-19,Повторная оплата оплаченного заказа,"FR-12, FR-14",../lab3/report.html#TC-19
+ЛР3,TC-20,ЕРИП и счёт с оплатой из профиля,FR-13,../lab3/report.html#TC-20
+ЛР3,TC-21,Нехватка одного из двух товаров,"FR-13, NFR-03",../lab3/report.html#TC-21
+ЛР3,TC-22,Заголовок подтверждения для заказа new,FR-13,../lab3/report.html#TC-22
+ЛР3,TC-23,Отмена и запрещённые повторные переходы,FR-14,../lab3/report.html#TC-23
+ЛР3,TC-24,"Свой заказ доступен, чужой изолирован",FR-15,../lab3/report.html#TC-24
+ЛР3,TC-25,Регистрация совершеннолетнего,"FR-16, NFR-02",../lab3/report.html#TC-25
+ЛР3,TC-26,"Возраст, повторный email и некорректный телефон",FR-16,../lab3/report.html#TC-26
+ЛР3,TC-27,"Гость, допустимая и запредельная оценки",FR-17,../lab3/report.html#TC-27
+ЛР3,TC-28,"Создание, редактирование и мягкое удаление",FR-18,../lab3/report.html#TC-28
+ЛР3,TC-29,Клиенту запрещены каталог и статистика сотрудника,"FR-18, FR-19",../lab3/report.html#TC-29
+ЛР3,TC-30,Числа продаж и изображение графика,FR-19,../lab3/report.html#TC-30
+ЛР3,TC-31,JSON с разграничением SKU,FR-20,../lab3/report.html#TC-31
+ЛР3,TC-32,Факт и IP при успешном ответе сервисов,"FR-21, NFR-03",../lab3/report.html#TC-32
+ЛР3,TC-33,Таймаут и серверная ошибка поставщика,"FR-21, NFR-03",../lab3/report.html#TC-33
+ЛР3,TC-34,Ошибки заявки и граничные длины сообщения,FR-22,../lab3/report.html#TC-34
+ЛР3,TC-35,Следующий модельный год,FR-22,../lab3/report.html#TC-35
+ЛР3,TC-36,Менеджеру доступна отправленная заявка,FR-22,../lab3/report.html#TC-36
+ЛР4,PM-01,Гость → профиль,"FR-09, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-02,Гость → завершение профиля,"FR-09, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-03,Гость → оформление,"FR-09, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-04,Гость → отзывы,"FR-17, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-05,Гость → статистика,"FR-19, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-06,Гость → JSON каталога,"FR-20, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-07,Несуществующий API,NFR-04,../lab4/postman/report.html#requests
+ЛР4,PM-08,Каталог: поиск и сортировка,"FR-02, FR-04",../lab4/postman/report.html#requests
+ЛР4,PM-09,Карточка: цена и остаток,FR-05,../lab4/postman/report.html#requests
+ЛР4,PM-10,Карточка: отсутствующий ID,FR-05,../lab4/postman/report.html#requests
+ЛР4,PM-11,Сотрудники: JSON и контрольная запись,,../lab4/postman/report.html#requests
+ЛР4,PM-12,Внешние данные: UC-9,FR-21,../lab4/postman/report.html#requests
+ЛР4,PM-13,Корзина гостя,FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-14,Изменение корзины GET,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-15,Изменение корзины без CSRF,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-16,Форма регистрации,FR-16,../lab4/postman/report.html#requests
+ЛР4,PM-17,Регистрация с неверным телефоном,"FR-16, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-18,Регистрация клиента,FR-16,../lab4/postman/report.html#requests
+ЛР4,PM-19,Профиль и обновлённый CSRF,"FR-16, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-20,Выход клиента,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-21,Форма входа,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-22,Вход с неверным паролем,"NFR-02, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-23,Вход клиента и установка сессии,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-24,Профиль: сессия из логина,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-25,Клиентский JSON без SKU,FR-20,../lab4/postman/report.html#requests
+ЛР4,PM-26,Каталог: тип и направление сортировки,FR-04,../lab4/postman/report.html#requests
+ЛР4,PM-27,Каталог: фильтр по типу,FR-03,../lab4/postman/report.html#requests
+ЛР4,PM-28,Каталог: неверный фильтр игнорируется (BUG-1),"FR-03, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-29,Клиент → создание товара,"FR-18, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-30,Пустая корзина не оформляется,FR-09,../lab4/postman/report.html#requests
+ЛР4,PM-31,Добавить 2 шт. в корзину,FR-06,../lab4/postman/report.html#requests
+ЛР4,PM-32,"Корзина: итог 246,90 BYN",FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-33,Увеличить количество до 3,FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-34,"Корзина: итог 370,35 BYN",FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-35,Удалить позицию,FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-36,Корзина после удаления,FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-37,Добавить перед очисткой,FR-06,../lab4/postman/report.html#requests
+ЛР4,PM-38,Очистить корзину,FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-39,Корзина после очистки,FR-07,../lab4/postman/report.html#requests
+ЛР4,PM-40,Добавить для ЕРИП,FR-06,../lab4/postman/report.html#requests
+ЛР4,PM-41,Форма оформления,FR-09,../lab4/postman/report.html#requests
+ЛР4,PM-42,"Проверка телефона, адреса и согласия","FR-10, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-43,Неизвестный промокод,"FR-11, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-44,Создать заказ ЕРИП,FR-13,../lab4/postman/report.html#requests
+ЛР4,PM-45,Заказ ожидает оплаты: взять ID из профиля,FR-13,../lab4/postman/report.html#requests
+ЛР4,PM-46,Собственное подтверждение,"FR-15, NFR-02",../lab4/postman/report.html#requests
+ЛР4,PM-47,Оплата по GET запрещена,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-48,Оплатить из профиля,FR-13,../lab4/postman/report.html#requests
+ЛР4,PM-49,После оплаты отражён статус,FR-13,../lab4/postman/report.html#requests
+ЛР4,PM-50,В JSON остаток уменьшился на 2,"FR-13, FR-20",../lab4/postman/report.html#requests
+ЛР4,PM-51,Повторная оплата: отказ,FR-14,../lab4/postman/report.html#requests
+ЛР4,PM-52,Сообщение о повторном платеже,FR-14,../lab4/postman/report.html#requests
+ЛР4,PM-53,Добавить позицию для счёта,FR-06,../lab4/postman/report.html#requests
+ЛР4,PM-54,Создать заказ по счёту,FR-13,../lab4/postman/report.html#requests
+ЛР4,PM-55,Сохранить ID заказа для отмены,FR-13,../lab4/postman/report.html#requests
+ЛР4,PM-56,Отменить заказ,FR-14,../lab4/postman/report.html#requests
+ЛР4,PM-57,После отмены статус отображён,FR-14,../lab4/postman/report.html#requests
+ЛР4,PM-58,Действующие промокоды,FR-11,../lab4/postman/report.html#requests
+ЛР4,PM-59,Добавить позицию для карты,FR-06,../lab4/postman/report.html#requests
+ЛР4,PM-60,Тестовая карта и промокод в нижнем регистре,"FR-10, FR-11, FR-12",../lab4/postman/report.html#requests
+ЛР4,PM-61,"Тестовая карта: оплачен, скидка 20%, итог 98,76","FR-11, FR-12",../lab4/postman/report.html#requests
+ЛР4,PM-62,После карточного заказа корзина очищена,FR-12,../lab4/postman/report.html#requests
+ЛР4,PM-63,Список отзывов,FR-17,../lab4/postman/report.html#requests
+ЛР4,PM-64,Форма отзыва,FR-17,../lab4/postman/report.html#requests
+ЛР4,PM-65,Оценка 6 отклоняется,"FR-17, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-66,Отзыв с оценкой 5 принимается,FR-17,../lab4/postman/report.html#requests
+ЛР4,PM-67,Отзыв доступен,FR-17,../lab4/postman/report.html#requests
+ЛР4,PM-68,Форма контактов,FR-22,../lab4/postman/report.html#requests
+ЛР4,PM-69,Заявка без VIN,"FR-22, NFR-04",../lab4/postman/report.html#requests
+ЛР4,PM-70,Заявка с валидными полями,FR-22,../lab4/postman/report.html#requests
+ЛР4,PM-71,Подтверждение контактов,FR-22,../lab4/postman/report.html#requests
+ЛР4,PM-72,Выход клиента,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-73,Логин сотрудника: CSRF,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-74,Логин сотрудника,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-75,Статистика сотрудника,FR-19,../lab4/postman/report.html#requests
+ЛР4,PM-76,График продаж,FR-19,../lab4/postman/report.html#requests
+ЛР4,PM-77,JSON сотрудника с SKU,FR-20,../lab4/postman/report.html#requests
+ЛР4,PM-78,Поиск сотрудником по SKU,FR-02,../lab4/postman/report.html#requests
+ЛР4,PM-79,Форма нового товара,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-80,Создать товар,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-81,Форма редактирования,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-82,Изменить цену,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-83,Проверить изменение цены,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-84,Подтверждение удаления,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-85,Мягкое удаление,FR-18,../lab4/postman/report.html#requests
+ЛР4,PM-86,Удалённая карточка закрыта (BUG-3),FR-05,../lab4/postman/report.html#requests
+ЛР4,PM-87,Выход сотрудника,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-88,Новая форма входа,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-89,Вход без профиля,NFR-02,../lab4/postman/report.html#requests
+ЛР4,PM-90,Форма заполнения профиля,FR-09,../lab4/postman/report.html#requests
+ЛР4,PM-91,Добавить позицию без клиентского профиля,FR-06,../lab4/postman/report.html#requests
+ЛР4,PM-92,Оформление требует заполнения профиля,FR-09,../lab4/postman/report.html#requests
+ЛР4,PM-93,Выход пользователя без профиля,NFR-02,../lab4/postman/report.html#requests
+ЛР4,Chrome-UI:UI-01,UI-01 | Регистрация создаёт профиль клиента,FR-16,../lab4/report.html#ui
+ЛР4,Chrome-UI:UI-02,"UI-02 | Поиск, изменение количества и очистка корзины","FR-02, FR-06, FR-07",../lab4/report.html#ui
+ЛР4,Chrome-UI:UI-03,UI-03 | Заказ ЕРИП оплачивается из профиля,"FR-09, FR-13",../lab4/report.html#ui
+ЛР4,Chrome-UI:UI-04,UI-04 | Заказ по счёту отменяется из профиля,"FR-13, FR-14",../lab4/report.html#ui
+ЛР4,Chrome-UI:UI-05,UI-05 | Гость перенаправляется на вход при прямом переходе к оформлению,"FR-09, NFR-02",../lab4/report.html#ui
+ЛР4,Chrome:LAY-01,"LAY-01 | Сетка, блоки, изображение и текст",NFR-06,../lab4/report.html#Chrome-LAY-01
+ЛР4,Firefox:LAY-01,"LAY-01 | Сетка, блоки, изображение и текст",NFR-06,../lab4/report.html#Firefox-LAY-01
+ЛР4,WebKit:LAY-01,"LAY-01 | Сетка, блоки, изображение и текст",NFR-06,../lab4/report.html#WebKit-LAY-01
+ЛР4,Chrome-mobile:LAY-01,"LAY-01 | Сетка, блоки, изображение и текст",NFR-06,../lab4/report.html#Chrome-mobile-LAY-01
+ЛР4,Chrome:LAY-02,LAY-02 | Адаптивность по ширине и масштабу,NFR-06,../lab4/report.html#Chrome-LAY-02
+ЛР4,Firefox:LAY-02,LAY-02 | Адаптивность по ширине и масштабу,NFR-06,../lab4/report.html#Firefox-LAY-02
+ЛР4,WebKit:LAY-02,LAY-02 | Адаптивность по ширине и масштабу,NFR-06,../lab4/report.html#WebKit-LAY-02
+ЛР4,Chrome-mobile:LAY-02,LAY-02 | Адаптивность по ширине и масштабу,NFR-06,../lab4/report.html#Chrome-mobile-LAY-02
+ЛР4,Chrome:LAY-03,"LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",NFR-06,../lab4/report.html#Chrome-LAY-03
+ЛР4,Firefox:LAY-03,"LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",NFR-06,../lab4/report.html#Firefox-LAY-03
+ЛР4,WebKit:LAY-03,"LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",NFR-06,../lab4/report.html#WebKit-LAY-03
+ЛР4,Chrome-mobile:LAY-03,"LAY-03 | Ссылки, кнопки, фокус, hover, логотип и favicon",NFR-06,../lab4/report.html#Chrome-mobile-LAY-03
+ЛР4,Chrome:LAY-04,"LAY-04 | Длинные и короткие строки, пустой список и 66 записей","FR-02, NFR-06",../lab4/report.html#Chrome-LAY-04
+ЛР4,Firefox:LAY-04,"LAY-04 | Длинные и короткие строки, пустой список и 66 записей","FR-02, NFR-06",../lab4/report.html#Firefox-LAY-04
+ЛР4,WebKit:LAY-04,"LAY-04 | Длинные и короткие строки, пустой список и 66 записей","FR-02, NFR-06",../lab4/report.html#WebKit-LAY-04
+ЛР4,Chrome-mobile:LAY-04,"LAY-04 | Длинные и короткие строки, пустой список и 66 записей","FR-02, NFR-06",../lab4/report.html#Chrome-mobile-LAY-04
+ЛР4,Chrome:LAY-05,LAY-05 | Network и Console на маршрутах основного сценария,NFR-06,../lab4/report.html#Chrome-LAY-05
+ЛР4,Firefox:LAY-05,LAY-05 | Network и Console на маршрутах основного сценария,NFR-06,../lab4/report.html#Firefox-LAY-05
+ЛР4,WebKit:LAY-05,LAY-05 | Network и Console на маршрутах основного сценария,NFR-06,../lab4/report.html#WebKit-LAY-05
+ЛР4,Chrome-mobile:LAY-05,LAY-05 | Network и Console на маршрутах основного сценария,NFR-06,../lab4/report.html#Chrome-mobile-LAY-05
+ЛР4,SEC-01,Защищённые URL без входа,"FR-09, FR-17, FR-19, FR-20, NFR-02",../lab4/security-results.json
+ЛР4,SEC-02,Изоляция заказа второго клиента,"FR-15, NFR-02",../lab4/security-results.json
+ЛР4,SEC-03,Запрет изменяющих GET и POST без CSRF,NFR-02,../lab4/security-results.json
+ЛР4,SEC-04,Неразглашение деталей ошибок при DEBUG=False,,../lab4/security-results.json
+ЛР4,SEC-05,Детали ошибок при значении DEBUG по умолчанию,,../lab4/security-results.json
+ЛР4,SEC-06,Журнал ошибок и обратной связи,"FR-21, NFR-03",../lab4/security-results.json
+ЛР4,SEC-07,Аудит основных операций,,../lab4/security-results.json
+ЛР4,SEC-08,Хранение пароля,"FR-16, NFR-02",../lab4/security-results.json
+ЛР4,PERF-01,Отклик каталога на стенде,NFR-01,../lab4/security-results.json
+ЛР3,VAL-01,Четыре HTML-страницы · vnu.jar,NFR-06,../lab3/html-validation.txt
+ЛР5,LOAD-01,Locust · baseline · 1 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-02,Locust · target · 15 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-03,Locust · stress · 30 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-04,Locust · stress · 60 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-05,Locust · stress · 90 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-06,Locust · stress · 120 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-07,Locust · stress · 160 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-08,Locust · stress · 200 пользователей,NFR-01,report.html#results
+ЛР5,LOAD-09,Locust · recovery · 1 пользователей,NFR-01,report.html#results

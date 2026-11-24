@@ -8,11 +8,9 @@ function unique() {
 }
 
 function makeData(mode) {
-  const root = process.env.QA_PROJECT_DIR;
-  if (!root) throw new Error('Укажите QA_PROJECT_DIR с копией стенда и файлом .qa-scratch.');
+  const root = path.resolve(__dirname, '../../../../..');
   const python = process.env.QA_PYTHON || 'python3';
-  const script = path.resolve(__dirname, '../../../stand/fixtures.py');
-  const output = execFileSync(python, [script, 'ui', mode, unique()], {
+  const output = execFileSync(python, ['-m', 'docs.qa', 'fixture', mode, unique()], {
     cwd: root,
     encoding: 'utf8',
   });

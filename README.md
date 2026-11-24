@@ -128,9 +128,31 @@ docker compose up --build
 | ЛР2 · Автотесты | [Модульные, интеграционные и сценарные тесты](shop/tests/), [запуск и покрытие](docs/testing.md) |
 | ЛР3 · Системное тестирование | [План, чек-лист, 36 тест-кейсов и их скриншоты](docs/qa/lab3/report.html) |
 | ЛР4 · UI, API и безопасность | [Отчёт](docs/qa/lab4/report.html), [коллекция Postman](docs/qa/lab4/postman/AutoParts.postman_collection.json), [тесты Playwright](docs/qa/lab4/ui/) |
+| ЛР5 · Нагрузка, линтер и трассировка | [Отчёт и график](docs/qa/lab5/report.html), [матрица требований](docs/qa/lab5/matrix.html) |
 
 [Реестр дефектов](ISSUES.md) содержит ссылки на подробные карточки и доказательства.
 Откройте [указатель отчётов и инструкцию запуска](docs/qa/index.html) в браузере из локальной папки репозитория.
+
+### Быстрый запуск ЛР3–ЛР5
+
+Выполняйте команды из корня проекта. Для проверок с данными автоматически создаётся временная SQLite.
+
+```bash
+.venv/bin/python -m pip install -r docs/qa/requirements.txt
+npm --prefix docs/qa/lab4/ui ci --ignore-scripts
+```
+
+```bash
+.venv/bin/python -m docs.qa system
+.venv/bin/python -m docs.qa api
+.venv/bin/python -m docs.qa ui
+.venv/bin/python -m docs.qa load --quick
+.venv/bin/python -m docs.qa lint
+```
+
+Полный нагрузочный прогон — `.venv/bin/python -m docs.qa load`. Команда `.venv/bin/python -m docs.qa --help`
+показывает также запуск стенда, проверки защиты, кроссбраузерный прогон и обновление матрицы.
+
 
 ## Страницы
 

@@ -1,28 +1,58 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AutoParts · Лабораторные работы 3 и 4 · AutoParts</title><link rel="stylesheet" href="report.css"></head>
-<body><header><h1>AutoParts · Лабораторные работы 3 и 4</h1><p>23 ноября 2026 г. · ревизия <code>305c4bf</code></p></header><main><p>Комплект содержит отчёты, доказательства и исходники проверок. Тестирование выполнено на изолированной копии проекта с демоданными. Исходный проект и его SQLite не требуются для просмотра результатов.</p><article class="card"><h3><a href="lab3/report.html">ЛР3 · План, чек-лист и 36 тест-кейсов</a></h3><p>30 PASS · 6 FAIL · 36 скриншотов.</p></article><article class="card"><h3><a href="lab3/defects.html">Реестр дефектов</a></h3><p>Семь записей ЛР1, включая повторный xfail из ЛР2, и четыре наблюдения ЛР4.</p></article><article class="card"><h3><a href="lab4/report.html">ЛР4 · Совместимость, API, безопасность, Playwright</a></h3><p>5/5 функциональных UI-сценариев, 15/20 проверок совместимости, 6/8 проверок безопасности.</p></article><article class="card"><h3><a href="lab4/postman/report.html">Postman · протокол запуска</a></h3><p>93 запроса, 211 утверждений, 208 PASS и 3 FAIL.</p></article><article class="card"><h3><a href="lab4/postman/AutoParts.postman_collection.json">Коллекция Postman v2.1</a></h3><p>Запросы, сценарии и проверки с сессионной аутентификацией Django.</p></article><article class="card"><h3><a href="lab3/requirements.html">Ссылочная копия требований ЛР1</a></h3><p>22 функциональных и 7 нефункциональных требований.</p></article><section id="reproduce"><h2>Воспроизведение</h2><p>Из корня репозитория выполните команды ниже. Они создают временную копию с отдельной SQLite и используют интерпретатор из .venv проекта. Данные из исходной базы не нужны. Стенд слушает только 127.0.0.1. Chrome должен быть установлен для проекта Playwright с channel=chrome.</p><h3>Подготовить тестовую копию и запустить сервер</h3><pre>QA_PROJECT=&quot;$(pwd -P)&quot;
-QA_KIT=&quot;$QA_PROJECT/docs/qa&quot;
-QA_COPY=&quot;$(mktemp -d)&quot;
-export QA_COPY QA_KIT
-export QA_PYTHON=&quot;$QA_PROJECT/.venv/bin/python&quot;
-
-rsync -a --exclude=&#x27;.git&#x27; --exclude=&#x27;.venv&#x27; --exclude=&#x27;db.sqlite3*&#x27; \
-  --exclude=&#x27;.pytest_cache&#x27; --exclude=&#x27;.coverage&#x27; --exclude=&#x27;__pycache__&#x27; \
-  --exclude=&#x27;.cache&#x27; --exclude=&#x27;.matplotlib&#x27; --exclude=&#x27;/docs/qa/&#x27; &quot;$QA_PROJECT/&quot; &quot;$QA_COPY/&quot;
-cd &quot;$QA_COPY&quot;
-touch .qa-scratch
-mkdir -p reports
-&quot;$QA_PYTHON&quot; manage.py migrate --noinput
-&quot;$QA_PYTHON&quot; manage.py seed_data
-&quot;$QA_PYTHON&quot; &quot;$QA_KIT/stand/fixtures.py&quot; api
-printf &#x27;QA_COPY=%s\n&#x27; &quot;$QA_COPY&quot;
-DJANGO_DEBUG=False &quot;$QA_PYTHON&quot; manage.py runserver 127.0.0.1:8765 --noreload --insecure</pre><p>Оставьте сервер запущенным. Во второй вкладке задайте QA_COPY по строке, которую напечатал стенд, и укажите те же QA_KIT и QA_PYTHON. Экспортируйте QA_PYTHON перед запуском Playwright. Системные кейсы и проверка безопасности могут запускаться отдельно. Не запускайте несколько пишущих прогонов одновременно на одной SQLite.</p><p>Материалы предыдущих работ находятся в <a href="../requirements.md">спецификации ЛР1</a>, <a href="../state-diagram.md">диаграмме состояний</a> и <a href="../testing.md">отчёте ЛР2</a>.</p><h3>Запустить ЛР3 и проверки безопасности</h3><pre>cd &quot;$QA_COPY&quot;
-mkdir -p &quot;$QA_COPY/reports&quot;
-&quot;$QA_PYTHON&quot; &quot;$QA_KIT/lab3/system_cases.py&quot; &quot;$QA_COPY/reports&quot;
-&quot;$QA_PYTHON&quot; &quot;$QA_KIT/lab4/security_checks.py&quot;   &quot;$QA_COPY/reports/security.json&quot; http://127.0.0.1:8765
-&quot;$QA_PYTHON&quot; -m pytest --cov=shop --cov-report=term-missing</pre><h3>Запустить UI-тесты и проверки совместимости</h3><pre>cd &quot;$QA_KIT/lab4/ui&quot;
-npm ci
-npx playwright install firefox webkit
-QA_PROJECT_DIR=&quot;$QA_COPY&quot; npm test
-npm run report</pre><p>Если нужны только функциональные UI-тесты, используйте <code>npm run test:ui</code>. Для матрицы браузеров доступна команда <code>npm run test:compat</code>. HTML-отчёт Playwright создаётся даже при провале ожиданий.</p><h3>Импортировать и запустить Postman</h3><p>Импортируйте коллекцию Postman v2.1, запустите папки целиком от 01 до 06 и очистите cookie для тестового хоста перед стартом. Автопереходы отключены в настройках запросов. Переменная baseUrl по умолчанию указывает на 127.0.0.1:8765. Коллекция меняет тестовые данные и уменьшает остаток контрольной детали на 3 при успешном прогоне. Для чистого повтора используйте новую копию SQLite.</p><pre>postman collection run &quot;$QA_KIT/lab4/postman/AutoParts.postman_collection.json&quot;   --ignore-redirects --reporters cli,json   --reporter-json-export &quot;$QA_COPY/reports/postman.json&quot; </pre><p>В итоговых прогонах FAIL соответствуют зарегистрированным дефектам. Полный необработанный отчёт Postman из повторного запуска содержит тестовые cookie и тела ответов. Для сдачи используйте компактный отчёт из комплекта.</p></section></main></body></html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Лабораторные работы · AutoParts</title>
+  <link rel="stylesheet" href="report.css">
+</head>
+<body>
+<header>
+  <h1>Лабораторные работы AutoParts</h1>
+  <p>Отчёты, доказательства и запуск из корня проекта</p>
+</header>
+<main>
+  <section aria-labelledby="reports">
+    <h2 id="reports">Материалы</h2>
+    <ul>
+      <li>ЛР1 · <a href="../requirements.md">Требования</a> и <a href="../state-diagram.md">диаграмма заказа</a></li>
+      <li>ЛР2 · <a href="../testing.md">Тесты и покрытие</a></li>
+      <li>ЛР3 · <a href="lab3/report.html">План, чек-лист, 36 кейсов и скриншоты</a> · <a href="lab3/defects.html">Реестр ЛР3–ЛР4</a></li>
+      <li>ЛР4 · <a href="lab4/report.html">Совместимость, API, безопасность и UI</a> · <a href="lab4/postman/AutoParts.postman_collection.json">Коллекция Postman</a></li>
+      <li>ЛР5 · <a href="lab5/report.html">Нагрузочный прогон, график и линтер</a> · <a href="lab5/matrix.html">Матрица трассируемости</a></li>
+    </ul>
+  </section>
+  <section id="reproduce">
+    <h2>Подготовка</h2>
+    <p>Выполните команды из корня репозитория. Если виртуальное окружение ещё не создано, выполните инструкции из <a href="../../README.md#сборка-и-запуск">README</a>.</p>
+    <pre>.venv/bin/python -m pip install -r docs/qa/requirements.txt
+npm --prefix docs/qa/lab4/ui ci --ignore-scripts</pre>
+    <p>Для основных UI-сценариев нужен установленный Google Chrome. Для полного прогона совместимости один раз установите управляемые сборки Firefox и WebKit.</p>
+    <pre>npm --prefix docs/qa/lab4/ui exec -- playwright install firefox webkit</pre>
+    <h3>Команды для демонстрации</h3>
+    <p>Каждая команда использует код из текущей папки проекта. Для проверок с данными создаётся временная SQLite с демоданными. При необходимости команда запускает Django только на 127.0.0.1 и очищает временный стенд при завершении. Отчёты прогонов складываются в git-игнорируемую папку <code>docs/qa/runs/</code>. Точный путь печатается в начале.</p>
+    <div class="table">
+      <table>
+        <thead><tr><th scope="col">Что показать</th><th scope="col">Команда</th><th scope="col">Результат</th></tr></thead>
+        <tbody>
+          <tr><td>ЛР2 · покрытие</td><td><code>.venv/bin/python -m pytest --cov=shop --cov-report=term-missing</code></td><td>pytest и покрытие в терминале</td></tr>
+          <tr><td>ЛР3 · системные кейсы</td><td><code>.venv/bin/python -m docs.qa system</code></td><td>JSON и ответы. Скриншоты исходного прогона доступны в отчёте ЛР3.</td></tr>
+          <tr><td>ЛР4 · запросы Postman</td><td><code>.venv/bin/python -m docs.qa api</code></td><td>Postman CLI и JSON</td></tr>
+          <tr><td>ЛР4 · защита</td><td><code>.venv/bin/python -m docs.qa security</code></td><td>JSON с проверками доступа, ошибок, журнала и локального отклика</td></tr>
+          <tr><td>ЛР4 · основные UI-сценарии</td><td><code>.venv/bin/python -m docs.qa ui</code></td><td>5 сценариев Chrome, HTML, JSON и артефакты</td></tr>
+          <tr><td>ЛР4 · все профили браузера</td><td><code>.venv/bin/python -m docs.qa ui --all-browsers</code></td><td>25 сценариев, включая мобильную эмуляцию</td></tr>
+          <tr><td>ЛР5 · полный нагрузочный прогон</td><td><code>.venv/bin/python -m docs.qa load</code></td><td>База, нагрузка, стресс и восстановление. CSV, JSON, график PNG и SQL-диагностика.</td></tr>
+          <tr><td>ЛР5 · короткий прогон</td><td><code>.venv/bin/python -m docs.qa load --quick</code></td><td>Укороченные окна и меньше ступеней. Подходит для показа команды.</td></tr>
+          <tr><td>ЛР5 · Ruff</td><td><code>.venv/bin/python -m docs.qa lint</code></td><td>Результат статической проверки Python</td></tr>
+          <tr><td>ЛР5 · обновить матрицу</td><td><code>.venv/bin/python -m docs.qa matrix</code></td><td>HTML и CSV по актуальной коллекции pytest и сохранённым отчётам</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Команды с тестами возвращают ненулевой код при проваленных ожиданиях. Сверяйте такие результаты с реестром дефектов. Для демонстрации без повторных прогонов можно открыть сохранённые отчёты из таблицы материалов.</p>
+    <h3>Postman Desktop</h3>
+    <pre>.venv/bin/python -m docs.qa serve</pre>
+    <p>Импортируйте коллекцию ЛР4, оставьте значение <code>baseUrl</code> равным <code>http://127.0.0.1:8765</code> и запустите папки по порядку. Для нового прогона перезапустите стенд и очистите cookie тестового хоста в Postman. Этот же стенд подходит для ручной демонстрации сайта в браузере.</p>
+  </section>
+</main>
+</body>
+</html>

@@ -1,17 +1,9 @@
-"""Repeatable Lab 3 system cases. Run against an isolated, migrated SQLite copy."""
+"""Repeatable Lab 3 system cases. Run via python -m docs.qa system."""
 import io
 import json
 import logging
-import os
-import sys
 from datetime import timedelta
 from decimal import Decimal
-from pathlib import Path
-
-os.environ.setdefault('DJANGO_DEBUG', 'False')
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'stand'))
-
-from fixtures import PASSWORD, PHONE, buyer, part, require_scratch_database
 
 import responses
 from django.contrib.auth import get_user_model
@@ -20,6 +12,7 @@ from django.test import Client, override_settings
 from django.test.utils import setup_test_environment
 from django.utils import timezone
 from requests import Timeout
+from docs.qa.stand.fixtures import PASSWORD, PHONE, buyer, part, require_scratch_database
 from shop.models import Client as BuyerProfile
 from shop.models import Order, Part, ProductType, PromoCode, Review, Sale
 
@@ -730,7 +723,3 @@ def run(destination):
         results.append(record)
         print(record['id'], record['status'], record['result'], flush=True)
     (destination / 'system-results.json').write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding='utf-8')
-
-
-if __name__ == '__main__':
-    run(Path(sys.argv[1]).resolve())

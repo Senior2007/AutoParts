@@ -1,24 +1,16 @@
-"""Basic access and audit checks restricted to synthetic fixtures in the QA copy."""
+"""Basic access and audit checks restricted to synthetic fixtures in the temporary QA database."""
 import io
-import json
 import logging
-import os
 import re
-import sys
-from pathlib import Path
 from statistics import median
 from time import perf_counter
-
-os.environ.setdefault('DJANGO_DEBUG', 'False')
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'stand'))
-
-from fixtures import PASSWORD, PHONE, buyer, part, require_scratch_database
 
 import requests
 import responses
 from django.db import transaction
 from django.test import Client, override_settings
 from django.utils import timezone
+from docs.qa.stand.fixtures import PASSWORD, PHONE, buyer, part, require_scratch_database
 from shop.models import Order, OrderItem, Sale
 
 HIDDEN_MARKERS = {
@@ -174,8 +166,3 @@ def run(base):
                all(x['status'] == 200 and x['ms'] <= 1000 for x in samples))
 
     return dict(date=str(timezone.localdate()), results=records)
-
-
-if __name__ == '__main__':
-    data = run(sys.argv[2].rstrip('/') if len(sys.argv) > 2 else '')
-    Path(sys.argv[1]).write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')

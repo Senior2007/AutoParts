@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ЛР5 · Нагрузочное тестирование AutoParts</title>
+  <link rel="stylesheet" href="../report.css">
+</head>
+<body>
+<header>
+  <nav><a href="../index.html">Лабораторные работы</a></nav>
+  <h1>ЛР5 · Нагрузка, линтер и трассировка</h1>
+  <p>AutoParts · 24 ноября 2026 г. · локальный стенд</p>
+</header>
+<main>
+<section class="index" aria-label="Оглавление">
+  <a href="#plan">План</a><a href="#results">Результаты</a><a href="#diagnosis">Узкое место</a>
+  <a href="#lint">Линтер</a><a href="matrix.html">Матрица</a>
+</section>
+<section id="plan">
+<h2>План нагрузочного тестирования</h2>
+<p><a href="../lab3/requirements.html#NFR-01">NFR-01</a> задаёт локальное время ответа каталога до 1 секунды на демоданных. Цели прогона — измерить эталон, проверить этот предел при выбранной ожидаемой нагрузке, найти рост задержки и проверить восстановление после стресса. Восстановление — дополнительный критерий надёжности. Ветки внешних API и оплаты из <a href="../lab3/requirements.html#NFR-03">NFR-03</a> проверялись отдельно в ЛР3–ЛР4.</p>
+<p>Среда — macOS 26.6.2 ARM64, 8 логических CPU, Python 3.14.0, Django 6.0.5, SQLite, Locust 2.47.0 и поточный Django runserver. Генератор и сервер на одной машине, HTTP через 127.0.0.1. Стенд запускается из репозитория с временной БД, заполненной штатными демоданными и синтетической контрольной позицией.</p>
+<h3>Профиль посетителя</h3>
+<p>Один виртуальный пользователь выполняет по одному запросу и ждёт случайную паузу от 0,35 до 0,65 с перед следующим действием. Каждый пользователь хранит собственную HTTP-сессию. Доли задают веса выбора, поэтому фактическое распределение немного меняется.</p>
+<div class="table"><table><thead><tr><th scope="col">Действие</th><th scope="col">Запрос</th><th scope="col">Вес</th></tr></thead><tbody><tr><td>Каталог</td><td>GET /parts/</td><td>45%</td></tr><tr><td>Поиск и сортировка</td><td>GET /parts/?q=QA&amp;sort=price</td><td>25%</td></tr><tr><td>Карточка контрольной позиции</td><td>GET /parts/&lt;id&gt;/</td><td>20%</td></tr><tr><td>Просмотр корзины</td><td>GET /cart/</td><td>10%</td></tr></tbody></table></div>
+<p>Ожидаемая нагрузка — 15 одновременно работающих посетителей. Это учебное допущение для магазина без статистики эксплуатации. Профиль измеряет просмотр: загрузка браузерных ресурсов, внешние сервисы и операции оформления или оплаты в него не входят.</p>
+<h3>Этапы и критерии</h3>
+<div class="table"><table><thead><tr><th scope="col">Этап</th><th scope="col">Пользователи и окно</th><th scope="col">Условие</th></tr></thead><tbody><tr><td>Базовый</td><td>1 · 18 с</td><td>Фиксируем эталон после прогрева.</td></tr><tr><td>Целевой</td><td>15 · 18 с</td><td>Ошибки ≤1%, p95 всех действий ≤1000 мс и каждый GET /parts/ ≤1000 мс.</td></tr><tr><td>Стресс</td><td>30 → 60 → 90 → 120 → 160 → 200 · 14 с на ступень</td><td>Деградация — две соседние ступени с p95 каталога выше max(50 мс, 3 × p95 каталога целевой ступени) либо первая ступень с нарушением целевого критерия.</td></tr><tr><td>Остановка</td><td>Предел 200 или ранний порог</td><td>Ранний порог: ошибки ≥10% или p95 всех действий ≥2400 мс.</td></tr><tr><td>Восстановление</td><td>0 пользователей 8 с, затем 1 · 18 с</td><td>Целевой критерий и p95 всех действий ≤ max(30 мс, 2 × базовый p95).</td></tr></tbody></table></div>
+<p>Новые пользователи добавляются с темпом до 25 в секунду. Прогрев после достижения уровня — 3 с и исключён из результатов. Locust проверяет HTTP 200 и маркер страницы. Сетевые ошибки, таймауты и несовпадение маркера входят в долю ошибок. Гистограмма учитывает завершившиеся в измерительном окне ответы. RPS — количество завершившихся запросов / длительность окна. p95 рассчитан по методу ближайшего ранга.</p>
+</section>
+<section id="results">
+<h2>Фактические результаты</h2>
+<p>На этапе 15 пользователей зафиксировано <strong>29,05 запроса/с</strong>, <strong>0,000% ошибок</strong> и p95 <strong>24,76 мс</strong>. Самый долгий ответ <code>GET /parts/</code> занял 32,53 мс. Критерии целевой нагрузки <strong class="pass">PASS</strong>.</p><p><strong>Деградация впервые подтверждена при 160 пользователях.</strong> Граница лежит между последней ступенью 120 и первой выявленной ступенью 160 VU. На этих ступенях p95 каталога вырос с 69,37 до 298,24 мс при пороге деградации 78,72 мс. На максимальной ступени 200 пользователей p95 всех ответов составил 571,37 мс. Пиковый RPS — 245,85 при 160 пользователях, на последней ступени — 234,29 RPS.</p><p>Во всех измерительных окнах суммарно 15472 запросов и 0 ошибок. Стресс остановлен, когда достигнут предел профиля в 200 пользователей. После 8 секунд без пользователей p95 с одним пользователем составил 21,84 мс при исходных 18,26 мс. Восстановление <strong class="pass">PASS</strong>.</p><p>Отказ приложения не наблюдался. Для этого стенда измерена граница деградации задержки.</p>
+<div class="table"><table><thead><tr><th scope="col">Этап</th><th scope="col">VU</th><th scope="col">Окно, с</th><th scope="col">Запросы</th><th scope="col">RPS</th><th scope="col">Ошибки</th><th scope="col">p50, мс</th><th scope="col">p95, мс</th><th scope="col">p99, мс</th><th scope="col">p95 каталога, мс</th><th scope="col">max каталога, мс</th><th scope="col">Порог</th></tr></thead><tbody><tr><td>Базовый</td><td>1</td><td>18,0</td><td>34</td><td>1,89</td><td>0,000%</td><td>16,44</td><td>18,26</td><td>18,41</td><td>18,26</td><td>18,26</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Целевая нагрузка</td><td>15</td><td>18,0</td><td>523</td><td>29,05</td><td>0,000%</td><td>11,27</td><td>24,76</td><td>30,12</td><td>26,24</td><td>32,53</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Стресс</td><td>30</td><td>14,0</td><td>818</td><td>58,42</td><td>0,000%</td><td>6,82</td><td>22,44</td><td>39,96</td><td>27,68</td><td>71,95</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Стресс</td><td>60</td><td>14,0</td><td>1648</td><td>117,70</td><td>0,000%</td><td>6,28</td><td>18,81</td><td>37,12</td><td>21,78</td><td>62,42</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Стресс</td><td>90</td><td>14,0</td><td>2469</td><td>176,36</td><td>0,000%</td><td>6,47</td><td>23,88</td><td>44,26</td><td>29,76</td><td>94,43</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Стресс</td><td>120</td><td>14,0</td><td>3223</td><td>230,22</td><td>0,000%</td><td>10,72</td><td>58,03</td><td>76,87</td><td>69,37</td><td>94,22</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Стресс · начало деградации</td><td>160</td><td>14,0</td><td>3442</td><td>245,85</td><td>0,000%</td><td>134,13</td><td>279,64</td><td>312,36</td><td>298,24</td><td>337,34</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Стресс</td><td>200</td><td>14,0</td><td>3280</td><td>234,29</td><td>0,000%</td><td>309,03</td><td>571,37</td><td>637,92</td><td>602,02</td><td>740,71</td><td><strong class="pass">PASS</strong></td></tr><tr><td>Восстановление</td><td>1</td><td>18,0</td><td>35</td><td>1,94</td><td>0,000%</td><td>15,18</td><td>21,84</td><td>22,42</td><td>22,42</td><td>22,42</td><td><strong class="pass">PASS</strong></td></tr></tbody></table></div>
+<figure><img class="figure" src="evidence/response-time.png" alt="График времени отклика от числа одновременных пользователей">
+<figcaption>Время отклика от числа пользователей. Вертикальная шкала логарифмическая. Точка восстановления показана отдельно в таблице.</figcaption></figure>
+<h3>Действия при целевой нагрузке</h3>
+<div class="table"><table><thead><tr><th scope="col">Маршрут</th><th scope="col">Запросы</th><th scope="col">RPS</th><th scope="col">p95, мс</th><th scope="col">Максимум, мс</th></tr></thead><tbody><tr><td>/parts/</td><td>252</td><td>14,00</td><td>26,24</td><td>32,53</td></tr><tr><td>/parts/&lt;id&gt;/</td><td>102</td><td>5,67</td><td>24,18</td><td>30,62</td></tr><tr><td>/parts/ [search]</td><td>114</td><td>6,33</td><td>23,21</td><td>31,34</td></tr><tr><td>/cart/</td><td>55</td><td>3,05</td><td>17,37</td><td>19,07</td></tr></tbody></table></div>
+<p>Предварительный прогон того же профиля показал первую деградировавшую ступень при 120 пользователях и пик 233,21 RPS. Перед итоговым прогоном добавлено явное закрытие соединений Locust при остановке пользователя. Разница между прогонами показывает, что порог зависит от условий и измеряется с шагом профиля.</p>
+<p><a href="evidence/load-initial.csv">Предварительный CSV</a> · <a href="evidence/load-results.csv">Итоговый CSV</a> · <a href="evidence/load-results.json">JSON с разбивкой по маршрутам</a> · <a href="evidence/response-time.png">График PNG</a></p>
+</section>
+<section id="diagnosis">
+<h2>Предполагаемое узкое место</h2>
+<div class="table"><table><thead><tr><th scope="col">Этап</th><th scope="col">VU</th><th scope="col">CPU Django, %</th><th scope="col">CPU Locust, %</th><th scope="col">RSS Django, МиБ</th><th scope="col">Потоки Django</th></tr></thead><tbody><tr><td>Базовый</td><td>1</td><td>2,8</td><td>0,3</td><td>68,5</td><td>2</td></tr><tr><td>Целевая нагрузка</td><td>15</td><td>26,0</td><td>2,3</td><td>79,0</td><td>16</td></tr><tr><td>Стресс</td><td>30</td><td>32,2</td><td>2,2</td><td>84,9</td><td>31</td></tr><tr><td>Стресс</td><td>60</td><td>51,2</td><td>2,8</td><td>97,2</td><td>61</td></tr><tr><td>Стресс</td><td>90</td><td>70,3</td><td>3,8</td><td>103,5</td><td>91</td></tr><tr><td>Стресс</td><td>120</td><td>109,9</td><td>4,6</td><td>121,9</td><td>121</td></tr><tr><td>Стресс</td><td>160</td><td>187,4</td><td>5,4</td><td>178,1</td><td>161</td></tr><tr><td>Стресс</td><td>200</td><td>195,1</td><td>5,7</td><td>217,3</td><td>201</td></tr><tr><td>Восстановление</td><td>1</td><td>2,7</td><td>0,3</td><td>202,0</td><td>2</td></tr></tbody></table></div>
+
+<p>На 200 пользователях CPU процесса Django составил 195,1% и CPU генератора — 5,7%. Здесь 100% соответствует одному логическому ядру. Одновременно выросли задержка и число обслуживающих потоков. Плато RPS согласуется с насыщением локального потокового сервера и затратами на обработку запросов и рендеринг шаблонов.</p>
+<p>Отдельная серия из 15 одиночных вызовов через Django Test Client показала 4 SQL-запроса на ответ, медиану 2,710 мс на обработку и 0,0 мс по SQL-таймерам SQLite с шагом округления 1 мс. Каталог содержал 11 активных строк, один ответ занимал 32626 байт. План показывает сканирование <code>shop_part</code>, соединения по первичным ключам и временную сортировку:</p>
+<pre>6 0 216 SCAN shop_part
+10 0 45 SEARCH shop_producttype USING INTEGER PRIMARY KEY (rowid=?)
+13 0 45 SEARCH shop_manufacturer USING INTEGER PRIMARY KEY (rowid=?)
+51 0 0 USE TEMP B-TREE FOR ORDER BY</pre>
+<p>Сканирование и сортировка могут стать узким местом на большом каталоге. Для текущей выборки измерения сильнее указывают на обработку запроса и потоковый Django <code>runserver</code>. Число соединений и ожидания SQLite под нагрузкой отдельно не профилировались. Полученная граница относится к локальному стенду с SQLite и 11 активными позициями. После снятия нагрузки потоки снизились до 2, а RSS остался 202,0 МиБ. Измерено восстановление отклика.</p>
+
+<p><a href="evidence/diagnostics.json">Замеры SQL и план запроса</a></p>
+</section>
+<section id="lint">
+<h2>Статическая проверка</h2>
+<p>Ruff 0.17.6 проверяет <code>config</code>, <code>shop</code>, <code>manage.py</code> и <code>docs/qa</code> правилами E4, E7, E9 и F. Миграции и артефакты прогонов исключены. Правила охватывают импорты, ошибки Python и неиспользуемые объявления.</p>
+<div class="table"><table><thead><tr><th scope="col">Код</th><th scope="col">До</th><th scope="col">Исправление</th></tr></thead><tbody><tr><td>E402</td><td>4</td><td>Запуск Django вынесен в команду стенда. Фикстуры импортируются после инициализации через команду.</td></tr><tr><td>F401</td><td>1</td><td>Удалён неиспользуемый импорт timezone в представлениях.</td></tr><tr><td>F841</td><td>5</td><td>Убраны неиспользуемые локальные имена в seed_data и в регрессионных тестах. Создание пользователей и товаров сохранено.</td></tr></tbody></table></div>
+<p>После исправлений Ruff сообщил «All checks passed!». Повторный прогон pytest — 194 passed, 6 xfailed и покрытие 94%.</p>
+<p><a href="evidence/lint-before.txt">До исправлений</a> · <a href="evidence/lint-after.txt">После исправлений</a> · <a href="evidence/pytest.txt">Регрессия</a></p>
+</section>
+<section id="trace">
+<h2>Матрица трассируемости</h2>
+<p>Матрица объединяет SRS, тесты ЛР2, системные кейсы ЛР3, Postman, Playwright, проверки защиты и результаты Locust. Отдельно отмечены пробелы покрытия, тесты без связи с SRS и требования с несколькими дефектами.</p>
+<p><a href="matrix.html">Открыть матрицу и инвентарь</a> · <a href="matrix.csv">Скачать матрицу CSV</a></p>
+</section>
+<section id="reproduce">
+<h2>Воспроизведение</h2>
+<pre>.venv/bin/python -m docs.qa load
+.venv/bin/python -m docs.qa load --quick
+.venv/bin/python -m docs.qa lint
+.venv/bin/python -m docs.qa matrix</pre>
+<p><a href="../index.html#reproduce">Подготовка и команды из корня проекта</a> · <a href="https://docs.locust.io/en/stable/api.html">Locust API</a> · <a href="https://docs.astral.sh/ruff/configuration/">Настройка Ruff</a></p>
+</section>
+</main>
+</body>
+</html>

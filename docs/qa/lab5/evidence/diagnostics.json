@@ -1,0 +1,103 @@
+{
+  "catalog_rows": 11,
+  "median_elapsed_ms": 2.71,
+  "median_sql_ms_rounded": 0.0,
+  "plan": [
+    "6 0 216 SCAN shop_part",
+    "10 0 45 SEARCH shop_producttype USING INTEGER PRIMARY KEY (rowid=?)",
+    "13 0 45 SEARCH shop_manufacturer USING INTEGER PRIMARY KEY (rowid=?)",
+    "51 0 0 USE TEMP B-TREE FOR ORDER BY"
+  ],
+  "samples": [
+    {
+      "elapsed_ms": 3.373,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.851,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.756,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.79,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.732,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.695,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.91,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.683,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.659,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.66,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.686,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.709,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.71,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.913,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    },
+    {
+      "elapsed_ms": 2.669,
+      "sql_ms_rounded": 0.0,
+      "queries": 4,
+      "body_bytes": 32626
+    }
+  ]
+}

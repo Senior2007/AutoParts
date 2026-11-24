@@ -1,0 +1,12 @@
+docs/qa/stand/fixtures.py:14:1: E402 Module level import not at top of file
+docs/qa/stand/fixtures.py:15:1: E402 Module level import not at top of file
+docs/qa/stand/fixtures.py:16:1: E402 Module level import not at top of file
+docs/qa/stand/fixtures.py:17:1: E402 Module level import not at top of file
+shop/management/commands/seed_data.py:35:9: F841 Local variable `admin` is assigned to but never used
+shop/tests/test_regression.py:151:9: F841 Local variable `orphan` is assigned to but never used
+shop/tests/test_regression.py:157:9: F841 Local variable `orphan` is assigned to but never used
+shop/tests/test_regression.py:296:9: F841 Local variable `cheap` is assigned to but never used
+shop/tests/test_regression.py:305:9: F841 Local variable `expensive` is assigned to but never used
+shop/views.py:19:26: F401 [*] `django.utils.timezone` imported but unused
+Found 10 errors.
+[*] 1 fixable with `--fix` (5 unsafe fixes available with `--fix --unsafe-fixes`).

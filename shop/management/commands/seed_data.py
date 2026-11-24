@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self._clear_domain_data()
-        admin = self._user('admin', 'admin12345', 'Администратор', 'Системный', is_staff=True, is_superuser=True)
+        self._user('admin', 'admin12345', 'Администратор', 'Системный', is_staff=True, is_superuser=True)
         staff_user = self._user('manager', 'manager12345', 'Андрей', 'Ковалев', is_staff=True)
 
         CompanyProfile.objects.create(

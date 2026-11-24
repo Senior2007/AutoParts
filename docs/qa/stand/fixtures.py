@@ -1,19 +1,11 @@
 """Synthetic fixtures for the supplemental suite. Use only with a scratch database."""
 import json
-import os
-import sys
 from datetime import date
-from pathlib import Path
-
-sys.path.insert(0, str(Path.cwd()))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-import django
-
-django.setup()
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from docs.qa.stand.settings import runtime_directory
 from shop.models import Client, Employee, Manufacturer, Part, ProductType
 
 PASSWORD = 'DemoQA!926432'
@@ -45,13 +37,15 @@ def part(key, name=None, **overrides):
 
 def require_scratch_database():
     database = settings.DATABASES['default']
-    if (database['ENGINE'] != 'django.db.backends.sqlite3'
-            or not (Path.cwd() / '.qa-scratch').is_file()):
-        raise SystemExit('Use the standalone SQLite copy with a .qa-scratch marker.')
+    if (settings.SETTINGS_MODULE != 'docs.qa.stand.settings'
+            or database['ENGINE'] != 'django.db.backends.sqlite3'
+            or database['NAME'] != runtime_directory() / 'qa.sqlite3'):
+        raise SystemExit('Запустите проверки через python -m docs.qa со временной базой SQLite.')
 
 
 @transaction.atomic
 def seed_ui(mode, key):
+    require_scratch_database()
     if mode == 'large':
         test_type = ProductType.objects.create(name=f'QA набор {key}')
         data = [
@@ -67,6 +61,7 @@ def seed_ui(mode, key):
 
 @transaction.atomic
 def seed_api():
+    require_scratch_database()
     if get_user_model().objects.filter(username='qa_staff').exists():
         print('API fixtures already present')
         return
@@ -77,13 +72,3 @@ def seed_api():
                             responsibilities='Тестовый каталог', phone=PHONE, birth_date=date(1990, 1, 1),
                             email='qa.employee@example.test')
     print('API fixtures created')
-
-
-if __name__ == '__main__':
-    require_scratch_database()
-    if sys.argv[1:] == ['api']:
-        seed_api()
-    elif len(sys.argv) == 4 and sys.argv[1] == 'ui' and sys.argv[2] in {'part', 'large'}:
-        seed_ui(sys.argv[2], sys.argv[3])
-    else:
-        raise SystemExit('Usage: fixtures.py api | ui part/large unique-key')

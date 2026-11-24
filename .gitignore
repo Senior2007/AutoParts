@@ -9,3 +9,6 @@ htmlcov/
 /staticfiles/
 /media/
 *.log
+
+/docs/qa/runs/
+.ruff_cache/

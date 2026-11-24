@@ -8,6 +8,7 @@
     "report": "playwright show-report"
   },
   "devDependencies": {
-    "@playwright/test": "1.65.1"
+    "@playwright/test": "1.65.1",
+    "postman-cli": "1.93.1"
   }
 }

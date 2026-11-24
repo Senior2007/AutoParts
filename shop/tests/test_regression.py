@@ -148,13 +148,13 @@ class ShopViewTests(TestCase):
         self.assertEqual(self.part.quantity, 3)
 
     def test_user_without_client_redirected_to_complete_profile_on_buy(self):
-        orphan = User.objects.create_user('orphan', password='orphan12345', first_name='О', last_name='Сиротин')
+        User.objects.create_user('orphan', password='orphan12345', first_name='О', last_name='Сиротин')
         self.client.login(username='orphan', password='orphan12345')
         response = self.client.get(reverse('sale_create'))
         self.assertRedirects(response, reverse('complete_client_profile'))
 
     def test_complete_client_profile_allows_purchase(self):
-        orphan = User.objects.create_user('buyer2', password='buyer12345', email='buyer2@example.com')
+        User.objects.create_user('buyer2', password='buyer12345', email='buyer2@example.com')
         self.client.login(username='buyer2', password='buyer12345')
         response = self.client.post(
             reverse('complete_client_profile'),
@@ -293,7 +293,7 @@ class ShopViewTests(TestCase):
         self.assertNotContains(response, '<script>')
 
     def test_part_list_sort_by_price(self):
-        cheap = Part.objects.create(
+        Part.objects.create(
             sku='T-CHEAP',
             name='Дешевый',
             product_type=self.product_type,
@@ -302,7 +302,7 @@ class ShopViewTests(TestCase):
             quantity=1,
             description='Дешевый товар',
         )
-        expensive = Part.objects.create(
+        Part.objects.create(
             sku='T-EXP',
             name='Дорогой',
             product_type=self.product_type,
